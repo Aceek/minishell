@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:42:35 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/10/28 06:05:21 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/10/29 03:05:31 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,12 @@ void	free_tab(char **av)
 	i = 0;
 	while (av && av[i] != NULL)
 	{
-		free(av[i]);
+		if (av[i])
+			free(av[i]);
 		i++;
 	}
-	free(av);
+	if (av)
+		free(av);
 }
 
 char	*ft_make_path(char *dir, char *cmd)
@@ -123,24 +125,4 @@ char	*ft_get_path(char *cmd, char **env)
 		i++;
 	}
 	return (free(tmp_path), free_tab(all_dir), NULL);
-}
-
-int	ft_error(int error)
-{
-	if (error == -1)
-	{
-		write(STDERR_FILENO, "Wrong args nunbers\n", 19);
-		return (-1);
-	}
-	else if (error == -2)
-	{
-		write(STDERR_FILENO, "Can't open file\n", 16);
-		return (-2);
-	}
-	else if (error == -3)
-	{
-		write(STDERR_FILENO, "Can't acces file\n", 17);
-		return (-3);
-	}
-	return (0);
 }

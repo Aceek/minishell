@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/10/28 06:19:51 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/10/29 03:32:23 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,11 @@ int	ft_count_list(t_data *data)
 	return (i);
 }
 
-
-
 int	ft_cmd(t_data *data)
 {
 	char	*path;
 
-	if (data->new_args[0][0] == '/')
+	if (data->new_args[0][0] == '/' || data->new_args[0][0] == '.')
 		path = data->new_args[0];
 	else
 		path = ft_get_path(data->new_args[0], data->env);	
@@ -81,15 +79,21 @@ int	ft_last_child(t_data *data)
 	pid = fork();
 	if (pid == 0)
 	{
-	if (data->out > 0)
+	if (data->out > 1)
+	{
+		printf("oui\n");
 		dup2(data->out, STDOUT_FILENO);
+	}
 	ft_cmd(data);
 	}
 	else
 	{
 		wait(NULL);
 	if (data->out > 0)
+	{
 		dup2(STDOUT_FILENO, data->out);
+		// close (data->out);
+	}
 	}
 	return (0);
 }
@@ -112,5 +116,11 @@ void	ft_exe(t_env *mini, t_env *origin, t_data *data)
 		tmp = tmp->next;
 	}
 	ft_last_child(tmp);
-
+	tmp = data;
+	while (tmp->next)
+	{
+		if (tmp->new_args)
+			free_tab(tmp->new_args);
+		tmp = tmp->next;
+	}
 }
