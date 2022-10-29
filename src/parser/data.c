@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rben-tkh <rben-tkh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 18:06:49 by rben-tkh          #+#    #+#             */
-/*   Updated: 2022/09/26 15:23:05 by rben-tkh         ###   ########.fr       */
+/*   Updated: 2022/10/29 06:22:39 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ static void	data_delutils(t_data *data, int val)
 	free(data->cmd);
 	data->cmd = 0;
 	ft_free(data->args, 0);
+	ft_free(data->new_args, 0);
 	data->args = 0;
+	data->new_args = 0;
 	if (val)
 	{
 		if (data->in > 2)

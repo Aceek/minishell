@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/10/29 03:32:23 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/10/29 06:39:14 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,14 @@ int	ft_cmd(t_data *data)
 	if (!path)
 	{
 		printf("%s : command not found\n", data->new_args[0]);
-		free_tab(data->new_args);
+		// free_tab(data->new_args);
 		return (-1); // a changer par un return 
 	}
+	if (data->in > 0)
+		dup2(data->in, 0);
+	if (data->out > 1)
+		dup2(data->out, 1);
 	execve(path, data->new_args, data->env);
-	free_tab(data->new_args);
 	printf("can't access command\n");
 	return (-1);
 	
@@ -79,22 +82,11 @@ int	ft_last_child(t_data *data)
 	pid = fork();
 	if (pid == 0)
 	{
-	if (data->out > 1)
-	{
-		printf("oui\n");
-		dup2(data->out, STDOUT_FILENO);
-	}
-	ft_cmd(data);
+		if (ft_cmd(data) < 0)
+			exit (-1); // error code ? need exit clean
 	}
 	else
-	{
 		wait(NULL);
-	if (data->out > 0)
-	{
-		dup2(STDOUT_FILENO, data->out);
-		// close (data->out);
-	}
-	}
 	return (0);
 }
 
@@ -102,6 +94,13 @@ void	ft_exe(t_env *mini, t_env *origin, t_data *data)
 {
 	(void)origin;
 	(void)mini;
+	int	out;
+	int	in;
+
+	in = dup(0);
+	out = dup(1);
+	data->a = in;
+	data->b = out;
 
 	t_data *tmp;
 
@@ -116,11 +115,8 @@ void	ft_exe(t_env *mini, t_env *origin, t_data *data)
 		tmp = tmp->next;
 	}
 	ft_last_child(tmp);
-	tmp = data;
-	while (tmp->next)
-	{
-		if (tmp->new_args)
-			free_tab(tmp->new_args);
-		tmp = tmp->next;
-	}
+	dup2(out, STDOUT_FILENO);
+	dup2(in, STDIN_FILENO);
+	close(out);
+	close(in);
 }

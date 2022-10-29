@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:06:18 by rben-tkh          #+#    #+#             */
-/*   Updated: 2022/10/29 02:48:45 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/10/29 06:35:41 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	main(int ac, char **av, char **env)
 	signal(SIGINT, signal_int);
 	while (ac > 0 && av[0])
 	{
-		str = readline("minihlel> ");
+		str = readline("minishell> ");
 		if (!str)
 		{
 			printf("exit\n");
