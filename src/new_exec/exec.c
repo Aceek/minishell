@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/10/29 06:39:14 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/10/30 05:10:45 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,17 @@ int	ft_cmd(t_data *data)
 	{
 		printf("%s : command not found\n", data->new_args[0]);
 		// free_tab(data->new_args);
-		return (-1); // a changer par un return 
+		return (ft_free(data->new_args, 0), -1); // a changer par un return 
 	}
-	if (data->in > 0)
-		dup2(data->in, 0);
-	if (data->out > 1)
-		dup2(data->out, 1);
+	if (data->in < 0 || data->out < 0)
+		return (-1);
+	if (data->in > STDIN_FILENO)
+		dup2(data->in, STDIN_FILENO);
+	if (data->out > STDOUT_FILENO)
+		dup2(data->out, STDOUT_FILENO);
 	execve(path, data->new_args, data->env);
 	printf("can't access command\n");
-	return (-1);
+	return (free(path), -1); // need exit clean free ++
 	
 }
 
@@ -71,7 +73,9 @@ int	ft_fork(t_env *mini, t_data *data)
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		ft_cmd(data);
-		return (close(fd[1]), -1);
+		// exit clean
+		close (fd[1]);
+		exit (-1);
 	}
 	return (0);
 }
@@ -99,9 +103,7 @@ void	ft_exe(t_env *mini, t_env *origin, t_data *data)
 
 	in = dup(0);
 	out = dup(1);
-	data->a = in;
-	data->b = out;
-
+	
 	t_data *tmp;
 
 	tmp = data;
@@ -115,8 +117,9 @@ void	ft_exe(t_env *mini, t_env *origin, t_data *data)
 		tmp = tmp->next;
 	}
 	ft_last_child(tmp);
+	// protect si il y a eu redir alors reset + create function : 
 	dup2(out, STDOUT_FILENO);
 	dup2(in, STDIN_FILENO);
-	close(out);
 	close(in);
+	close(out);
 }

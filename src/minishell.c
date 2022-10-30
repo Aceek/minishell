@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:06:18 by rben-tkh          #+#    #+#             */
-/*   Updated: 2022/10/29 06:35:41 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/10/30 05:03:28 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,17 @@ void	minishell(char **env, t_env *mini, t_env *origin, char *str)
 			tmp->env = env;
 			tmp = tmp->next;
 		}
+		tmp = data;
+		// while (tmp)
+		// {
+		// 	printf("cmd : %s : in : %d / out : %d\n",tmp->cmd, tmp->in, tmp->out);
+		// 	tmp = tmp->next;
+		// }
 		if (data)
 			ft_exe(mini, origin, data);
 		// exec_loop(mini, origin, data);
 		ft_free(0, &data);
+
 	}
 }
 
