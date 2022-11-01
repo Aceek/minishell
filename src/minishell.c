@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:06:18 by rben-tkh          #+#    #+#             */
-/*   Updated: 2022/10/30 05:03:28 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/01 10:52:07 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	minishell(char **env, t_env *mini, t_env *origin, char *str)
 			tmp = tmp->next;
 		}
 		tmp = data;
+		// if (data->next)
+		// 	data->next->in = data->out;
 		// while (tmp)
 		// {
 		// 	printf("cmd : %s : in : %d / out : %d\n",tmp->cmd, tmp->in, tmp->out);

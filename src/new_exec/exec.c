@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/10/30 05:10:45 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/01 12:36:34 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	ft_count_list(t_data *data)
 	return (i);
 }
 
+
+
 int	ft_cmd(t_data *data)
 {
 	char	*path;
@@ -38,11 +40,10 @@ int	ft_cmd(t_data *data)
 	if (!path)
 	{
 		printf("%s : command not found\n", data->new_args[0]);
-		// free_tab(data->new_args);
-		return (ft_free(data->new_args, 0), -1); // a changer par un return 
+		return (-1); // a changer par un return 
 	}
 	if (data->in < 0 || data->out < 0)
-		return (-1);
+		return (free(path), ft_clear_data_tab(data, 1), -1);
 	if (data->in > STDIN_FILENO)
 		dup2(data->in, STDIN_FILENO);
 	if (data->out > STDOUT_FILENO)
@@ -87,7 +88,7 @@ int	ft_last_child(t_data *data)
 	if (pid == 0)
 	{
 		if (ft_cmd(data) < 0)
-			exit (-1); // error code ? need exit clean
+			return (-1); // error code ? need exit clean
 	}
 	else
 		wait(NULL);
@@ -107,17 +108,28 @@ void	ft_exe(t_env *mini, t_env *origin, t_data *data)
 	t_data *tmp;
 
 	tmp = data;
+	// if (tmp->next)
+	// tmp->next->in = tmp->out + 1;
+	// while (tmp)
+	// {
+	// 	printf("cmd : %s : in : %d / out : %d\n",tmp->cmd, tmp->in, tmp->out);
+	// 	tmp = tmp->next;
+	// }
+	// tmp = data;
+	// while (tmp && ft_count_list(tmp) >= 2)
 	while (tmp && ft_count_list(tmp) >= 2)
 	{
 		if (ft_fork(mini, tmp) == -1)
 		{
 			printf("error tmp fork\n\n");		
-			return ;
+			break ;
 		}
 		tmp = tmp->next;
 	}
 	ft_last_child(tmp);
 	// protect si il y a eu redir alors reset + create function : 
+	ft_clear_data_tab(data, 1);
+	ft_clear_data_tab(data, 0);
 	dup2(out, STDOUT_FILENO);
 	dup2(in, STDIN_FILENO);
 	close(in);

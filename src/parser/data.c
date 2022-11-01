@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 18:06:49 by rben-tkh          #+#    #+#             */
-/*   Updated: 2022/10/30 04:53:53 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/01 12:31:34 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,47 @@ t_data	*data_create(char *prompt)
 	return (data);
 }
 
+void	ft_clear_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab && tab[i])
+	{
+		if (tab[i])
+			free(tab[i]);
+		i++;
+	}
+	if (tab)
+		free(tab);
+}
+
+void	ft_clear_fd(t_data *data)
+{
+	if (data->in > 0)
+		close (data->in);
+	if (data->out > 1)
+		close (data->out);
+}
+
+void	ft_clear_data_tab(t_data *data, int bool)
+{
+	t_data *tmp;
+
+	if (data)
+	{
+		tmp = data;
+		while (tmp)
+		{
+			if (bool && tmp->new_args)
+				ft_clear_tab(tmp->new_args);
+			else if (!bool && tmp->new_args)
+				ft_clear_fd(tmp);
+			tmp = tmp->next;
+		}
+	}
+}
+
 static void	data_delutils(t_data *data, int val)
 {
 	if (!data)
@@ -76,7 +117,6 @@ static void	data_delutils(t_data *data, int val)
 	data->cmd = 0;
 	ft_free(data->args, 0);
 	data->args = 0;
-	data->new_args = 0;
 	if (val)
 	{
 		if (data->in > 2)
