@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/10/30 05:52:30 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/04 01:01:56 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,7 @@ static int quote_value(char *str, int pos)
 	// incremente i tant que cest pas charset interdit	
 // }
 
-int	get_var_len(char *str, int i)
-{
-	int var_len;
-	
-	var_len = 0;
-	while (str[i] != ' ' && str[i] != '\0')
-	{	
-		var_len += 1;
-		i++;
-	}
-	return (var_len);
-}
+
 
 char    *ft_strnstr(const char *s1, const char *to_find, size_t n)
 {
@@ -105,9 +94,9 @@ char    *ft_strnstr(const char *s1, const char *to_find, size_t n)
 
 char    *ft_cpy(char *src, int skip)
 {
-    int        i;
-    int        max_len;
-    char    *dst;
+    int		i;
+    int		max_len;
+    char	*dst;
 
     i  = 0;
     while (src[i])
@@ -126,52 +115,79 @@ char    *ft_cpy(char *src, int skip)
     return (dst);
 }
 
-char *get_var(char *str, int pos, char **env, int var_len)
-{
-	int	l;
-	int i;
-	int	j;
-
-	l = -1;
-	i = pos - 1;
-	while (env[++l])
-	{
-		j = 0;
-		while (j < var_len)
-		{
-			if (str[++i] == env[l][j])
-				j++;
-			else
-			{
-				i = pos - 1;
-				break ;
-			}
-			if (j == var_len)
-				return (ft_cpy(env[l], var_len + 1));
-		} 
-	}
-	return (NULL);
-}
-
 // char *get_var(char *str, int pos, char **env, int var_len)
 // {
 // 	int	l;
 // 	int i;
+// 	int	j;
 
 // 	l = -1;
-// 	i = pos - 1;
+// 	i = pos;
 // 	while (env[++l])
 // 	{
-// 		if (ft_strnstr(env[l], str + i, var_len))
-// 			return (ft_cpy(env[l], var_len));
+// 		j = 0;
+// 		while (j < var_len)
+// 		{
+// 			if (str[i++] == env[l][j])
+// 				j++;
+// 			else
+// 			{
+// 				i = pos;
+// 				break ;
+// 			}
+// 			if (j == var_len)
+// 				return (ft_cpy(env[l], var_len + 1));
+// 		} 
 // 	}
 // 	return (NULL);
 // }
 
+int	get_var_len(char *str, int i)
+{
+	int var_len;
+	
+	var_len = 0;
+	while (str[i] != ' ' && str[i] != '\0')
+	{	
+		var_len += 1;
+		i++;
+	}
+	return (var_len);
+}
+
+char	*get_var_name(char *str, int pos, int len)
+{
+	char	*var_name;
+	int		i;
+	
+	var_name = malloc(sizeof(char) * (len + 1));
+	if (!var_name)
+		return (NULL);
+	i = 0;
+	while (i < len)
+		var_name[i++] = str[pos++];
+	var_name[i] = 0;
+	return (var_name);
+}
+
+char *get_var_val(char *var_name, int var_len, char **env)
+{
+	int	l;
+
+	l = -1;
+	while (env[++l])
+	{
+		if (ft_strnstr(env[l], var_name, var_len))
+			return (ft_cpy(env[l], var_len + 1));
+	}
+	return (NULL);
+}
+
 char *dollar_handler(char *str, int *i, char **env)
 {
 	int		var_len;
-	char	*var;
+	char	*var_name;
+	char	*var_val;
 
 	
 	var_len = 0;
@@ -181,12 +197,17 @@ char *dollar_handler(char *str, int *i, char **env)
 		//...Stores the exit value of the last command that was executed
 	else
 	{	
-		var = get_var(str, *i + 1, env, get_var_len(str, *i + 1));
+		var_len = get_var_len(str, *i + 1);
+		var_name = get_var_name (str, *i + 1, var_len);
+		var_val = get_var_val(var_name, var_len, env);
+		printf("i AV = %d\n", *i);
 		*i += var_len;
-		printf("i = %d\n", *i);
+		printf("i AP = %d\n", *i);
 		printf("var_len = %d\n", var_len);
+		printf("var_name = %s\n", var_name);
+		printf("var_val = %s\n", var_val);
 	}	
-	return (var);
+	return (var_val);
 }
 
 char *convert_input(char *input, char **env)
