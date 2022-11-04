@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/10/29 05:43:09 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/04 01:31:09 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ size_t	ft_strlen(const char *str);
 int	    ft_strchr(const char *str, int c);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strjoin2(char *s1, char c);
+int	    ft_isalnum(int c);
 
 #endif

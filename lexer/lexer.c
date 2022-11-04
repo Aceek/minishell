@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/04 01:01:56 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/04 01:34:24 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,39 +115,12 @@ char    *ft_cpy(char *src, int skip)
     return (dst);
 }
 
-// char *get_var(char *str, int pos, char **env, int var_len)
-// {
-// 	int	l;
-// 	int i;
-// 	int	j;
-
-// 	l = -1;
-// 	i = pos;
-// 	while (env[++l])
-// 	{
-// 		j = 0;
-// 		while (j < var_len)
-// 		{
-// 			if (str[i++] == env[l][j])
-// 				j++;
-// 			else
-// 			{
-// 				i = pos;
-// 				break ;
-// 			}
-// 			if (j == var_len)
-// 				return (ft_cpy(env[l], var_len + 1));
-// 		} 
-// 	}
-// 	return (NULL);
-// }
-
 int	get_var_len(char *str, int i)
 {
 	int var_len;
 	
 	var_len = 0;
-	while (str[i] != ' ' && str[i] != '\0')
+	while (ft_isalnum(str[i]) || str[i] == '_')
 	{	
 		var_len += 1;
 		i++;
@@ -221,6 +194,7 @@ char *convert_input(char *input, char **env)
 	i = -1;
 	while (input[++i])
 	{
+		printf("i = %d --- quote val = %d\n", i, quote_value(input, i));
 		if (input[i] == '$' && quote_value(input, i) != 1)
 			input2 = ft_strjoin(input2, dollar_handler(input, &i, env));
 		else
