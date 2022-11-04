@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/04 04:08:52 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/04 06:56:23 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_cmd(t_data *data)
 	char	*path;
 
 	if (data->new_args[0][0] == '/' || data->new_args[0][0] == '.')
-		path = data->new_args[0];
+		path = ft_strdup(data->new_args[0]);
 	else
 		path = ft_get_path(data->new_args[0], data->env);
 	if (!path)

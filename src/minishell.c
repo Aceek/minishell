@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:06:18 by rben-tkh          #+#    #+#             */
-/*   Updated: 2022/11/04 02:16:20 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/04 06:52:10 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	signal_irdouk(char *str)
 	g_ecode = 0;
 }
 
+
 void	minishell(char **env, t_env *mini, t_env *origin, char *str)
 {
 	t_input	input;
@@ -72,11 +73,16 @@ void	minishell(char **env, t_env *mini, t_env *origin, char *str)
 			tmp = tmp->next;
 		}
 		tmp = data;
-		// if (data->next)
-		// 	data->next->in = data->out;
+		// int	i = 0;
 		// while (tmp)
 		// {
-		// 	printf("cmd : %s : in : %d / out : %d\n",tmp->cmd, tmp->in, tmp->out);
+		// 	printf("cmd : %s : in : %d / out : %d\ncode : %d\n",tmp->cmd, tmp->in, tmp->out, tmp->code);
+		// 	while (tmp && tmp->args && tmp->args[i])
+		// 	{
+		// 		printf("args n%d = %s\n", i, tmp->args[i]);
+		// 		i++;
+		// 	}
+		// 	i = 0;
 		// 	tmp = tmp->next;
 		// }
 		if (data)
