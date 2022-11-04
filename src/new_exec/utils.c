@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:42:35 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/10/29 03:05:31 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/04 03:34:40 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	*ft_cpy(char *src, int skip)
 	int		max_len;
 	char	*dst;
 
-	i  = 0;
+	i = 0;
 	while (src[i])
 		i++;
 	max_len = i - skip;
