@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/04 03:37:20 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/04 04:08:52 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ void	ft_exe(t_env *mini, t_env *origin, t_data *data)
 	(void)mini;
 	in = dup(0);
 	out = dup(1);
-	data->a = in;
-	data->b = out;
 	tmp = data;
 	while (tmp && tmp->next)
 	{
@@ -109,6 +107,7 @@ void	ft_exe(t_env *mini, t_env *origin, t_data *data)
 			dup2(out, STDOUT_FILENO);
 			printf("%s : command not found\n", tmp->new_args[0]);
 			ft_exit_clean(mini, origin, data);
+			exit(1);
 		}
 		tmp = tmp->next;
 	}
