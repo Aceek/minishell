@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 16:47:42 by rben-tkh          #+#    #+#             */
-/*   Updated: 2022/11/01 11:06:12 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/04 07:14:33 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,6 @@ char	**ft_split2(char const *s, char c);
 void	ft_clear_data_tab(t_data *data, int bool);
 void	ft_clear_tab(char **tab);
 void	ft_exe(t_env *mini, t_env *origin, t_data *data);
-
-
+void	ft_builtin(t_data *data, t_env *mini, t_env *origin);
 
 #endif
