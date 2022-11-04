@@ -6,13 +6,13 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/04 01:34:24 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/04 07:12:50 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-static void update_quote(bool *quote)
+void update_quote(bool *quote)
 {
 	if (*quote == false)
 		*quote = true;
@@ -20,7 +20,7 @@ static void update_quote(bool *quote)
 		*quote = false;
 }
 
-static int quote_value(char *str, int pos)
+int check_quote(char *str, int pos)
 {
 	bool	simple_quote;
 	bool	double_quote;
@@ -45,74 +45,34 @@ static int quote_value(char *str, int pos)
 	return (0);	
 }
 
-// static char	**tokens_list(void)
-// {
-// 	static char	*tokens_list[5] = {
-// 		"<",
-// 		"<<",
-// 		">",
-// 		">>",
-// 		"|",
-// 	};
-
-// 	return (tokens_list);
-// }
-
-// static bool check_token(char *str)
-// {
-	
-// }
-
-// int get_next_length(char *str, char *charset)
-// {
-	// incremente i tant que cest pas charset interdit	
-// }
-
-
-
-char    *ft_strnstr(const char *s1, const char *to_find, size_t n)
+int	check_token(char *str, int *i)
 {
-    size_t    i;
-    size_t    j;
-
-    i = 0;
-    if (*to_find == '\0' || to_find == NULL)
-        return ((char *)s1);
-    while (s1[i] && i < n)
-    {
-        j = 0;
-        while (s1[i + j] == to_find[j] && j + i < n)
-        {
-            j++;
-            if (to_find[j] == '\0')
-                return ((char *)&s1[i]);
-        }
-        i++;
-    }
-    return (NULL);
-}
-
-char    *ft_cpy(char *src, int skip)
-{
-    int		i;
-    int		max_len;
-    char	*dst;
-
-    i  = 0;
-    while (src[i])
-        i++;
-    max_len = i - skip;
-    dst = malloc(sizeof(char) * (i - skip + 1));
-    if (!dst)
-        return (NULL);
-    i = 0;
-    while (src && src[i] && i < max_len)
-    {
-        dst[i] = src[i + skip];
-        i++;
-    }
-    dst[i] = '\0';
-    return (dst);
+	if (str[*i + 1])
+	{
+		if (!check_quote(str, *i) && !check_quote(str, *i + 1))
+		{
+			if (ft_strncmp(str + *i, ">>", 2))
+			{	
+				*i += 1;
+				return (DLESS);
+			}
+			if (ft_strncmp(str + *i, "<<", 2))
+			{	
+				*i += 1;
+				return (DGREAT);
+			}
+		}
+	}
+	if (!check_quote(str, *i))
+	{
+		if (ft_strncmp(str + *i, "<", 1))
+			return (LESS);
+		if (ft_strncmp(str + *i, ">", 1))
+			return (GREAT);
+		if (ft_strncmp(str + *i, "|", 1))
+			return (PIPE);
+	}
+	return (NOT_TOKEN);
 }
 
 int	get_var_len(char *str, int i)
@@ -173,12 +133,12 @@ char *dollar_handler(char *str, int *i, char **env)
 		var_len = get_var_len(str, *i + 1);
 		var_name = get_var_name (str, *i + 1, var_len);
 		var_val = get_var_val(var_name, var_len, env);
-		printf("i AV = %d\n", *i);
+		// printf("i AV = %d\n", *i);
 		*i += var_len;
-		printf("i AP = %d\n", *i);
-		printf("var_len = %d\n", var_len);
-		printf("var_name = %s\n", var_name);
-		printf("var_val = %s\n", var_val);
+		// printf("i AP = %d\n", *i);
+		// printf("var_len = %d\n", var_len);
+		// printf("var_name = %s\n", var_name);
+		// printf("var_val = %s\n", var_val);
 	}	
 	return (var_val);
 }
@@ -194,8 +154,12 @@ char *convert_input(char *input, char **env)
 	i = -1;
 	while (input[++i])
 	{
-		printf("i = %d --- quote val = %d\n", i, quote_value(input, i));
-		if (input[i] == '$' && quote_value(input, i) != 1)
+		if (check_token(input, &i))
+		{
+			printf("CNSE\n");
+			//parser input2 dans uns struct qui contient tableau ac commande en 0 + args 
+		}
+		else if (input[i] == '$' && check_quote(input, i) != 1)
 			input2 = ft_strjoin(input2, dollar_handler(input, &i, env));
 		else
 			input2 = ft_strjoin2(input2, input[i]);
