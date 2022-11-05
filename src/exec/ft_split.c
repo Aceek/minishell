@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkurdy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/17 22:15:45 by lkurdy            #+#    #+#             */
-/*   Updated: 2022/07/27 14:23:25 by lkurdy           ###   ########.fr       */
+/*   Updated: 2022/11/05 07:00:40 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	size(const char *str, char set)
 	return (j);
 }
 
-static char	*ft_cpy(char *dest, const char *str, int n)
+static char	*ft_cpy2(char *dest, const char *str, int n)
 {
 	int	i;
 
@@ -87,7 +87,7 @@ char	**ft_split(const char *s, char c)
 			dest[j] = malloc(sizeof(const char) * (i - g + 1));
 			if (!dest[j])
 				return (ft_free(dest, 0), NULL);
-			dest[j] = ft_cpy(dest[j], &s[g], i - g);
+			dest[j] = ft_cpy2(dest[j], &s[g], i - g);
 			j++;
 		}
 		while ((s[i] == c) && s[i])

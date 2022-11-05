@@ -12,7 +12,7 @@ SRC				=	builtins/builtins_utils.c builtins/builtins.c builtins/cd.c builtins/ec
 					parser/data.c parser/init_data.c parser/parse_utils.c parser/parsing.c \
 					libft.c libft2.c minishell.c \
 					new_exec/exec.c new_exec/utils.c new_exec/ft_split.c \
-					new_builtins/export.c
+					new_builtins/export.c new_builtins/export_utils.c
 
 OBJ				=	$(SRC:%.c=$(DIR_OBJ)/%.o)
 DEP				=	$(SRC:%.c=$(DIR_OBJ)/%.d)

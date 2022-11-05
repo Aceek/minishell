@@ -6,32 +6,43 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:42:35 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/04 03:34:40 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/05 07:13:08 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strnstr(const char *s1, const char *to_find, size_t n)
+char	**ft_make_tab_from_env(t_env *mini)
 {
-	size_t	i;
-	size_t	j;
+	int		i;
+	int		len;
+	char	**env;
+	t_env	*tmp;
 
 	i = 0;
-	if (*to_find == '\0' || to_find == NULL)
-		return ((char *)s1);
-	while (s1[i] && i < n)
+	len = ft_lst_count(mini);
+	env = malloc(sizeof(char *) * (len + 1));
+	if (!env)
+		return (NULL);
+	tmp = mini;
+	while (tmp)
 	{
-		j = 0;
-		while (s1[i + j] == to_find[j] && j + i < n)
-		{
-			j++;
-			if (to_find[j] == '\0')
-				return ((char *)&s1[i]);
-		}
+		env[i] = ft_strdup(tmp->line);
 		i++;
+		tmp = tmp->next;
 	}
-	return (NULL);
+	env[i] = NULL;
+	return (env);
+}
+
+void	ft_exit_clean(t_env *mini, t_env *origin, t_data *data)
+{
+	ft_clear_data_tab(data, 1);
+	ft_clear_data_tab(data, 0);
+	lst_freeall(mini);
+	lst_freeall(origin);
+	ft_free(0, &data);
+	exit(1);
 }
 
 void	free_tab(char **av)
@@ -74,29 +85,6 @@ char	*ft_make_path(char *dir, char *cmd)
 	}
 	path[i + j] = '\0';
 	return (path);
-}
-
-char	*ft_cpy(char *src, int skip)
-{
-	int		i;
-	int		max_len;
-	char	*dst;
-
-	i = 0;
-	while (src[i])
-		i++;
-	max_len = i - skip;
-	dst = malloc(sizeof(char) * (i - skip + 1));
-	if (!dst)
-		return (NULL);
-	i = 0;
-	while (src && src[i] && i < max_len)
-	{
-		dst[i] = src[i + skip];
-		i++;
-	}
-	dst[i] = '\0';
-	return (dst);
 }
 
 char	*ft_get_path(char *cmd, char **env)

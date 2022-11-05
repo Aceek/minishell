@@ -6,24 +6,11 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 07:12:28 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/05 06:11:05 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/05 07:21:59 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	ft_print_env(t_env *origin)
-{
-	t_env *tmp;
-
-	tmp = origin;
-	while (tmp)
-	{
-		if (tmp->line)
-			printf("%s\n", tmp->line);
-		tmp = tmp->next;
-	}
-}
 
 void	ft_sort_print_env(t_env *origin)
 {
@@ -48,31 +35,6 @@ void	ft_sort_print_env(t_env *origin)
 	ft_print_env(origin);
 }
 
-int	ft_is_valid_env(char *args)
-{
-	int	i;
-
-	i = 0;
-	if (ft_isdigit(args[0]) || args[0] == '=')
-		return (-1);
-	while (args && args[i] && args[i] != '=')	
-	{
-		if (ft_isalnun(args[i]) == 0)
-			return (-1);
-		i++;
-	}
-	if (args[i] != '=')
-		return (2);
-	return (1);
-}
-
-int	ft_export_error(int error, char *args)
-{
-	if (error == -1)
-		printf("export : not an identifier : %s\n", args);
-	return (error);
-}
-
 char	*ft_cpy_env_name(char *args)
 {
 	int		i;
@@ -94,32 +56,10 @@ char	*ft_cpy_env_name(char *args)
 	return (new);
 }
 
-int	ft_is_in_env(t_env *mini, char *args)
-{
-	t_env *tmp;
-	char	*tmp_args;
-
-	tmp = mini;
-	while (tmp)
-	{
-		tmp_args = ft_cpy_env_name(args);
-		if (ft_strncmp(tmp->line, tmp_args, ft_strlen(tmp_args)) == 0)
-		{
-			free(tmp->line);
-			tmp->line = ft_strdup(args);
-			free(tmp_args);
-			return (1);
-		}
-		free(tmp_args);
-		tmp = tmp->next;
-	}
-	return (0);
-}
-
 void	ft_add_list_env(t_env *mini, char *args)
 {
-	t_env *tmp;
-	t_env *new;
+	t_env	*tmp;
+	t_env	*new;
 
 	tmp = mini;
 	new = malloc(sizeof(t_env));
@@ -132,12 +72,11 @@ void	ft_add_list_env(t_env *mini, char *args)
 	tmp->next = new;
 }
 
-void ft_add_args_env(t_data *data, t_env *mini, t_env *origin)
+void	ft_add_args_env(t_data *data, t_env *mini, t_env *origin)
 {
 	int	env;
 	int	error;
 	int	i;
-	(void)origin;
 
 	env = 0;
 	i = 1;
@@ -146,7 +85,7 @@ void ft_add_args_env(t_data *data, t_env *mini, t_env *origin)
 		error = ft_is_valid_env(data->new_args[i]);
 		if (error < 0)
 			ft_export_error(error, data->new_args[i]);
-		else if (error > 0) 
+		else if (error > 0)
 			env = ft_is_in_env(mini, data->new_args[i]);
 		if (error > 0 && env == 0)
 			ft_add_list_env(mini, data->new_args[i]);
@@ -164,12 +103,4 @@ void	ft_export_builtin(t_data *data, t_env *mini, t_env *origin)
 	else
 		ft_add_args_env(data, mini, origin);
 	return ;
-}
-
-void	ft_builtin(t_data *data, t_env *mini, t_env *origin)
-{
-	if (data->code == EXPORT)
-		ft_export_builtin(data, mini, origin);
-	return ;
-		
 }

@@ -6,27 +6,18 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/05 06:10:32 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/05 07:09:46 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_exit_clean(t_env *mini, t_env *origin, t_data *data)
-{
-	ft_clear_data_tab(data, 1);
-	ft_clear_data_tab(data, 0);
-	lst_freeall(mini);
-	lst_freeall(origin);
-	ft_free(0, &data);
-	exit(1);
-}
-
 int	ft_cmd(t_data *data, t_env *mini, t_env *origin)
 {
 	char	*path;
+	char	**env;
 
-	if (data->new_args[0][0] == '/' || data->new_args[0][0] == '.' || data->code)
+	if (data->new_args[0][0] == '/' || data->new_args[0][0] == '.' || data->code == EXPORT) // tmp data->code = export
 		path = ft_strdup(data->new_args[0]);
 	else
 		path = ft_get_path(data->new_args[0], data->env);
@@ -38,13 +29,14 @@ int	ft_cmd(t_data *data, t_env *mini, t_env *origin)
 		dup2(data->in, STDIN_FILENO);
 	if (data->out > STDOUT_FILENO)
 		dup2(data->out, STDOUT_FILENO);
-
-	if (data->code)
+	if (data->code == EXPORT) // tmp export only
 		ft_builtin(data, mini, origin);
 	else
-		execve(path, data->new_args, data->env);
-
-
+	{
+		env = ft_make_tab_from_env(mini);
+		execve(path, data->new_args, env);
+		ft_clear_tab(env);
+	}
 	return (free(path), -1);
 }
 
@@ -79,18 +71,23 @@ int	ft_last_child(t_data *data, t_env *mini, t_env *origin)
 {
 	int	pid;
 
-	pid = fork();
-	if (pid == 0)
+	if (data->code != EXPORT) // tmp only export
 	{
-		if (ft_cmd(data, mini, origin) < 0)
+		pid = fork();
+		if (pid == 0)
 		{
-			if (data->new_args[0] && !data->code)
-				printf("%s : command not found\n", data->new_args[0]);
-			return (-1);
+			if (ft_cmd(data, mini, origin) < 0)
+			{
+				if (data->new_args[0] && !data->code)
+					printf("%s : command not found\n", data->new_args[0]);
+				return (-1);
+			}
 		}
+		else
+			wait(NULL);
 	}
 	else
-		wait(NULL);
+		ft_cmd(data, mini, origin);
 	return (0);
 }
 
@@ -100,8 +97,6 @@ void	ft_exe(t_env *mini, t_env *origin, t_data *data)
 	int		in;
 	t_data	*tmp;
 
-	(void)origin;
-	(void)mini;
 	in = dup(0);
 	out = dup(1);
 	tmp = data;
@@ -119,7 +114,6 @@ void	ft_exe(t_env *mini, t_env *origin, t_data *data)
 	}
 	if (ft_last_child(tmp, mini, origin) < 0)
 		ft_exit_clean(mini, origin, data);
-	
 	ft_clear_data_tab(data, 1);
 	ft_clear_data_tab(data, 0);
 	dup2(out, STDOUT_FILENO);

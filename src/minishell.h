@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 16:47:42 by rben-tkh          #+#    #+#             */
-/*   Updated: 2022/11/05 06:10:49 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/05 07:19:51 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,8 +225,21 @@ char	**ft_split2(char const *s, char c);
 void	ft_clear_data_tab(t_data *data, int bool);
 void	ft_clear_tab(char **tab);
 void	ft_exe(t_env *mini, t_env *origin, t_data *data);
-void	ft_builtin(t_data *data, t_env *mini, t_env *origin);
 int		ft_isalnun(char c);
 int		ft_isdigit(char c);
+char 	**ft_make_tab_from_env(t_env *mini);
+void	ft_exit_clean(t_env *mini, t_env *origin, t_data *data);
+int		ft_lst_count(t_env *env);
+char	*ft_cpy(char *src, int skip);
+void	ft_builtin(t_data *data, t_env *mini, t_env *origin);
+int		ft_is_valid_env(char *args);
+int		ft_export_error(int error, char *args);
+int		ft_is_in_env(t_env *mini, char *args);
+void	ft_print_env(t_env *origin);
+void	ft_export_builtin(t_data *data, t_env *mini, t_env *origin);
+void	ft_add_args_env(t_data *data, t_env *mini, t_env *origin);
+void	ft_add_list_env(t_env *mini, char *args);
+char	*ft_cpy_env_name(char *args);
+void	ft_sort_print_env(t_env *origin);
 
 #endif
