@@ -10,7 +10,7 @@ SRC				=	builtins/builtins_utils.c builtins/builtins.c builtins/cd.c builtins/ec
 					exec/cmd.c exec/exec_utils.c exec/ft_split.c exec/ft_splity.c \
 					lexer/get_input.c lexer/is_utils.c lexer/split_input.c \
 					parser/data.c parser/init_data.c parser/parse_utils.c parser/parsing.c \
-					libft.c minishell.c \
+					libft.c libft2.c minishell.c \
 					new_exec/exec.c new_exec/utils.c new_exec/ft_split.c \
 					new_builtins/export.c
 

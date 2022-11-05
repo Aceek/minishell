@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 16:47:42 by rben-tkh          #+#    #+#             */
-/*   Updated: 2022/11/04 07:14:33 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/05 06:10:49 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,5 +226,7 @@ void	ft_clear_data_tab(t_data *data, int bool);
 void	ft_clear_tab(char **tab);
 void	ft_exe(t_env *mini, t_env *origin, t_data *data);
 void	ft_builtin(t_data *data, t_env *mini, t_env *origin);
+int		ft_isalnun(char c);
+int		ft_isdigit(char c);
 
 #endif

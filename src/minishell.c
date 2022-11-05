@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:06:18 by rben-tkh          #+#    #+#             */
-/*   Updated: 2022/11/04 07:18:08 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/05 06:01:07 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ void	minishell(char **env, t_env *mini, t_env *origin, char *str)
 			ft_exe(mini, origin, data);
 		// exec_loop(mini, origin, data);
 		ft_free(0, &data);
-
 	}
 }
 
