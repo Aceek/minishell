@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/04 07:12:50 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/05 07:03:32 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ char *dollar_handler(char *str, int *i, char **env)
 	return (var_val);
 }
 
-char *convert_input(char *input, char **env)
+char *convert_input(t_data *data)
 {
 	int		i;
 	char	*input2;
@@ -152,32 +152,58 @@ char *convert_input(char *input, char **env)
 	input2 = malloc(sizeof(char));
 	input2[0] = 0;
 	i = -1;
-	while (input[++i])
+	while (data->input[++i])
 	{
-		if (check_token(input, &i))
+		if (check_token(data->input, &i))
 		{
-			printf("CNSE\n");
+			printf("input avant split: %s\n",input2);
+			add_cmd(data, input2);
+			free(input2);
+			input2 = malloc(sizeof(char));
+			input2[0] = 0;
 			//parser input2 dans uns struct qui contient tableau ac commande en 0 + args 
 		}
-		else if (input[i] == '$' && check_quote(input, i) != 1)
-			input2 = ft_strjoin(input2, dollar_handler(input, &i, env));
+		else if (data->input[i] == '$' && check_quote(data->input, i) != 1)
+			input2 = ft_strjoin(input2, dollar_handler(data->input, &i, data->env));
 		else
-			input2 = ft_strjoin2(input2, input[i]);
+			input2 = ft_strjoin2(input2, data->input[i]);
 	}
 	return (input2);
 	}
 
+static void	print_list_cmd(t_data *data)
+{
+	t_cmd	*tmp;
+	int		i;
+	int		j;
+	
+	j = 0;
+	tmp = data->list_cmd;
+	i = -1;
+	while (tmp)
+	{
+		while (tmp->tab[++i])
+			printf("tab %d -> %s\n", i, tmp->tab[i]);
+		tmp = tmp->next;
+		printf("cmd %d\n", ++j);
+	}
+}
+
 int	main(int ac, char **av, char **env)
 {
-	char	*input;
 	char	*input2;
+	t_data	data;
 	// int		i;
 	
 	(void)ac;
 	(void)av;
+	(void)env;
+	ft_memset(&data, 0, sizeof(t_data));
+	data.list_cmd = NULL;
+	data.env = env;
 	while (1)
 	{
-		input = readline("mini> ");
+		data.input = readline("mini> ");
 		// i = -1;
 		// while (input[++i])
 		// {
@@ -185,8 +211,9 @@ int	main(int ac, char **av, char **env)
 		// 	printf("R char : %c | quote : %d\n", input[i], is_inquotes(input, i));
 		// 	printf("\n");
 		// }
-		input2 = convert_input(input, env);
+		input2 = convert_input(&data);
 		printf("%s\n", input2);
+		print_list_cmd(&data);
 	}
 	return (0);	
 }

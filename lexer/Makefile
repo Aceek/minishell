@@ -6,7 +6,7 @@
 #    By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/31 15:08:45 by pbeheyt           #+#    #+#              #
-#    Updated: 2022/10/29 05:45:04 by pbeheyt          ###   ########.fr        #
+#    Updated: 2022/11/05 02:38:13 by pbeheyt          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME	= lexer
 
 SRC		= lexer.c \
 		libft.c \
+		parser.c \
 
 HEAD	= -I include
 
