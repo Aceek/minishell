@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/16 02:14:59 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/16 03:56:32 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ char	**ft_split(char *s);
 
 /*lexer*/
 void    update_quote(bool *quote);
-int     check_quote(char *str, int pos);
+int     check_quote_error(char *str);
+int     check_quote_pos(char *str, int pos);
 int	    check_token(char *str, int *i);
 int	    get_var_len(char *str, int i);
 char	*get_var_name(char *str, int pos, int len);

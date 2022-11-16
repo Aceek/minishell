@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/16 02:14:30 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/16 03:59:24 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,32 @@ void update_quote(bool *quote)
 		*quote = false;
 }
 
-int check_quote(char *str, int pos)
+int check_quote_error(char *str)
+{
+	bool	simple_quote;
+	bool	double_quote;
+	int		i;
+	
+	if (!str)
+		return (-1);
+	simple_quote = false;
+	double_quote = false;
+	i = -1;
+	while(str[++i])
+	{
+		if (str[i] == '\'' && double_quote == false)
+			update_quote(&simple_quote);
+		if (str[i] == '\"' && simple_quote == false)
+			update_quote(&double_quote);
+	}
+	if (double_quote == true)
+		return (2);
+	if (simple_quote == true)
+		return (1);
+	return (0);
+}
+
+int check_quote_pos(char *str, int pos)
 {
 	bool	simple_quote;
 	bool	double_quote;
@@ -49,7 +74,7 @@ int	check_token(char *str, int *i)
 {
 	if (str[*i + 1])
 	{
-		if (!check_quote(str, *i) && !check_quote(str, *i + 1))
+		if (!check_quote_pos(str, *i) && !check_quote_pos(str, *i + 1))
 		{
 			if (ft_strncmp(str + *i, ">>", 2))
 			{	
@@ -63,7 +88,7 @@ int	check_token(char *str, int *i)
 			}
 		}
 	}
-	if (!check_quote(str, *i))
+	if (!check_quote_pos(str, *i))
 	{
 		if (ft_strncmp(str + *i, "<", 1))
 			return (LESS);
@@ -174,7 +199,8 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		data.input = readline("mini> ");
-		convert_input(&data);
+		printf("quote err : %d\n", check_quote_error(data.input));
+		parse_input(&data);
 		print_list_cmd(&data);
 	}
 	return (0);	
