@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 07:16:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/05 07:21:09 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/16 00:37:36 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ void	ft_builtin(t_data *data, t_env *mini, t_env *origin)
 {
 	if (data->code == EXPORT)
 		ft_export_builtin(data, mini, origin);
+	else if (data->code == ECH)
+		ft_echo_builtin(data);
+	else if (data->code == PWD)
+		ft_pwd_builtin();
+	else if (data->code == UNSET)
+		ft_unset_builtin(data, mini);
 	return ;
 }
 

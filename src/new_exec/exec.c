@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/05 07:09:46 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/16 06:32:32 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_cmd(t_data *data, t_env *mini, t_env *origin)
 	char	*path;
 	char	**env;
 
-	if (data->new_args[0][0] == '/' || data->new_args[0][0] == '.' || data->code == EXPORT) // tmp data->code = export
+	if (data->new_args[0][0] == '/' || data->new_args[0][0] == '.' || data->code)
 		path = ft_strdup(data->new_args[0]);
 	else
 		path = ft_get_path(data->new_args[0], data->env);
@@ -29,7 +29,7 @@ int	ft_cmd(t_data *data, t_env *mini, t_env *origin)
 		dup2(data->in, STDIN_FILENO);
 	if (data->out > STDOUT_FILENO)
 		dup2(data->out, STDOUT_FILENO);
-	if (data->code == EXPORT) // tmp export only
+	if (data->code)
 		ft_builtin(data, mini, origin);
 	else
 	{
@@ -71,7 +71,7 @@ int	ft_last_child(t_data *data, t_env *mini, t_env *origin)
 {
 	int	pid;
 
-	if (data->code != EXPORT) // tmp only export
+	if (!data->code)
 	{
 		pid = fork();
 		if (pid == 0)

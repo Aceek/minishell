@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 07:12:28 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/05 07:21:59 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/16 06:52:48 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ void	ft_sort_print_env(t_env *origin)
 	char	*tmp;
 	int		len;
 
+	if (!origin || !origin->line)
+	{
+		printf("error export env\n");
+		return ;
+	}
 	cpy = origin;
 	while (cpy && cpy->next)
 	{
@@ -67,7 +72,7 @@ void	ft_add_list_env(t_env *mini, char *args)
 		return ;
 	new->next = NULL;
 	new->line = ft_strdup(args);
-	while (tmp->next)
+	while (tmp && tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
 }
@@ -78,6 +83,7 @@ void	ft_add_args_env(t_data *data, t_env *mini, t_env *origin)
 	int	error;
 	int	i;
 
+	(void)origin;
 	env = 0;
 	i = 1;
 	while (data->new_args && data->new_args[i])
@@ -95,7 +101,7 @@ void	ft_add_args_env(t_data *data, t_env *mini, t_env *origin)
 
 void	ft_export_builtin(t_data *data, t_env *mini, t_env *origin)
 {
-	if (!data->new_args[1])
+	if (!data->new_args[1] && mini)
 	{
 		ft_sort_print_env(mini);
 		return ;
