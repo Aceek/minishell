@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/05 06:16:42 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/16 02:14:59 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_data
 size_t	ft_strlen(const char *str);
 int	    ft_strchr(const char *str, int c);
 char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strjoin2(char *s1, char c);
+char	*ft_charjoin(char *s1, char c);
 int	    ft_isalnum(int c);
 int	    ft_isspace(int c);
 int	    ft_strncmp(char *s1, char *s2, size_t n);
@@ -82,11 +82,10 @@ int	    get_var_len(char *str, int i);
 char	*get_var_name(char *str, int pos, int len);
 char    *get_var_val(char *var_name, int var_len, char **env);
 char    *dollar_handler(char *str, int *i, char **env);
-char    *convert_input(t_data *data);
 
 /*parser*/
-int	    count_args(char *str);
 int     add_cmd(t_data *data, char *str);
+void    parse_input(t_data *data);
 
 
 

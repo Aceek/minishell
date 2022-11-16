@@ -6,13 +6,13 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/05 06:34:52 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/16 02:14:35 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-int	add_cmd(t_data *data, char *str)
+int	add_cmd(t_data *data, char *buffer)
 {
 	t_cmd	*cmd;
 
@@ -20,10 +20,35 @@ int	add_cmd(t_data *data, char *str)
 	if (!cmd)
 		return (1);
 	ft_memset(cmd, 0, sizeof(t_cmd));
-	cmd->tab = ft_split(str);
+	cmd->tab = ft_split(buffer);
+	free(buffer);
 	cmd->fd_in = 0;
 	cmd->fd_out = 1;
 	cmd->list_cmd = data->list_cmd;
 	ft_list_add_back(&data->list_cmd, cmd);
 	return (0);
+}
+
+void	parse_input(t_data *data)
+{
+	int		i;
+	char	*buffer;
+	
+	buffer = malloc(sizeof(char));
+	buffer[0] = 0;
+	i = -1;
+	while (data->input[++i])
+	{
+		if (check_token(data->input, &i))
+		{
+			add_cmd(data, buffer);
+			buffer = malloc(sizeof(char));
+			buffer[0] = 0;
+		}
+		else if (data->input[i] == '$' && check_quote(data->input, i) != 1)
+			buffer = ft_strjoin(buffer, dollar_handler(data->input, &i, data->env));
+		else
+			buffer = ft_charjoin(buffer, data->input[i]);
+	}
+	add_cmd(data, buffer);
 }

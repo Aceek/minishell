@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/05 07:03:32 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/16 02:14:30 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,34 +143,6 @@ char *dollar_handler(char *str, int *i, char **env)
 	return (var_val);
 }
 
-char *convert_input(t_data *data)
-{
-	int		i;
-	char	*input2;
-	
-	
-	input2 = malloc(sizeof(char));
-	input2[0] = 0;
-	i = -1;
-	while (data->input[++i])
-	{
-		if (check_token(data->input, &i))
-		{
-			printf("input avant split: %s\n",input2);
-			add_cmd(data, input2);
-			free(input2);
-			input2 = malloc(sizeof(char));
-			input2[0] = 0;
-			//parser input2 dans uns struct qui contient tableau ac commande en 0 + args 
-		}
-		else if (data->input[i] == '$' && check_quote(data->input, i) != 1)
-			input2 = ft_strjoin(input2, dollar_handler(data->input, &i, data->env));
-		else
-			input2 = ft_strjoin2(input2, data->input[i]);
-	}
-	return (input2);
-	}
-
 static void	print_list_cmd(t_data *data)
 {
 	t_cmd	*tmp;
@@ -179,21 +151,19 @@ static void	print_list_cmd(t_data *data)
 	
 	j = 0;
 	tmp = data->list_cmd;
-	i = -1;
 	while (tmp)
 	{
+		i = -1;
+		printf("cmd %d\n", ++j);
 		while (tmp->tab[++i])
 			printf("tab %d -> %s\n", i, tmp->tab[i]);
 		tmp = tmp->next;
-		printf("cmd %d\n", ++j);
 	}
 }
 
 int	main(int ac, char **av, char **env)
 {
-	char	*input2;
 	t_data	data;
-	// int		i;
 	
 	(void)ac;
 	(void)av;
@@ -204,15 +174,7 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		data.input = readline("mini> ");
-		// i = -1;
-		// while (input[++i])
-		// {
-		// 	printf("P char : %c | quote : %d\n", input[i], quote_value(input, i));
-		// 	printf("R char : %c | quote : %d\n", input[i], is_inquotes(input, i));
-		// 	printf("\n");
-		// }
-		input2 = convert_input(&data);
-		printf("%s\n", input2);
+		convert_input(&data);
 		print_list_cmd(&data);
 	}
 	return (0);	
