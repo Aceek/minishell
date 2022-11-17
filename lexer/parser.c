@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/18 00:28:03 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/18 00:35:19 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 int	check_built_in(char *str)
 {
 	if (!str)
-		retun (NOT_BUILT_IN);
-	if (ft_strncmp(str, "echo", ft_strlen("echo")));
-		return (ECHO);
-	if (ft_strncmp(str, "cd", ft_strlen("cd")));
+		return (NOT_BUILT_IN);
+	if (ft_strncmp(str, "echo", ft_strlen("echo")))
+		return (ECH);
+	if (ft_strncmp(str, "cd", ft_strlen("cd")))
 		return (CD);
-	if (ft_strncmp(str, "export", ft_strlen("export")));
+	if (ft_strncmp(str, "export", ft_strlen("export")))
 		return (EXPORT);
-	if (ft_strncmp(str, "unset", ft_strlen("unset")));
+	if (ft_strncmp(str, "unset", ft_strlen("unset")))
 		return (UNSET);
-	if (ft_strncmp(str, "env", ft_strlen("env")));
+	if (ft_strncmp(str, "env", ft_strlen("env")))
 		return (ENV);
-	if (ft_strncmp(str, "exit", ft_strlen("exit")));
+	if (ft_strncmp(str, "exit", ft_strlen("exit")))
 		return (EXIT);
 	return (NOT_BUILT_IN);
 }

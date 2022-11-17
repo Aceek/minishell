@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/18 00:18:31 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/18 00:34:25 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ enum e_token
 enum e_built_in
 {
 	NOT_BUILT_IN,
-	ECHO,
+	ECH,
 	CD,
 	EXPORT,
 	UNSET,
@@ -99,7 +99,9 @@ char    *get_var_val(char *var_name, int var_len, char **env);
 char    *dollar_handler(char *str, int *i, char **env);
 
 /*parser*/
+int		check_built_in(char *str);
 int     add_cmd(t_data *data, char *str);
+char 	*create_buffer(t_data *data);
 void    parse_input(t_data *data);
 
 

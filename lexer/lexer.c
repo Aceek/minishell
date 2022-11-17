@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/16 03:59:24 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/18 00:32:22 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ static void	print_list_cmd(t_data *data)
 	{
 		i = -1;
 		printf("cmd %d\n", ++j);
+		printf("built in %d\n", tmp->built_in);
 		while (tmp->tab[++i])
 			printf("tab %d -> %s\n", i, tmp->tab[i]);
 		tmp = tmp->next;
