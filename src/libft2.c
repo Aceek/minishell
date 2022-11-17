@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 03:20:05 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/05 07:14:14 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/17 03:35:23 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	ft_isalnun(char c)
 	else if (c >= 'A' && c <= 'Z')
 		return (1);
 	else if (c >= 'a' && c <= 'z')
+		return (1);
+	else if (c == '_')
 		return (1);
 	return (0);
 }

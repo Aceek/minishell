@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 07:16:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/16 00:37:36 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/17 04:55:41 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@ void	ft_builtin(t_data *data, t_env *mini, t_env *origin)
 		ft_pwd_builtin();
 	else if (data->code == UNSET)
 		ft_unset_builtin(data, mini);
+	else if (data->code == ENV)
+	{
+		if (data->new_args[1])
+			printf("Too many args\n");
+		else
+			ft_print_env(mini);
+	}
+	else if (data->code == EXIT)
+		exit(1); // exit clean
 	return ;
 }
 
