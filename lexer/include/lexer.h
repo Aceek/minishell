@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/16 03:56:32 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/18 00:18:31 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,29 +33,43 @@
 
 enum e_token
 {
-    NOT_TOKEN,
-    PIPE,
-    LESS,
-    GREAT,
-    DLESS,
-    DGREAT,
+	NOT_TOKEN,
+	PIPE,
+	LESS,
+	GREAT,
+	DLESS,
+	DGREAT,
+};
+
+enum e_built_in
+{
+	NOT_BUILT_IN,
+	ECHO,
+	CD,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT,
 };
 
 typedef struct s_cmd
 {
-    char            **tab;
-    int             fd_in;
-    int             fd_out;
-    struct s_cmd   *list_cmd;
-    struct s_cmd   *next;
+	char            **tab;
+	int             fd_in;
+	int             fd_out;
+	int				token;
+	int				built_in;
+	struct s_cmd   *list_cmd;
+	struct s_cmd   *next;
 }               t_cmd;
 
 typedef struct s_data
 {
-    char            **env;
-    char            *input;
-    int             error;
-    struct s_cmd   *list_cmd;
+	char            **env;
+	char            *input;
+	int             curr_token;
+	int             error;
+	struct s_cmd   *list_cmd;
 }               t_data;
 
 /*libft*/
