@@ -6,17 +6,14 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 00:21:09 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/17 04:01:24 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/18 01:13:25 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_env	*ft_remove_list(t_env *old, t_env *tmp)
+void	ft_remove_list(t_env *old, t_env *tmp)
 {
-	t_env	*remove;
-	char	*str;
-
 	if (tmp && old)
 	{
 		free(tmp->line);
@@ -24,20 +21,23 @@ t_env	*ft_remove_list(t_env *old, t_env *tmp)
 			old->next = tmp->next;
 		else
 			old->next = NULL;
-		remove = tmp->next;
 		free(tmp);
-		return (remove);
+		return ;
 	}
-	if (tmp->next)
+	else 
 	{
-		str = ft_strdup(tmp->next->line);
-		free(tmp->line);
-		tmp->line = str;
-		ft_remove_list(tmp, tmp->next);
+		if (tmp->next)
+		{
+			free(tmp->line);
+			tmp->line = ft_strdup(tmp->next->line);
+			ft_remove_list(tmp, tmp->next);
+		}
+		else
+		{
+			free(tmp->line);
+			tmp->line = NULL;
+		}
 	}
-	else
-		return (free(tmp->line), free(tmp), NULL);
-	return (NULL);
 }
 
 void	ft_remove_if_in_env(t_env *mini, char *args)
@@ -53,7 +53,7 @@ void	ft_remove_if_in_env(t_env *mini, char *args)
 		tmp_args = ft_cpy_env_name(args);
 		if (ft_strncmp(tmp->line, tmp_args, ft_strlen(tmp_args)) == 0)
 		{
-			tmp = ft_remove_list(old, tmp);
+			ft_remove_list(old, tmp);
 			free(tmp_args);
 			return ;
 		}

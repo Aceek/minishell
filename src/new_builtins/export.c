@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 07:12:28 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/17 04:45:40 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/18 00:49:06 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,22 @@ void	ft_add_list_env(t_env *mini, char *args)
 	t_env	*tmp;
 	t_env	*new;
 
+	if (mini && !mini->line)
+	{
+		mini->line = ft_strdup(args);
+		return ;
+	}
+	else if (!mini)
+	{
+		printf("Error env does not exist\n");
+		return ;
+	}
 	tmp = mini;
 	new = malloc(sizeof(t_env));
 	if (!new)
 		return ;
 	new->next = NULL;
 	new->line = ft_strdup(args);
-	if (!mini || !mini->line)
-	{
-		mini = new;
-		return ;
-	}
 	while (tmp && tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;

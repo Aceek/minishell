@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 16:47:42 by rben-tkh          #+#    #+#             */
-/*   Updated: 2022/11/16 06:45:08 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/18 01:13:21 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,7 +244,7 @@ void	ft_sort_print_env(t_env *origin);
 void	ft_echo_builtin(t_data *data);
 void	ft_pwd_builtin(void);
 void	ft_unset_builtin(t_data *data, t_env *mini);
-t_env	*ft_remove_list(t_env *old, t_env *tmp);
+void	ft_remove_list(t_env *old, t_env *tmp);
 
 
 #endif
