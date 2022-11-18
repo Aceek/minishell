@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 00:21:09 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/18 01:13:25 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/18 01:32:22 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_remove_list(t_env *old, t_env *tmp)
 		free(tmp);
 		return ;
 	}
-	else 
+	else
 	{
 		if (tmp->next)
 		{
@@ -89,4 +89,3 @@ void	ft_unset_builtin(t_data *data, t_env *mini)
 		i++;
 	}
 }
- 

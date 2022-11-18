@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 07:16:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/17 04:55:41 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/18 01:31:42 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,16 @@ void	ft_builtin(t_data *data, t_env *mini, t_env *origin)
 	else if (data->code == UNSET)
 		ft_unset_builtin(data, mini);
 	else if (data->code == ENV)
-	{
-		if (data->new_args[1])
-			printf("Too many args\n");
-		else
-			ft_print_env(mini);
-	}
+		ft_print_env(mini);
 	else if (data->code == EXIT)
-		exit(1); // exit clean
+		exit(1);
 	return ;
 }
 
 int	ft_is_valid_env(char *args)
 {
-	int	i;
+	int		i;
+	char	*cpy;
 
 	i = 0;
 	if (ft_isdigit(args[0]) || args[0] == '=')
@@ -48,7 +44,13 @@ int	ft_is_valid_env(char *args)
 		i++;
 	}
 	if (args[i] != '=')
+	{
+		cpy = ft_strdup(args);
+		free(args);
+		args = ft_strjoin(cpy, "=");
+		free(cpy);
 		return (2);
+	}
 	return (1);
 }
 
