@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 07:16:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/18 01:31:42 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/18 04:30:49 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	ft_builtin(t_data *data, t_env *mini, t_env *origin)
 		ft_unset_builtin(data, mini);
 	else if (data->code == ENV)
 		ft_print_env(mini);
+	else if (data->code == CD)
+		ft_cd_builtind(data, mini);
 	else if (data->code == EXIT)
 		exit(1);
 	return ;
