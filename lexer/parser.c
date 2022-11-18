@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/18 00:35:19 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/18 02:49:07 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,34 @@ void	parse_input(t_data *data)
 			buffer = ft_charjoin(buffer, data->input[i]);
 	}
 	add_cmd(data, buffer);
+}
+
+int	create_redir(t_data *data, t_cmd *cmd)
+{
+	if (cmd->token == LESS && !cmd->next->token)
+	{
+		cmd->fd_in = open(cmd->next->tab[0], O_RDWR);
+		if (cmd->fd_in == -1)
+			return (1);
+	}
+	if (cmd->token == GREAT && !cmd->next->token)
+		cmd->fd_out = open(cmd->next->tab[0], O_CREAT | O_RDWR | O_TRUNC, 0664);
+	// if (cmd->token == DLESS && !cmd->next->token)
+	// 	cmd->fd_in = heredoc();
+	if (cmd->token == DGREAT && !cmd->next->token)
+		cmd->fd_out = open(cmd->next->tab[0], O_CREAT | O_RDWR | O_APPEND, 0664);
+	return (0);
+}
+
+void	check_redir(t_data *data)
+{
+	t_cmd	*cmd;
+	
+	cmd = data->list_cmd;
+	while (cmd)
+	{
+		if (cmd->next && cmd->token)
+			create_redir(data, cmd);
+		cmd = cmd->next;
+	}
 }

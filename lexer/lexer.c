@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/18 00:32:22 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/18 02:00:39 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,7 @@ int	main(int ac, char **av, char **env)
 		data.input = readline("mini> ");
 		printf("quote err : %d\n", check_quote_error(data.input));
 		parse_input(&data);
+		check_redir(&data);
 		print_list_cmd(&data);
 	}
 	return (0);	
