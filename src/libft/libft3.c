@@ -6,11 +6,11 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 04:56:29 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/19 05:06:33 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/19 05:09:27 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	lst_addback(t_env *mini_env, char *env)
 {

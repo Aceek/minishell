@@ -6,11 +6,11 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 03:20:05 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/19 04:57:33 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/19 05:09:24 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	ft_isdigit(char c)
 {

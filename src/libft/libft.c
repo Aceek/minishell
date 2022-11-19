@@ -6,11 +6,11 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 21:02:19 by rben-tkh          #+#    #+#             */
-/*   Updated: 2022/11/19 04:57:27 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/19 05:09:18 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*ft_strchr(const char *s, int c)
 {
