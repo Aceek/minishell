@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:42:35 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/17 04:00:13 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/19 03:08:26 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	ft_exit_clean(t_env *mini, t_env *origin, t_data *data)
 	lst_freeall(mini);
 	lst_freeall(origin);
 	ft_free(0, &data);
+	rl_clear_history(); // test
 	exit(1);
 }
 

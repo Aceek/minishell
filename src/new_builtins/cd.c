@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 04:29:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/18 06:26:46 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/19 02:52:39 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	ft_go_path(int location, t_env *mini)
 {
 	char	*path;
 
+	path = NULL;
 	if (!location)
 	{
 		path = ft_get_env_path("HOME=", mini);
@@ -62,10 +63,32 @@ int	ft_go_path(int location, t_env *mini)
 			return (printf("cd : OLDPWD not set\n"), -1);
 	}
 	ft_update_pwd(mini, "OLDPWD=");
-	chdir(path);
+	if (chdir(path) < 0)
+		printf("Path not found\n");
 	ft_update_pwd(mini, "PWD=");
 	free(path);
 	return (0);
+}
+
+char	*ft_handle_tild(char *str, t_env *mini)
+{
+	char 	*tmp;
+	char	*path_home;
+
+	path_home = ft_get_env_path("HOME=", mini);
+	if (!path_home)
+		return (NULL);
+	tmp = ft_cpy(str, 1);
+	if (!tmp)
+	{
+		free(path_home);
+		return (NULL);
+	}
+	free(str);
+	str = ft_strjoin(path_home, tmp);
+	free(path_home);
+	free(tmp);
+	return (str);
 }
 
 void	ft_cd_builtind(t_data *data, t_env *mini)
@@ -77,6 +100,8 @@ void	ft_cd_builtind(t_data *data, t_env *mini)
 		ft_go_path(1, mini);
 	else if (data->new_args[1])
 	{
+		if (data->new_args[1][0] == '~')
+			data->new_args[1] =  ft_handle_tild(data->new_args[1], mini);
 		ft_update_pwd(mini, "OLDPWD=");
 		if (chdir(data->new_args[1]) < 0)
 			printf("Path not found\n");
