@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 16:47:42 by rben-tkh          #+#    #+#             */
-/*   Updated: 2022/11/18 04:31:41 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/19 04:37:49 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	echo_remp(char *str, int opt, int i);
 /*---------------------------------------ENV---------------------------------*/
 
 void	ft_exit(t_data *data, t_env *mini, t_env *origin, char **args);
-t_env	*ft_env(char **env);
+// t_env	*ft_env(char **env);
 void	ft_printenv(t_env *mini_env);
 void	ft_pwd(void);
 

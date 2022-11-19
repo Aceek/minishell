@@ -5,107 +5,118 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/27 17:43:16 by rben-tkh          #+#    #+#             */
-/*   Updated: 2022/11/04 06:24:19 by ilinhard         ###   ########.fr       */
+/*   Created: 2022/11/04 07:12:28 by ilinhard          #+#    #+#             */
+/*   Updated: 2022/11/18 01:17:35 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	lst_sort(t_env *origin)
+void	ft_sort_print_env(t_env *origin)
 {
-	char	*temp;
-	t_env	*copy;
+	t_env	*cpy;
+	char	*tmp;
+	int		len;
 
-	copy = origin;
-	while (copy->next)
+	if (!origin || !origin->line)
 	{
-		if (ft_strncmp(copy->line, copy->next->line,
-				ft_strlen(copy->line) + ft_strlen(copy->next->line)) > 0)
+		printf("error export env\n");
+		return ;
+	}
+	cpy = origin;
+	while (cpy && cpy->next)
+	{
+		len = ft_strlen(cpy->line) + ft_strlen(cpy->next->line);
+		if (ft_strncmp(cpy->line, cpy->next->line, len) > 0)
 		{
-			temp = copy->line;
-			copy->line = copy->next->line;
-			copy->next->line = temp;
-			copy = origin;
+			tmp = cpy->line;
+			cpy->line = cpy->next->line;
+			cpy->next->line = tmp;
+			cpy = origin;
 		}
 		else
-			copy = copy->next;
+			cpy = cpy->next;
 	}
-	copy = origin;
-	while (copy)
-	{
-		if (copy->line[ft_strlen(copy->line) - 1] != '"')
-			copy->line = ft_strjoiny("", copy->line);
-		copy = copy->next;
-	}
+	ft_print_env(origin);
 }
 
-void	lst_export(t_env *origin)
-{
-	t_env	*temp;
-
-	temp = origin;
-	while (temp)
-	{
-		printf("declare -x ");
-		printf("%s\n", temp->line);
-		temp = temp->next;
-	}
-}
-
-static int	exp_err(char *str)
-{
-	write(2, "minihlel: export: `", 19);
-	write(2, str, ft_strlen(str));
-	write(2, "': not a valid identifier\n", 26);
-	return (1);
-}
-
-static int	relou(t_env *mini, t_env *origin, char *str, int i)
-{
-	t_env	*temp;
-	char	*tmp;
-
-	tmp = ft_strdupy(str);
-	temp = mini;
-	while (temp && temp->line)
-	{
-		if (ft_strlen(temp->line) >= i && !ft_strncmp(str, temp->line, i))
-		{
-			lst_modone(mini, temp->line, rev_strjoiny(temp->line, &str[i + 2]));
-			break ;
-		}
-		temp = temp->next;
-	}
-	if (!temp)
-		lst_addback(mini, tmp);
-	relou_remp(origin, str, i, tmp);
-	return (free(tmp), 0);
-}
-
-int	lst_exportarg(t_env *mini_env, t_env *origin, char *str)
+char	*ft_cpy_env_name(char *args)
 {
 	int		i;
+	char	*new;
 
 	i = 0;
-	while (str[i] && str[i] == '=')
-			i++;
-	if (!str[i] || (str[0] > '0' && str[0] < '9'))
-		return (exp_err(str));
-	i = 0;
-	while (str[i] && str[i] != '=' && str[i] != '-' && str[i] != '+')
+	while (args && args[i] && args[i] != '=')
 		i++;
-	if (str[i])
+	new = malloc(sizeof(char) * (i + 1));
+	if (!new)
+		return (NULL);
+	i = 0;
+	while (args && args[i] && args[i] != '=')
 	{
-		if (str[i] == '-')
-			return (exp_err(str));
-		if (i > 0 && str[i] == '+' && str[i + 1] == '=')
-			return (relou(mini_env, origin, str, i));
-		else if (str[i] == '+')
-			return (exp_err(str));
-		export_remp(i, str, mini_env, origin);
+		new[i] = args[i];
+		i++;
+	}
+	new[i] = '\0';
+	return (new);
+}
+
+void	ft_add_list_env(t_env *mini, char *args)
+{
+	t_env	*tmp;
+	t_env	*new;
+
+	if (mini && !mini->line)
+	{
+		mini->line = ft_strdup(args);
+		return ;
+	}
+	else if (!mini)
+	{
+		printf("Error env does not exist\n");
+		return ;
+	}
+	tmp = mini;
+	new = malloc(sizeof(t_env));
+	if (!new)
+		return ;
+	new->next = NULL;
+	new->line = ft_strdup(args);
+	while (tmp && tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+}
+
+void	ft_add_args_env(t_data *data, t_env *mini, t_env *origin)
+{
+	int	env;
+	int	error;
+	int	i;
+
+	(void)origin;
+	env = 0;
+	i = 1;
+	while (data->new_args && data->new_args[i])
+	{
+		error = ft_is_valid_env(data->new_args[i]);
+		if (error < 0)
+			ft_export_error(error, data->new_args[i]);
+		else if (error > 0)
+			env = ft_is_in_env(mini, data->new_args[i]);
+		if (error > 0 && env == 0)
+			ft_add_list_env(mini, data->new_args[i]);
+		i++;
+	}
+}
+
+void	ft_export_builtin(t_data *data, t_env *mini, t_env *origin)
+{
+	if (!data->new_args[1] && mini)
+	{
+		ft_sort_print_env(mini);
+		return ;
 	}
 	else
-		export_remp2(i, str, origin);
-	return (0);
+		ft_add_args_env(data, mini, origin);
+	return ;
 }

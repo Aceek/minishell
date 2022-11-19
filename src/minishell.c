@@ -6,13 +6,124 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 17:06:18 by rben-tkh          #+#    #+#             */
-/*   Updated: 2022/11/17 02:52:08 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/19 05:01:25 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	g_ecode = 0;
+
+char	**fuse(char *cmd, char **args)
+{
+	int		i;
+	char	**all;
+
+	i = 0;
+	while (args && args[i])
+		i++;
+	all = malloc(sizeof(char *) * (i + 2));
+	if (!all)
+		return (NULL);
+	i = 1;
+	all[0] = ft_strdup(cmd);
+	while (args && args[i - 1])
+	{
+		all[i] = ft_strdup(args[i - 1]);
+		i++;
+	}
+	all[i] = 0;
+	return (all);
+}
+
+void	shlvl(t_env *mini)
+{
+	int	i;
+
+	while (mini)
+	{
+		if (!ft_strncmp(mini->line, "SHLVL=", 6))
+		{
+			i = ft_strlen(mini->line);
+			mini->line[i - 1]++;
+			break ;
+		}
+		mini = mini->next;
+	}
+}
+
+t_env	*ft_env(char **env)
+{
+	t_env	*mini_env;
+	int		i;
+
+	i = 1;
+	mini_env = malloc(sizeof(t_env));
+	if (!mini_env)
+		return (NULL);
+	if (!env[0])
+		return (mini_env->line = NULL, mini_env->next = NULL, mini_env);
+	mini_env->line = ft_strdup(env[0]);
+	if (!mini_env->line)
+		return (free(mini_env), NULL);
+	mini_env->next = NULL;
+	while (env[i])
+	{
+		if (!lst_addback(mini_env, env[i]))
+			return (lst_freeall(mini_env), NULL);
+		i++;
+	}
+	shlvl(mini_env);
+	return (mini_env);
+}
+
+static int	joseph(char **args)
+{
+	int	i;
+	int	j;
+	int	d;
+	int	y;
+
+	i = -1;
+	while (args[++i])
+	{
+		j = 0;
+		while (args[i][j])
+			j++;
+		d = ft_atoi(args[i], &y);
+		if (y < j)
+		{
+			write(2, "minihlel: exit: ", 16);
+			if (!i)
+				return (write(2, "numeric argument required\n", 26), 2);
+			else
+				return (write(2, "too many arguments\n", 19), -672);
+		}
+		if (i > 0)
+			return (write(2, "minihlel: exit: too many arguments\n", 35), -672);
+	}
+	return (d);
+}
+
+void	ft_exit(t_data *data, t_env *mini, t_env *origin, char **args)
+{
+	int	a;
+
+	a = 0;
+	if (args)
+	{
+		a = joseph(args);
+		if (a == -672)
+			return ;
+		g_ecode = a;
+	}
+	if (data && data->exit)
+		printf("exit\n");
+	lst_freeall(mini);
+	lst_freeall(origin);
+	ft_free(0, &data);
+	exit(g_ecode);
+}
 
 void	signal_int(int unused)
 {

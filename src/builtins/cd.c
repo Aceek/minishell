@@ -3,111 +3,108 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkurdy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/04 14:26:14 by lkurdy            #+#    #+#             */
-/*   Updated: 2022/09/30 13:51:32 by lkurdy           ###   ########.fr       */
+/*   Created: 2022/11/18 04:29:10 by ilinhard          #+#    #+#             */
+/*   Updated: 2022/11/19 02:52:39 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	*get_home(t_env *temp)
+char	*ft_get_env_path(char *env_path, t_env *mini)
 {
-	int		i;
-	int		j;
-	char	*home;
+	char	*path;
+	t_env	*tmp;
+	int		len;
 
-	i = 5;
-	j = 0;
-	while (temp)
+	tmp = mini;
+	len = ft_strlen(env_path);
+	while (tmp)
 	{
-		if (!ft_strncmp(temp->line, "HOME", 4))
+		if (ft_strncmp(tmp->line, env_path, len) == 0)
 		{
-			while (temp->line[i])
-				i++;
-			home = malloc(sizeof(char) * i - 4);
-			if (!home)
-				return (NULL);
-			i = 5;
-			while (temp->line[i])
-				home[j++] = temp->line[i++];
-			return (home[j] = '\0', home);
+			path = ft_cpy(tmp->line, len);
+			return (path);
 		}
-		temp = temp->next;
+		tmp = tmp->next;
 	}
 	return (NULL);
 }
 
-static int	ft_cd2(t_env *mini_env)
+void	ft_update_pwd(t_env *mini, char *join)
 {
-	char	*new;
-	int		cd_return;
+	char	buff[2048];
+	char	*pwd;
 
-	new = get_home(mini_env);
-	if (!new)
+	if (getcwd(buff, 2048) == NULL)
+		return ;
+	pwd = ft_strjoin(join, buff);
+	if (!ft_is_in_env(mini, pwd))
+		ft_add_list_env(mini, pwd);
+	free(pwd);
+}
+
+int	ft_go_path(int location, t_env *mini)
+{
+	char	*path;
+
+	path = NULL;
+	if (!location)
 	{
-		write(2, "minihlel: cd: HOME not set\n", 27);
-		return (1);
+		path = ft_get_env_path("HOME=", mini);
+		if (!path)
+			return (printf("cd : HOME not set\n"), -1);
 	}
-	cd_return = chdir(new);
-	free(new);
-	return (cd_return);
-}
-
-static int	cd_remp(char *args, t_env *mini_env, t_env *origin, char *old)
-{
-	int	cd_return;
-
-	lst_modone(mini_env, "OLDPWD=", old);
-	lst_modone(origin, "OLDPWD=", ft_strdup(old));
-	if (!args)
-		cd_return = ft_cd2(mini_env);
-	else
+	else if (location == 1)
 	{
-		cd_return = chdir(args);
-		if (cd_return < 0)
-		{
-			write(2, "minihlel: cd: ", 14);
-			perror(args);
-			return (1);
-		}
+		path = ft_get_env_path("OLDPWD=", mini);
+		if (!path)
+			return (printf("cd : OLDPWD not set\n"), -1);
 	}
-	return (cd_return);
+	ft_update_pwd(mini, "OLDPWD=");
+	if (chdir(path) < 0)
+		printf("Path not found\n");
+	ft_update_pwd(mini, "PWD=");
+	free(path);
+	return (0);
 }
 
-static int	ft_cd(char *args, t_env *mini_env, t_env *origin)
+char	*ft_handle_tild(char *str, t_env *mini)
 {
-	int		cd_return;
-	char	*old;
-	char	buf[1024];
-	char	*new;
+	char 	*tmp;
+	char	*path_home;
 
-	if (!mini_env->line)
-		return (write(2, "env: ‘cd’: No such file or directory\n", 42), 127);
-	if (getcwd(buf, 1024) == NULL)
-		return (ft_cd2(mini_env));
-	old = ft_strjoin("OLDPWD=", buf);
-	if (!old)
-		return (1);
-	cd_return = cd_remp(args, mini_env, origin, old);
-	if (cd_return == 1)
-		return (1);
-	if (getcwd(buf, 1024) == NULL)
-		return (1);
-	new = ft_strjoin("PWD=", buf);
-	if (!new)
-		return (1);
-	return (lst_modone(mini_env, "PWD", new),
-		lst_modone(origin, "PWD", ft_strdup(new)), cd_return);
+	path_home = ft_get_env_path("HOME=", mini);
+	if (!path_home)
+		return (NULL);
+	tmp = ft_cpy(str, 1);
+	if (!tmp)
+	{
+		free(path_home);
+		return (NULL);
+	}
+	free(str);
+	str = ft_strjoin(path_home, tmp);
+	free(path_home);
+	free(tmp);
+	return (str);
 }
 
-int	pre_cd(t_data *data, t_env *mini, t_env *origin)
+void	ft_cd_builtind(t_data *data, t_env *mini)
 {
-	if (data->args && data->args[1])
-		return (write(2, "minihlel: cd: too many arguments\n", 33), 1);
-	else if (data->args)
-		return (ft_cd(data->args[0], mini, origin));
-	else
-		return (ft_cd(NULL, mini, origin));
+	if (!data->new_args[1] || (data->new_args[1][0] == '~'
+		&& data->new_args[1][1] == '\0'))
+		ft_go_path(0, mini);
+	else if (data->new_args[1] && !ft_strncmp(data->new_args[1], "-", 1))
+		ft_go_path(1, mini);
+	else if (data->new_args[1])
+	{
+		if (data->new_args[1][0] == '~')
+			data->new_args[1] =  ft_handle_tild(data->new_args[1], mini);
+		ft_update_pwd(mini, "OLDPWD=");
+		if (chdir(data->new_args[1]) < 0)
+			printf("Path not found\n");
+		ft_update_pwd(mini, "PWD=");
+	}
 }

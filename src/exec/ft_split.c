@@ -5,93 +5,83 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/17 22:15:45 by lkurdy            #+#    #+#             */
-/*   Updated: 2022/11/05 07:00:40 by ilinhard         ###   ########.fr       */
+/*   Created: 2022/04/19 19:39:35 by ilinhard          #+#    #+#             */
+/*   Updated: 2022/10/28 04:17:17 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_strlen(char *str)
+int	ft_charset(char const s, char c)
 {
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-		i++;
-	return (i);
+	if (s == '\0' || s == c)
+		return (1);
+	return (0);
 }
 
-static int	size(const char *str, char set)
+int	ft_count_words(char const *s, char c)
 {
 	int	i;
-	int	j;
+	int	words;
 
 	i = 0;
-	j = 0;
-	while (str[i])
+	words = 0;
+	while (s[i] != '\0')
 	{
-		if (((str[i] != set) && (str[i + 1] == set))
-			|| ((str[i] != set) && !str[i + 1]))
-			j++;
+		if (ft_charset(s[i], c) == 0 && ft_charset(s[i + 1], c) == 1)
+			words++;
 		i++;
 	}
-	return (j);
+	return (words);
 }
 
-static char	*ft_cpy2(char *dest, const char *str, int n)
+void	ft_add_words(char *dest, const char *src, char c)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] && i < n)
+	while (ft_charset(src[i], c) == 0)
 	{
-		dest[i] = str[i];
+		dest[i] = src[i];
 		i++;
 	}
 	dest[i] = '\0';
-	return (dest);
 }
 
-static char	**remp(int *i, int *j, const char *s, char c)
+void	ft_add_to_tab(char **tab, const char *s, char c)
 {
-	char	**dest;
+	int	i;
+	int	j;
+	int	words;
 
-	if (!s)
-		return (NULL);
-	dest = malloc(sizeof(const char *) * (size(s, c) + 1));
-	*i = 0;
-	*j = 0;
-	return (dest);
-}
-
-char	**ft_split(const char *s, char c)
-{
-	char	**dest;
-	int		i;
-	int		j;
-	int		g;
-
-	dest = remp(&i, &j, s, c);
-	if (!dest)
-		return (NULL);
-	while (j < size(s, c) && s[i])
+	i = 0;
+	words = 0;
+	while (s[i] != '\0')
 	{
-		g = i;
-		while ((s[i] != c) && s[i])
+		if (ft_charset(s[i], c))
 			i++;
-		if (i)
+		else
 		{
-			dest[j] = malloc(sizeof(const char) * (i - g + 1));
-			if (!dest[j])
-				return (ft_free(dest, 0), NULL);
-			dest[j] = ft_cpy2(dest[j], &s[g], i - g);
-			j++;
+			j = 0;
+			while (ft_charset(s[i + j], c) == 0)
+				j++;
+			tab[words] = malloc(sizeof(char) * (j + 1));
+			ft_add_words(tab[words], &s[i], c);
+			i = j + i;
+			words++;
 		}
-		while ((s[i] == c) && s[i])
-			i++;
 	}
-	return (dest[j] = 0, dest);
+}
+
+char	**ft_split2(char const *s, char c)
+{
+	int		words;
+	char	**tab;
+
+	words = 0;
+	words = ft_count_words(s, c);
+	tab = malloc(sizeof(char *) * (words + 1));
+	tab[words] = 0;
+	ft_add_to_tab(tab, s, c);
+	return (tab);
 }
