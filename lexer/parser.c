@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/18 02:49:07 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/19 03:36:05 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	add_cmd(t_data *data, char *buffer)
 	ft_memset(cmd, 0, sizeof(t_cmd));
 	cmd->tab = ft_split(buffer);
 	free(buffer);
-	cmd->fd_in = 0;
-	cmd->fd_out = 1;
+	cmd->fd_in = data->curr_fd_in;
+	cmd->fd_out = data->curr_fd_out;
 	cmd->built_in = check_built_in(cmd->tab[0]);
 	cmd->token = data->curr_token;
 	cmd->list_cmd = data->list_cmd;
@@ -74,11 +74,13 @@ void	parse_input(t_data *data)
 	while (data->input[++i])
 	{
 		data->curr_token = check_token(data->input, &i);	
-		if (data->curr_token)
+		if (data->curr_token == PIPE)
 		{
 			add_cmd(data, buffer);
 			buffer = create_buffer(data);
 		}
+		else if (data->curr_token > PIPE)
+			redir_handler(data, data->input, &i);
 		else if (data->input[i] == '$' && check_quote_pos(data->input, i) != 1)
 			buffer = ft_strjoin(buffer, dollar_handler(data->input, &i, data->env));
 		else
@@ -87,32 +89,40 @@ void	parse_input(t_data *data)
 	add_cmd(data, buffer);
 }
 
-int	create_redir(t_data *data, t_cmd *cmd)
+int	get_file_len(char *str, int i)
 {
-	if (cmd->token == LESS && !cmd->next->token)
-	{
-		cmd->fd_in = open(cmd->next->tab[0], O_RDWR);
-		if (cmd->fd_in == -1)
-			return (1);
+	int var_len;
+	
+	var_len = 0;
+	while ((ft_isalnum(str[i]) || str[i] == '_' || str[i] == '.'))
+	{	
+		var_len += 1;
+		i++;
 	}
-	if (cmd->token == GREAT && !cmd->next->token)
-		cmd->fd_out = open(cmd->next->tab[0], O_CREAT | O_RDWR | O_TRUNC, 0664);
-	// if (cmd->token == DLESS && !cmd->next->token)
-	// 	cmd->fd_in = heredoc();
-	if (cmd->token == DGREAT && !cmd->next->token)
-		cmd->fd_out = open(cmd->next->tab[0], O_CREAT | O_RDWR | O_APPEND, 0664);
-	return (0);
+	return (var_len);
 }
 
-void	check_redir(t_data *data)
+
+int	redir_handler(t_data *data, char *str, int *i)
 {
-	t_cmd	*cmd;
-	
-	cmd = data->list_cmd;
-	while (cmd)
+	int		file_len;
+	char	*file_name;
+
+	file_len = get_file_len(str, *i);
+	file_name = ft_strncpy_from(str, *i ,file_len);
+	*i += file_len;
+	if (data->curr_token == LESS && file_name)
 	{
-		if (cmd->next && cmd->token)
-			create_redir(data, cmd);
-		cmd = cmd->next;
+		data->curr_fd_in = open(file_name, O_RDWR);
+		if (data->curr_fd_in == -1)
+			return (1);
 	}
+	if (data->curr_token == GREAT && file_name)
+		data->curr_fd_out = open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0664);
+	// if (data->curr_token == DLESS && file_name)
+	// 	cmd->fd_in = heredoc();
+	if (data->curr_token == DGREAT && file_name)
+		data->curr_fd_out = open(file_name, O_CREAT | O_RDWR | O_APPEND, 0664);
+	
 }
+

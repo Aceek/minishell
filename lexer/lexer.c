@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/18 02:00:39 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/19 02:15:39 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,20 +113,6 @@ int	get_var_len(char *str, int i)
 	return (var_len);
 }
 
-char	*get_var_name(char *str, int pos, int len)
-{
-	char	*var_name;
-	int		i;
-	
-	var_name = malloc(sizeof(char) * (len + 1));
-	if (!var_name)
-		return (NULL);
-	i = 0;
-	while (i < len)
-		var_name[i++] = str[pos++];
-	var_name[i] = 0;
-	return (var_name);
-}
 
 char *get_var_val(char *var_name, int var_len, char **env)
 {
@@ -156,7 +142,7 @@ char *dollar_handler(char *str, int *i, char **env)
 	else
 	{	
 		var_len = get_var_len(str, *i + 1);
-		var_name = get_var_name (str, *i + 1, var_len);
+		var_name = ft_strncpy_from (str, *i + 1, var_len);
 		var_val = get_var_val(var_name, var_len, env);
 		// printf("i AV = %d\n", *i);
 		*i += var_len;

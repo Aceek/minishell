@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/18 00:34:25 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/19 02:15:25 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ typedef struct s_data
 	char            **env;
 	char            *input;
 	int             curr_token;
+	int             curr_fd_in;
+	int             curr_fd_out;
 	int             error;
 	struct s_cmd   *list_cmd;
 }               t_data;
@@ -82,6 +84,7 @@ int	    ft_isspace(int c);
 int	    ft_strncmp(char *s1, char *s2, size_t n);
 char    *ft_strnstr(const char *s1, const char *to_find, size_t n);
 char    *ft_cpy(char *src, int skip);
+char	*ft_strncpy_from(char *str, int pos, int len);
 t_cmd	*ft_get_list_last(t_cmd *list);
 void	ft_list_add_back(t_cmd **list, t_cmd *new);
 void	*ft_memset(void *s, int c, size_t n);

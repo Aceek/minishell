@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/16 02:13:31 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/19 01:38:58 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,21 @@ char    *ft_cpy(char *src, int skip)
     }
     dst[i] = '\0';
     return (dst);
+}
+
+char	*ft_strcpy_from(char *str, int pos, int len)
+{
+	char	*cpy;
+	int		i;
+	
+	cpy = malloc(sizeof(char) * (len + 1));
+	if (!cpy)
+		return (NULL);
+	i = 0;
+	while (i < len)
+		cpy[i++] = str[pos++];
+	cpy[i] = 0;
+	return (cpy);
 }
 
 t_cmd	*ft_get_list_last(t_cmd *list)
