@@ -6,24 +6,24 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 07:12:28 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/18 01:17:35 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/20 01:40:51 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_sort_print_env(t_env *origin)
+void	ft_sort_print_env(t_env *mini)
 {
 	t_env	*cpy;
 	char	*tmp;
 	int		len;
 
-	if (!origin || !origin->line)
+	if (!mini || !mini->line)
 	{
 		printf("error export env\n");
 		return ;
 	}
-	cpy = origin;
+	cpy = mini;
 	while (cpy && cpy->next)
 	{
 		len = ft_strlen(cpy->line) + ft_strlen(cpy->next->line);
@@ -32,12 +32,12 @@ void	ft_sort_print_env(t_env *origin)
 			tmp = cpy->line;
 			cpy->line = cpy->next->line;
 			cpy->next->line = tmp;
-			cpy = origin;
+			cpy = mini;
 		}
 		else
 			cpy = cpy->next;
 	}
-	ft_print_env(origin);
+	ft_print_env(mini, 1);
 }
 
 char	*ft_cpy_env_name(char *args)
@@ -100,7 +100,7 @@ void	ft_add_args_env(t_data *data, t_env *mini, t_env *origin)
 	{
 		error = ft_is_valid_env(data->new_args[i]);
 		if (error < 0)
-			ft_export_error(error, data->new_args[i]);
+			printf("export : not an identifier : %s\n", data->new_args[i]);
 		else if (error > 0)
 			env = ft_is_in_env(mini, data->new_args[i]);
 		if (error > 0 && env == 0)
@@ -109,12 +109,18 @@ void	ft_add_args_env(t_data *data, t_env *mini, t_env *origin)
 	}
 }
 
+
 void	ft_export_builtin(t_data *data, t_env *mini, t_env *origin)
 {
+	t_env *tmp_cpy;
+
+	tmp_cpy = NULL;
+
 	if (!data->new_args[1] && mini)
 	{
-		ft_sort_print_env(mini);
-		return ;
+		tmp_cpy = ft_cpy_env(mini);
+		ft_sort_print_env(tmp_cpy);
+		lst_freeall(tmp_cpy);
 	}
 	else
 		ft_add_args_env(data, mini, origin);

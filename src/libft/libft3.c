@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 04:56:29 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/19 05:11:02 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/20 01:21:58 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ void	lst_freeall(t_env *mini_env)
 		temp = mini_env;
 		mini_env = mini_env->next;
 		if (temp->line)
+		{
 			free(temp->line);
+			temp->line = NULL;
+		}
 		free(temp);
 	}
 }

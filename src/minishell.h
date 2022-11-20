@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 16:47:42 by rben-tkh          #+#    #+#             */
-/*   Updated: 2022/11/19 04:37:49 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/20 01:39:13 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,7 @@ void	ft_builtin(t_data *data, t_env *mini, t_env *origin);
 int		ft_is_valid_env(char *args);
 int		ft_export_error(int error, char *args);
 int		ft_is_in_env(t_env *mini, char *args);
-void	ft_print_env(t_env *origin);
+void	ft_print_env(t_env *origin, int mod);
 void	ft_export_builtin(t_data *data, t_env *mini, t_env *origin);
 void	ft_add_args_env(t_data *data, t_env *mini, t_env *origin);
 void	ft_add_list_env(t_env *mini, char *args);
@@ -246,5 +246,6 @@ void	ft_pwd_builtin(void);
 void	ft_unset_builtin(t_data *data, t_env *mini);
 void	ft_remove_list(t_env *old, t_env *tmp);
 void	ft_cd_builtind(t_data *data, t_env *mini);
+t_env	*ft_cpy_env(t_env *mini);
 
 #endif

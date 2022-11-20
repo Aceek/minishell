@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 07:16:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/19 02:56:08 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/20 01:46:17 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_builtin(t_data *data, t_env *mini, t_env *origin)
 	else if (data->code == UNSET)
 		ft_unset_builtin(data, mini);
 	else if (data->code == ENV)
-		ft_print_env(mini);
+		ft_print_env(mini, 0);
 	else if (data->code == CD)
 		ft_cd_builtind(data, mini);
 	else if (data->code == EXIT)
@@ -56,13 +56,6 @@ int	ft_is_valid_env(char *args)
 	return (1);
 }
 
-int	ft_export_error(int error, char *args)
-{
-	if (error == -1)
-		printf("export : not an identifier : %s\n", args);
-	return (error);
-}
-
 int	ft_is_in_env(t_env *mini, char *args)
 {
 	t_env	*tmp;
@@ -85,7 +78,26 @@ int	ft_is_in_env(t_env *mini, char *args)
 	return (0);
 }
 
-void	ft_print_env(t_env *origin)
+t_env	*ft_cpy_env(t_env *mini)
+{
+	t_env	*tmp;
+	t_env	*cpy;
+
+	tmp = mini;
+	cpy = malloc(sizeof(t_env));
+	if (!cpy)
+		return (NULL);
+	cpy->line = NULL;
+	cpy->next = NULL;
+	while (tmp)
+	{
+		lst_addback(cpy, tmp->line);
+		tmp = tmp->next;
+	}
+	return (cpy);
+}
+
+void	ft_print_env(t_env *origin, int mod)
 {
 	t_env	*tmp;
 
@@ -93,7 +105,11 @@ void	ft_print_env(t_env *origin)
 	while (tmp)
 	{
 		if (tmp->line)
+		{
+			if (mod)
+				printf("declare -x ");
 			printf("%s\n", tmp->line);
+		}
 		tmp = tmp->next;
 	}
 }
