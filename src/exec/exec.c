@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/19 03:31:53 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/20 04:14:00 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_fork(t_env *mini, t_env *origin, t_data *data)
 	{
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
-		wait(NULL);
+		// wait(NULL);
 		close(fd[0]);
 	}
 	else if (pid == 0)
@@ -75,6 +75,8 @@ int	ft_last_child(t_data *data, t_env *mini, t_env *origin)
 	if (!data->code)
 	{
 		pid = fork();
+		if (pid < 0)
+			return (0);
 		if (pid == 0)
 		{
 			if (ft_cmd(data, mini, origin) < 0)
@@ -85,7 +87,7 @@ int	ft_last_child(t_data *data, t_env *mini, t_env *origin)
 			}
 		}
 		else
-			wait(NULL);
+			waitpid(pid , 0, 0);
 	}
 	else
 		ft_cmd(data, mini, origin);
@@ -121,4 +123,6 @@ void	ft_exe(t_env *mini, t_env *origin, t_data *data)
 	dup2(in, STDIN_FILENO);
 	close(in);
 	close(out);
+	while (wait(NULL) > 0)
+		;
 }
