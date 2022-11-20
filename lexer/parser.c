@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/20 05:31:07 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/20 05:36:20 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int	redir_handler(t_data *data, char *str, int *i)
 	char	*arg;
 
 	arg = get_token_arg(data, str, i);
-	printf("arg : %s\n", arg);
 	if (data->curr_token == LESS && arg)
 	{
 		data->curr_fd_in = open(arg, O_RDWR);

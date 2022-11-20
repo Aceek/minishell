@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc.c                                         :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/20 03:15:08 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/20 05:40:07 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,17 @@ void	get_hd_input(t_data *data, char *end)
 		close(data->curr_fd_in);
 		free(input);
 		//exit clean
+		return ;
 	}
 	if (ft_strcmp(input, end))
 	{
 		close(data->curr_fd_in);
 		free(input);
 		//exit clean
+		return ;
 	}
 	input = convert_hd_input(data, input);
+	printf("input: %s\n", input);
 	ft_putstr_fd(input, data->curr_fd_in);
 	ft_putchar_fd('\n', data->curr_fd_in);
 	free(input);
