@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/19 02:15:25 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/20 03:58:52 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,21 @@ typedef struct s_data
 	int             curr_token;
 	int             curr_fd_in;
 	int             curr_fd_out;
+	char			*hd_path;
 	int             error;
 	struct s_cmd   *list_cmd;
 }               t_data;
 
 /*libft*/
 size_t	ft_strlen(const char *str);
+void	ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd(char *s, int fd);
 int	    ft_strchr(const char *str, int c);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_charjoin(char *s1, char c);
 int	    ft_isalnum(int c);
 int	    ft_isspace(int c);
+int	    ft_strcmp(char *s1, char *s2);
 int	    ft_strncmp(char *s1, char *s2, size_t n);
 char    *ft_strnstr(const char *s1, const char *to_find, size_t n);
 char    *ft_cpy(char *src, int skip);
@@ -105,8 +109,13 @@ char    *dollar_handler(char *str, int *i, char **env);
 int		check_built_in(char *str);
 int     add_cmd(t_data *data, char *str);
 char 	*create_buffer(t_data *data);
+int		get_arg_len(char *str, int i);
+int		redir_handler(t_data *data, char *str, int *i);
 void    parse_input(t_data *data);
 
-
+/*here_doc*/
+char	*convert_hd_input(t_data *data, char *input);
+void	get_hd_input(t_data *data, char *end);
+ int	heredoc(t_data *data, char *end);
 
 #endif

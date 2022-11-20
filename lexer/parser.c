@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/19 03:36:05 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/20 05:31:07 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,42 @@ char *create_buffer(t_data *data)
 	return (buffer);
 }
 
+char *get_token_arg(t_data *data, char *str, int *i)
+{
+	char *arg;
+	
+	arg = create_buffer(data);
+	while (ft_isspace(str[*i]))
+		*i += 1;
+	while (ft_isalnum(str[*i]) || str[*i] == '_')
+	{
+		arg = ft_charjoin(arg, str[*i]);
+		*i += 1;
+	}
+	return (arg);
+}
+
+int	redir_handler(t_data *data, char *str, int *i)
+{
+	char	*arg;
+
+	arg = get_token_arg(data, str, i);
+	printf("arg : %s\n", arg);
+	if (data->curr_token == LESS && arg)
+	{
+		data->curr_fd_in = open(arg, O_RDWR);
+		if (data->curr_fd_in == -1)
+			return (1);
+	}
+	if (data->curr_token == GREAT && arg)
+		data->curr_fd_out = open(arg, O_CREAT | O_RDWR | O_TRUNC, 0664);
+	if (data->curr_token == DLESS && arg)
+		data->curr_fd_in = heredoc(data, arg);
+	if (data->curr_token == DGREAT && arg)
+		data->curr_fd_out = open(arg, O_CREAT | O_RDWR | O_APPEND, 0664);
+	return (0);
+}
+
 void	parse_input(t_data *data)
 {
 	int		i;
@@ -89,40 +125,4 @@ void	parse_input(t_data *data)
 	add_cmd(data, buffer);
 }
 
-int	get_file_len(char *str, int i)
-{
-	int var_len;
-	
-	var_len = 0;
-	while ((ft_isalnum(str[i]) || str[i] == '_' || str[i] == '.'))
-	{	
-		var_len += 1;
-		i++;
-	}
-	return (var_len);
-}
-
-
-int	redir_handler(t_data *data, char *str, int *i)
-{
-	int		file_len;
-	char	*file_name;
-
-	file_len = get_file_len(str, *i);
-	file_name = ft_strncpy_from(str, *i ,file_len);
-	*i += file_len;
-	if (data->curr_token == LESS && file_name)
-	{
-		data->curr_fd_in = open(file_name, O_RDWR);
-		if (data->curr_fd_in == -1)
-			return (1);
-	}
-	if (data->curr_token == GREAT && file_name)
-		data->curr_fd_out = open(file_name, O_CREAT | O_RDWR | O_TRUNC, 0664);
-	// if (data->curr_token == DLESS && file_name)
-	// 	cmd->fd_in = heredoc();
-	if (data->curr_token == DGREAT && file_name)
-		data->curr_fd_out = open(file_name, O_CREAT | O_RDWR | O_APPEND, 0664);
-	
-}
 

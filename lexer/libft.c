@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/19 01:38:58 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/20 03:53:25 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,24 @@ size_t	ft_strlen(const char *str)
 	while (str[i])
 		i++;
 	return (i);
+}
+
+void	ft_putchar_fd(char c, int fd)
+{
+	if (fd < 0)
+		return ;
+	write(fd, &c, 1);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
+
+	if (fd < 0 || !s)
+		return ;
+	i = -1;
+	while (s[++i])
+		write(fd, &s[i], 1);
 }
 
 int	ft_strchr(const char *str, int c)
@@ -102,6 +120,18 @@ int	ft_isspace(int c)
 		return (0);
 }
 
+int	ft_strcmp(char *s1, char *s2)
+{
+	size_t	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+			i++;
+	if (i == ft_strlen(s1))
+		return (1);
+	return (0);
+}
+
 int	ft_strncmp(char *s1, char *s2, size_t n)
 {
 	size_t	i;
@@ -161,7 +191,24 @@ char    *ft_cpy(char *src, int skip)
     return (dst);
 }
 
-char	*ft_strcpy_from(char *str, int pos, int len)
+char	*ft_strdup(const char *src)
+{
+	int		i;
+	char	*dup;
+
+	i = 0;
+	while (src[i])
+		i++;
+	dup = (char *)malloc(sizeof(char) * (i + 1));
+	if (!dup)
+		return (0);
+	dup[i] = 0;
+	while (--i)
+		dup[i] = src[i];
+	return (dup);
+}
+
+char	*ft_strncpy_from(char *str, int pos, int len)
 {
 	char	*cpy;
 	int		i;
