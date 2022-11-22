@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/22 04:05:34 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/22 05:35:53 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,21 +74,6 @@ char	*ft_strdup(const char *src)
 	return (dup);
 }
 
-char	*ft_strncpy_from(char *str, int pos, int len)
-{
-	char	*cpy;
-	int		i;
-
-	cpy = malloc(sizeof(char) * (len + 1));
-	if (!cpy)
-		return (NULL);
-	i = 0;
-	while (i < len)
-		cpy[i++] = str[pos++];
-	cpy[i] = 0;
-	return (cpy);
-}
-
 t_cmd	*ft_get_list_last(t_cmd *list)
 {
 	if (!list)
@@ -96,4 +81,17 @@ t_cmd	*ft_get_list_last(t_cmd *list)
 	while (list->next != NULL)
 		list = list->next;
 	return (list);
+}
+
+void	ft_list_add_back(t_cmd **list, t_cmd *new)
+{
+	t_cmd	*back;
+
+	if (!*list)
+	{
+		*list = new;
+		return ;
+	}
+	back = ft_get_list_last(*list);
+	back->next = new;
 }

@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/22 04:17:15 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/22 06:08:09 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,11 @@ int		ft_strncmp(char *s1, char *s2, size_t n);
 char	*ft_strnstr(const char *s1, const char *to_find, size_t n);
 char	*ft_cpy(char *src, int skip);
 char	*ft_strdup(const char *src);
-char	*ft_strncpy_from(char *str, int pos, int len);
 t_cmd	*ft_get_list_last(t_cmd *list);
+void	ft_list_add_back(t_cmd **list, t_cmd *new);
 
 /*libft4*/
-void	ft_list_add_back(t_cmd **list, t_cmd *new);
+void	ft_listclear(t_cmd **list);
 void	*ft_memset(void *s, int c, size_t n);
 
 /*libft5*/
@@ -117,14 +117,14 @@ int		check_built_in(char *str);
 
 /*parser*/
 int		add_cmd(t_data *data, char *str);
-char	*create_buffer(t_data *data);
-void	parse_input(t_data *data);
+char	*create_buffer(void);
+int		parse_input(t_data *data);
 
 /*redir*/
 char	*convert_hd_input(t_data *data, char *input);
 void	get_hd_input(t_data *data, char *end);
 int		heredoc(t_data *data, char *end);
-char	*get_token_arg(t_data *data, char *str, int *i);
+char	*get_token_arg(char *str, int *i);
 int		redir_handler(t_data *data, char *str, int *i);
 
 #endif

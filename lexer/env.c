@@ -6,23 +6,25 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/22 04:07:06 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/22 05:34:35 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-int	get_var_len(char *str, int i)
+char	*get_var_name(char *str, int *i)
 {
-	int	var_len;
+	char	*var;
 
-	var_len = 0;
-	while (ft_isalnum(str[i]) || str[i] == '_')
-	{	
-		var_len += 1;
-		i++;
+	var = create_buffer();
+	if (!var)
+		return (NULL);
+	while (ft_isalnum(str[*i]) || str[*i] == '_')
+	{
+		var = ft_charjoin(var, str[*i]);
+		*i += 1;
 	}
-	return (var_len);
+	return (var);
 }
 
 char	*get_var_val(char *var_name, int var_len, char **env)
@@ -40,21 +42,20 @@ char	*get_var_val(char *var_name, int var_len, char **env)
 
 char	*dollar_handler(char *str, int *i, char **env)
 {
-	int		var_len;
 	char	*var_name;
 	char	*var_val;
 
-	var_len = 0;
-	if (!str[*i + 1])
+	*i += 1;
+	if (!str[*i])
 		return (NULL);
-	// else if (!str[*i + 1] == '?')
+	// else if (!str[*i] == '?')
 		//...Stores the exit value of the last command that was executed
 	else
 	{	
-		var_len = get_var_len(str, *i + 1);
-		var_name = ft_strncpy_from (str, *i + 1, var_len);
-		var_val = get_var_val(var_name, var_len, env);
-		*i += var_len;
+		var_name = get_var_name (str, i);
+		if (!var_name)
+			return (NULL);
+		var_val = get_var_val(var_name, ft_strlen(var_name), env);
 	}	
 	return (var_val);
 }

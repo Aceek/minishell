@@ -6,23 +6,27 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/22 04:01:05 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/22 06:05:59 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-void	ft_list_add_back(t_cmd **list, t_cmd *new)
+void	ft_listclear(t_cmd **list)
 {
-	t_cmd	*back;
+	t_cmd	*tmp_prev;
+	t_cmd	*tmp;
 
-	if (!*list)
-	{
-		*list = new;
+	if (!list)
 		return ;
+	tmp = *list;
+	while (tmp)
+	{
+		tmp_prev = tmp;
+		tmp = tmp_prev->next;
+		free(tmp_prev);
 	}
-	back = ft_get_list_last(*list);
-	back->next = new;
+	*list = NULL;
 }
 
 void	*ft_memset(void *s, int c, size_t n)

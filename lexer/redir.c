@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/22 04:11:18 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/22 05:33:23 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,13 @@ int	heredoc(t_data *data, char *end)
 	return (-1);
 }
 
-char	*get_token_arg(t_data *data, char *str, int *i)
+char	*get_token_arg(char *str, int *i)
 {
 	char	*arg;
 
-	arg = create_buffer(data);
+	arg = create_buffer();
+	if (!arg)
+		return (NULL);
 	while (ft_isspace(str[*i]))
 		*i += 1;
 	while (ft_isalnum(str[*i]) || str[*i] == '_')
@@ -91,7 +93,9 @@ int	redir_handler(t_data *data, char *str, int *i)
 {
 	char	*arg;
 
-	arg = get_token_arg(data, str, i);
+	arg = get_token_arg(str, i);
+	if (!arg)
+		return (1);
 	if (data->curr_token == LESS && arg)
 		data->curr_fd_in = open(arg, O_RDWR);
 	if (data->curr_token == GREAT && arg)

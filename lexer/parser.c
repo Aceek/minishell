@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/22 04:04:04 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/22 05:56:53 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,42 +31,45 @@ int	add_cmd(t_data *data, char *buffer)
 	return (0);
 }
 
-char	*create_buffer(t_data *data)
+char	*create_buffer(void)
 {
 	char	*buffer;
 
 	buffer = malloc(sizeof(char));
 	if (!buffer)
-	{
-		data->error = 1;
 		return (NULL);
-	}
 	buffer[0] = 0;
 	return (buffer);
 }
 
-void	parse_input(t_data *data)
+int	parse_input(t_data *data)
 {
 	int		i;
-	char	*buffer;
+	char	*buf;
 
-	buffer = create_buffer(data);
+	if (check_quote_error(data->input))
+		return (printf("quote error\n"), 1);
+	buf = create_buffer();
+	if (!buf)
+		return (1);
 	i = -1;
 	while (data->input[++i])
 	{
 		data->curr_token = check_token(data->input, &i);
 		if (data->curr_token == PIPE)
 		{
-			add_cmd(data, buffer);
-			buffer = create_buffer(data);
+			add_cmd(data, buf);
+			buf = create_buffer();
+			if (!buf)
+				return (1);
 		}
 		else if (data->curr_token > PIPE)
 			redir_handler(data, data->input, &i);
 		else if (data->input[i] == '$' && check_quote_pos(data->input, i) != 1)
-			buffer = ft_strjoin(buffer,
-					dollar_handler(data->input, &i, data->env));
+			buf = ft_strjoin(buf, dollar_handler(data->input, &i, data->env));
 		else
-			buffer = ft_charjoin(buffer, data->input[i]);
+			buf = ft_charjoin(buf, data->input[i]);
 	}
-	add_cmd(data, buffer);
+	add_cmd(data, buf);
+	return (0);
 }
