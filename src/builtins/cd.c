@@ -111,7 +111,7 @@ void	ft_cd_builtind(t_data *data, t_env *mini)
 	else if (data->new_args[1])
 	{
 		if (data->new_args[1][0] == '~')
-			data->new_args[1] =  ft_handle_tild(data->new_args[1], mini);
+			data->new_args[1] = ft_handle_tild(data->new_args[1], mini);
 		old_pwd = ft_update_pwd(mini, "OLDPWD=", 0);
 		if (chdir(data->new_args[1]) < 0)
 			printf("Path not found\n");

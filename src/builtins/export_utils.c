@@ -34,10 +34,9 @@ void	ft_builtin(t_data *data, t_env *mini, t_env *origin)
 int	ft_is_valid_env(char *args)
 {
 	int		i;
-	// char	*cpy;
 
 	i = 0;
-	if (ft_isdigit(args[0]) || args[0] == '=')
+	if (ft_isdigit(args[0]) || args[0] == '=' || args[0] == '\0')
 		return (-1);
 	while (args && args[i] && args[i] != '=')
 	{
@@ -46,13 +45,7 @@ int	ft_is_valid_env(char *args)
 		i++;
 	}
 	if (args[i] != '=')
-	{
-		// cpy = ft_strdup(args);
-		// free(args);
-		// args = ft_strjoin(cpy, "=");
-		// free(cpy);
 		return (2);
-	}
 	return (1);
 }
 
@@ -100,16 +93,31 @@ t_env	*ft_cpy_env(t_env *mini)
 void	ft_print_env(t_env *origin, int mod)
 {
 	t_env	*tmp;
+	int		i;
+	int		egal;
 
 	tmp = origin;
 	while (tmp)
 	{
-		if (tmp->line)
+		egal = 0;
+		i = -1;
+		if (mod && tmp->line)
 		{
-			if (mod)
-				printf("declare -x ");
-			printf("%s\n", tmp->line);
+			write(1, "declare -x ", 11);
+			while (tmp->line && tmp->line[++i])
+			{
+				if (tmp->line[i] == '=')
+					egal += 1;
+				write(1, &tmp->line[i], 1);
+				if (egal == 1 && tmp->line[i] == '=')
+					write(1, "\"", 1);
+				if (egal && tmp->line[i + 1] == '\0')
+					write(1, "\"", 1);
+			}
+			write(1, "\n", 2);
 		}
+		else if (!mod && tmp->line)
+			printf("%s\n", tmp->line);
 		tmp = tmp->next;
 	}
 }
