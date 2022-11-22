@@ -34,7 +34,7 @@ void	ft_builtin(t_data *data, t_env *mini, t_env *origin)
 int	ft_is_valid_env(char *args)
 {
 	int		i;
-	char	*cpy;
+	// char	*cpy;
 
 	i = 0;
 	if (ft_isdigit(args[0]) || args[0] == '=')
@@ -47,10 +47,10 @@ int	ft_is_valid_env(char *args)
 	}
 	if (args[i] != '=')
 	{
-		cpy = ft_strdup(args);
-		free(args);
-		args = ft_strjoin(cpy, "=");
-		free(cpy);
+		// cpy = ft_strdup(args);
+		// free(args);
+		// args = ft_strjoin(cpy, "=");
+		// free(cpy);
 		return (2);
 	}
 	return (1);

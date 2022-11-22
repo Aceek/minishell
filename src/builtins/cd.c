@@ -32,22 +32,29 @@ char	*ft_get_env_path(char *env_path, t_env *mini)
 	return (NULL);
 }
 
-void	ft_update_pwd(t_env *mini, char *join)
+char	*ft_update_pwd(t_env *mini, char *join, int mod)
 {
 	char	buff[2048];
 	char	*pwd;
 
 	if (getcwd(buff, 2048) == NULL)
-		return ;
+		return (NULL);
 	pwd = ft_strjoin(join, buff);
-	if (!ft_is_in_env(mini, pwd))
-		ft_add_list_env(mini, pwd);
-	free(pwd);
+	if (mod)
+	{
+		if (!ft_is_in_env(mini, pwd))
+			ft_add_list_env(mini, pwd);
+		free(pwd);
+		return (NULL);
+	}
+	else
+		return (pwd);
 }
 
 int	ft_go_path(int location, t_env *mini)
 {
 	char	*path;
+	char	*old_pwd;
 
 	path = NULL;
 	if (!location)
@@ -62,12 +69,13 @@ int	ft_go_path(int location, t_env *mini)
 		if (!path)
 			return (printf("cd : OLDPWD not set\n"), -1);
 	}
-	ft_update_pwd(mini, "OLDPWD=");
+	old_pwd = ft_update_pwd(mini, "OLDPWD=", 0);
 	if (chdir(path) < 0)
 		printf("Path not found\n");
-	ft_update_pwd(mini, "PWD=");
-	free(path);
-	return (0);
+	else if (!ft_is_in_env(mini, old_pwd))
+		ft_add_list_env(mini, old_pwd);
+	ft_update_pwd(mini, "PWD=", 1);
+	return (free(path), free(old_pwd), 0);
 }
 
 char	*ft_handle_tild(char *str, t_env *mini)
@@ -93,6 +101,8 @@ char	*ft_handle_tild(char *str, t_env *mini)
 
 void	ft_cd_builtind(t_data *data, t_env *mini)
 {
+	char	*old_pwd;
+
 	if (!data->new_args[1] || (data->new_args[1][0] == '~'
 		&& data->new_args[1][1] == '\0'))
 		ft_go_path(0, mini);
@@ -101,10 +111,13 @@ void	ft_cd_builtind(t_data *data, t_env *mini)
 	else if (data->new_args[1])
 	{
 		if (data->new_args[1][0] == '~')
-			data->new_args[1] = ft_handle_tild(data->new_args[1], mini);
-		ft_update_pwd(mini, "OLDPWD=");
+			data->new_args[1] =  ft_handle_tild(data->new_args[1], mini);
+		old_pwd = ft_update_pwd(mini, "OLDPWD=", 0);
 		if (chdir(data->new_args[1]) < 0)
 			printf("Path not found\n");
-		ft_update_pwd(mini, "PWD=");
+		else if (!ft_is_in_env(mini, old_pwd))
+			ft_add_list_env(mini, old_pwd);
+		ft_update_pwd(mini, "PWD=", 1);
+		free(old_pwd);
 	}
 }
