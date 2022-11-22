@@ -72,7 +72,7 @@ int	ft_go_path(int location, t_env *mini)
 
 char	*ft_handle_tild(char *str, t_env *mini)
 {
-	char 	*tmp;
+	char	*tmp;
 	char	*path_home;
 
 	path_home = ft_get_env_path("HOME=", mini);
@@ -101,7 +101,7 @@ void	ft_cd_builtind(t_data *data, t_env *mini)
 	else if (data->new_args[1])
 	{
 		if (data->new_args[1][0] == '~')
-			data->new_args[1] =  ft_handle_tild(data->new_args[1], mini);
+			data->new_args[1] = ft_handle_tild(data->new_args[1], mini);
 		ft_update_pwd(mini, "OLDPWD=");
 		if (chdir(data->new_args[1]) < 0)
 			printf("Path not found\n");

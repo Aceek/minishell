@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/20 04:56:51 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/20 05:33:06 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,12 @@ int	ft_cmd(t_data *data, t_env *mini, t_env *origin)
 	char	**env;
 
 	path = NULL;
-	if ((data->new_args[0][0] == '/' || data->new_args[0][0] == '.') && !data->code)
+	if ((data->new_args[0][0] == '/' || data->new_args[0][0] == '.')
+	&& !data->code)
 		path = ft_strdup(data->new_args[0]);
 	else if (!data->code)
 		path = ft_get_path(data->new_args[0], data->env);
-	if ((!path && !data->code))
-		return (-1);
-	if (data->in < 0 || data->out < 0)
+	if ((data->in < 0 || data->out < 0) || (!path && !data->code))
 		return (free(path), -1);
 	if (data->in > STDIN_FILENO)
 		dup2(data->in, STDIN_FILENO);
@@ -54,7 +53,6 @@ int	ft_fork(t_env *mini, t_env *origin, t_data *data)
 	{
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
-		// wait(NULL);
 		close(fd[0]);
 	}
 	else if (pid == 0)
@@ -87,11 +85,21 @@ int	ft_last_child(t_data *data, t_env *mini, t_env *origin)
 			}
 		}
 		else
-			waitpid(pid , 0, 0);
+			waitpid(pid, 0, 0);
 	}
 	else
 		ft_cmd(data, mini, origin);
 	return (0);
+}
+
+void	ft_close_and_reset_exec(t_data *data, int out, int in)
+{
+	ft_clear_data_tab(data, 1);
+	ft_clear_data_tab(data, 0);
+	dup2(out, STDOUT_FILENO);
+	dup2(in, STDIN_FILENO);
+	close(in);
+	close(out);
 }
 
 void	ft_exe(t_env *mini, t_env *origin, t_data *data)
@@ -117,12 +125,7 @@ void	ft_exe(t_env *mini, t_env *origin, t_data *data)
 	}
 	if (ft_last_child(tmp, mini, origin) < 0)
 		ft_exit_clean(mini, origin, data);
-	ft_clear_data_tab(data, 1);
-	ft_clear_data_tab(data, 0);
-	dup2(out, STDOUT_FILENO);
-	dup2(in, STDIN_FILENO);
-	close(in);
-	close(out);
+	ft_close_and_reset_exec(data, out, in);
 	while (wait(NULL) > 0)
 		;
 }

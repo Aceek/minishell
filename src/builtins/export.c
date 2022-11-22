@@ -109,13 +109,11 @@ void	ft_add_args_env(t_data *data, t_env *mini, t_env *origin)
 	}
 }
 
-
 void	ft_export_builtin(t_data *data, t_env *mini, t_env *origin)
 {
-	t_env *tmp_cpy;
+	t_env	*tmp_cpy;
 
 	tmp_cpy = NULL;
-
 	if (!data->new_args[1] && mini)
 	{
 		tmp_cpy = ft_cpy_env(mini);
