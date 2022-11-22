@@ -6,30 +6,11 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/20 05:36:20 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/22 04:04:04 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-
-int	check_built_in(char *str)
-{
-	if (!str)
-		return (NOT_BUILT_IN);
-	if (ft_strncmp(str, "echo", ft_strlen("echo")))
-		return (ECH);
-	if (ft_strncmp(str, "cd", ft_strlen("cd")))
-		return (CD);
-	if (ft_strncmp(str, "export", ft_strlen("export")))
-		return (EXPORT);
-	if (ft_strncmp(str, "unset", ft_strlen("unset")))
-		return (UNSET);
-	if (ft_strncmp(str, "env", ft_strlen("env")))
-		return (ENV);
-	if (ft_strncmp(str, "exit", ft_strlen("exit")))
-		return (EXIT);
-	return (NOT_BUILT_IN);
-}
 
 int	add_cmd(t_data *data, char *buffer)
 {
@@ -50,10 +31,10 @@ int	add_cmd(t_data *data, char *buffer)
 	return (0);
 }
 
-char *create_buffer(t_data *data)
+char	*create_buffer(t_data *data)
 {
-	char *buffer;
-	
+	char	*buffer;
+
 	buffer = malloc(sizeof(char));
 	if (!buffer)
 	{
@@ -64,51 +45,16 @@ char *create_buffer(t_data *data)
 	return (buffer);
 }
 
-char *get_token_arg(t_data *data, char *str, int *i)
-{
-	char *arg;
-	
-	arg = create_buffer(data);
-	while (ft_isspace(str[*i]))
-		*i += 1;
-	while (ft_isalnum(str[*i]) || str[*i] == '_')
-	{
-		arg = ft_charjoin(arg, str[*i]);
-		*i += 1;
-	}
-	return (arg);
-}
-
-int	redir_handler(t_data *data, char *str, int *i)
-{
-	char	*arg;
-
-	arg = get_token_arg(data, str, i);
-	if (data->curr_token == LESS && arg)
-	{
-		data->curr_fd_in = open(arg, O_RDWR);
-		if (data->curr_fd_in == -1)
-			return (1);
-	}
-	if (data->curr_token == GREAT && arg)
-		data->curr_fd_out = open(arg, O_CREAT | O_RDWR | O_TRUNC, 0664);
-	if (data->curr_token == DLESS && arg)
-		data->curr_fd_in = heredoc(data, arg);
-	if (data->curr_token == DGREAT && arg)
-		data->curr_fd_out = open(arg, O_CREAT | O_RDWR | O_APPEND, 0664);
-	return (0);
-}
-
 void	parse_input(t_data *data)
 {
 	int		i;
 	char	*buffer;
-	
+
 	buffer = create_buffer(data);
 	i = -1;
 	while (data->input[++i])
 	{
-		data->curr_token = check_token(data->input, &i);	
+		data->curr_token = check_token(data->input, &i);
 		if (data->curr_token == PIPE)
 		{
 			add_cmd(data, buffer);
@@ -117,11 +63,10 @@ void	parse_input(t_data *data)
 		else if (data->curr_token > PIPE)
 			redir_handler(data, data->input, &i);
 		else if (data->input[i] == '$' && check_quote_pos(data->input, i) != 1)
-			buffer = ft_strjoin(buffer, dollar_handler(data->input, &i, data->env));
+			buffer = ft_strjoin(buffer,
+					dollar_handler(data->input, &i, data->env));
 		else
 			buffer = ft_charjoin(buffer, data->input[i]);
 	}
 	add_cmd(data, buffer);
 }
-
-

@@ -6,17 +6,22 @@
 #    By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/31 15:08:45 by pbeheyt           #+#    #+#              #
-#    Updated: 2022/11/20 03:15:23 by pbeheyt          ###   ########.fr        #
+#    Updated: 2022/11/22 04:01:38 by pbeheyt          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= lexer
 
 SRC		= main.c \
+		env.c \
 		lexer.c \
-		libft.c \
+		libft1.c \
+		libft2.c \
+		libft3.c \
+		libft4.c \
+		libft5.c \
 		parser.c \
-		heredoc.c \
+		redir.c \
 
 HEAD	= -I include
 

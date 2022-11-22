@@ -1,50 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   libft4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/22 03:52:16 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/22 04:01:05 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-static void	print_list_cmd(t_data *data)
+void	ft_list_add_back(t_cmd **list, t_cmd *new)
 {
-	t_cmd	*tmp;
-	int		i;
-	int		j;
+	t_cmd	*back;
 
-	j = 0;
-	tmp = data->list_cmd;
-	while (tmp)
+	if (!*list)
 	{
-		i = -1;
-		printf("cmd %d\n", ++j);
-		printf("built in %d\n", tmp->built_in);
-		while (tmp->tab[++i])
-			printf("tab %d -> %s\n", i, tmp->tab[i]);
-		tmp = tmp->next;
+		*list = new;
+		return ;
 	}
+	back = ft_get_list_last(*list);
+	back->next = new;
 }
 
-int	main(int ac, char **av, char **env)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	t_data	data;
+	size_t			i;
+	unsigned char	*ptr;
 
-	(void)ac;
-	(void)av;
-	ft_memset(&data, 0, sizeof(t_data));
-	data.list_cmd = NULL;
-	data.env = env;
-	while (1)
-	{
-		data.input = readline("mini> ");
-		parse_input(&data);
-		print_list_cmd(&data);
-	}
-	return (0);
+	ptr = (unsigned char *)s;
+	i = 0;
+	while (i < n)
+		ptr[i++] = c;
+	return (s);
 }
