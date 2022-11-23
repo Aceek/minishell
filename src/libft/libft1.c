@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/23 23:40:16 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/23 23:44:47 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 size_t	ft_strlen(const char *str)
 {
-	int	i;
+	int	j;
 
 	if (!str)
 		return (0);
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+	j = 0;
+	while (str[j])
+		j++;
+	return (j);
 }
 
 void	ft_putchar_fd(char c, int fd)
