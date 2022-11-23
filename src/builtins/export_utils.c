@@ -6,16 +6,16 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 07:16:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/23 01:52:04 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/23 05:22:04 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_builtin(t_cmd *cmd, t_env *mini, t_env *origin)
+void	ft_builtin(t_cmd *cmd, t_env *mini)
 {
 	if (cmd->builtin == EXPORT)
-		ft_export_builtin(cmd, mini, origin);
+		ft_export_builtin(cmd, mini);
 	else if (cmd->builtin == ECH)
 		ft_echo_builtin(cmd);
 	else if (cmd->builtin == PWD)
@@ -27,7 +27,7 @@ void	ft_builtin(t_cmd *cmd, t_env *mini, t_env *origin)
 	else if (cmd->builtin == CD)
 		ft_cd_builtind(cmd, mini);
 	else if (cmd->builtin == EXIT)
-		ft_exit_clean(mini, origin, cmd);
+		ft_exit_clean(mini, cmd);
 	return ;
 }
 
@@ -90,13 +90,13 @@ t_env	*ft_cpy_env(t_env *mini)
 	return (cpy);
 }
 
-void	ft_print_env(t_env *origin, int mod)
+void	ft_print_env(t_env *mini, int mod)
 {
 	t_env	*tmp;
 	int		i;
 	int		egal;
 
-	tmp = origin;
+	tmp = mini;
 	while (tmp)
 	{
 		egal = 0;

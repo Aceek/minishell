@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 07:12:28 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/23 03:16:26 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/23 05:12:10 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,12 @@ void	ft_add_list_env(t_env *mini, char *args)
 	tmp->next = new;
 }
 
-void	ft_add_args_env(t_cmd *cmd, t_env *mini, t_env *origin)
+void	ft_add_args_env(t_cmd *cmd, t_env *mini)
 {
 	int	env;
 	int	error;
 	int	i;
 
-	(void)origin;
 	env = 0;
 	i = 1;
 	while (cmd->tab && cmd->tab[i])
@@ -109,7 +108,7 @@ void	ft_add_args_env(t_cmd *cmd, t_env *mini, t_env *origin)
 	}
 }
 
-void	ft_export_builtin(t_cmd *cmd, t_env *mini, t_env *origin)
+void	ft_export_builtin(t_cmd *cmd, t_env *mini)
 {
 	t_env	*tmp_cpy;
 
@@ -121,6 +120,6 @@ void	ft_export_builtin(t_cmd *cmd, t_env *mini, t_env *origin)
 		// lst_freeall(tmp_cpy); // a remplacer
 	}
 	else
-		ft_add_args_env(cmd, mini, origin);
+		ft_add_args_env(cmd, mini);
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/23 04:14:15 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/23 05:07:18 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,15 @@ t_env	*ft_create_env(char **env)
 {
 	int		i;
 	t_env	*mini;
-	(void)env;
 
-	i = 0;
-
+	i = -1;
 	mini = malloc(sizeof(t_env));
 	if (!mini)  // si le malloc plante il faut stop le programme sinon segfault
 		return (NULL);
 	mini->next = NULL;
 	mini->line = NULL;
+	while (env && env[++i])
+		lst_addback(mini, env[i]);
 	return (mini);
 }
 
@@ -71,13 +71,13 @@ int	main(int ac, char **av, char **env)
 {
 	t_data	data;
 	t_env	*mini;
-	t_env	*origin;
 
 	ft_memset(&data, 0, sizeof(t_data));
 	data.env = env;
 	data.curr_fd_out = 1;
-	origin = ft_create_env(env);
 	mini = ft_create_env(env);
+	if (!mini)
+		exit (1);
 	while (ac > 0 && av[0])
 	{
 		data.input = readline("mini> ");
@@ -91,10 +91,8 @@ int	main(int ac, char **av, char **env)
 		{
 			add_history(data.input);
 			parse_input(&data);
-			if (!mini)
-				exit (1);
 			// print_list_cmd(&data); // provisoire
-			ft_exe(mini, origin, data.head_cmd);
+			ft_exe(mini, data.head_cmd);
 			ft_listclear(&data.head_cmd);
 			free(data.input);
 		}
