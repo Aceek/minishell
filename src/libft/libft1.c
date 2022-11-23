@@ -6,11 +6,19 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/23 05:02:17 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/23 23:18:02 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int		ft_strlol(char *str)
+{
+	int i = 0;
+	if (i == 0 && str)
+		return (i);
+	return (0);
+}
 
 size_t	ft_strlen(const char *str)
 {
