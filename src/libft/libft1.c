@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   libft1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/23 23:40:16 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/23 23:47:06 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-size_t	ft_strlen(const char *str)
+size_t	ft_strlen(const char *str_test)
 {
 	int	i;
 
-	if (!str)
+	if (!str_test)
 		return (0);
 	i = 0;
-	while (str[i])
+	while (str_test[i])
 		i++;
 	return (i);
 }
