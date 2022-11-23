@@ -6,22 +6,22 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/23 23:47:06 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/23 23:56:45 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-size_t	ft_strlen(const char *str_test)
+size_t	ft_strlen(const char *str)
 {
-	int	i;
+	int	j;
 
-	if (!str_test)
+	if (!str)
 		return (0);
-	i = 0;
-	while (str_test[i])
-		i++;
-	return (i);
+	j = 0;
+	while (str[j])
+		j++;
+	return (j);
 }
 
 void	ft_putchar_fd(char c, int fd)
