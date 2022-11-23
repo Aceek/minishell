@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/23 05:07:18 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/23 05:29:13 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,5 @@ int	main(int ac, char **av, char **env)
 			free(data.input);
 		}
 	}
-	return (0); //return clear 2 list t_env mini + t_env origin
+	return (lst_freeall(mini), 0); //return clear 2 list t_env mini + t_env origin
 }

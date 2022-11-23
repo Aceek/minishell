@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/23 05:12:43 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/23 05:28:35 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,5 +168,6 @@ void	ft_cd_builtind(t_cmd *cmd, t_env *mini);
 t_env	*ft_cpy_env(t_env *mini);
 int		lst_addback(t_env *mini_env, char *env);
 int		ft_isalnun_tmp(char c);
+void	lst_freeall(t_env *mini_env);
 
 #endif

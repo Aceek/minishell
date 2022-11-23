@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:42:35 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/23 05:10:55 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/23 05:29:46 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,11 @@ void	ft_exit_clean(t_env *mini, t_cmd *cmd)
 {
 	ft_clear_data_tab(cmd, 1);
 	ft_clear_data_tab(cmd, 0);
-	(void)mini;
-	// lst_freeall(mini); // a remplacer par ta prorpre function
+	lst_freeall(mini);
 	// ft_free(0, &cmd);
 	rl_clear_history();
 	exit(1);
 }
-
-// void	free_tab(char **av)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (av && av[i] != NULL)
-// 	{
-// 		if (av[i])
-// 			free(av[i]);
-// 		i++;
-// 	}
-// 	if (av)
-// 		free(av);
-// }
 
 char	*ft_make_path(char *dir, char *cmd)
 {
