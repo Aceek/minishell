@@ -5,16 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/16 16:47:42 by rben-tkh          #+#    #+#             */
-/*   Updated: 2022/11/20 01:39:13 by ilinhard         ###   ########.fr       */
+/*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
+/*   Updated: 2022/11/23 04:01:10 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# define SET "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
-
-/*--------------------------------------LIBS---------------------------------*/
+#ifndef LEXER_H
+# define LEXER_H
 
 # include <stdio.h>
 # include <readline/readline.h>
@@ -32,38 +29,29 @@
 # include <dirent.h>
 # include <string.h>
 # include <termios.h>
+# include <stdbool.h>
 
-/*-------------------------------------GLOBALE--------------------------------*/
-
-extern int	g_ecode;
-
-/*-------------------------------------S_INPUT--------------------------------*/
-
-typedef struct s_input
+enum e_token
 {
-	char	*s1;
-	char	*s2;
-}	t_input;
+	NOT_TOKEN,
+	PIPE,
+	LESS,
+	GREAT,
+	DLESS,
+	DGREAT,
+};
 
-/*-------------------------------------E_CODES--------------------------------*/
-
-typedef enum e_codes
+enum e_built_in
 {
-	ECH = 1,
-	CD = 2,
-	PWD = 3,
-	EXPORT = 4,
-	UNSET = 5,
-	ENV = 6,
-	EXIT = 7,
-	PIPE = 8,
-	IN = 9,
-	OUT = 10,
-	DBIN = 11,
-	DBOUT = 12,
-}	t_codes;
-
-/*-------------------------------------S_ENV---------------------------------*/
+	NOT_BUILT_IN,
+	ECH,
+	PWD,
+	CD,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT,
+};
 
 typedef struct s_env
 {
@@ -71,181 +59,114 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-/*-------------------------------------S_DATA--------------------------------*/
+typedef struct s_cmd
+{
+	char			**tab; // data->new_args
+	char			**env; // Il faut que tu init chaque elem de la list
+	int				fd_in;
+	int				fd_out;
+	int				builtin; // data->code
+	struct s_cmd	*head_cmd; // transofemer en head_cmd
+	struct s_cmd	*next;
+}					t_cmd;
 
 typedef struct s_data
 {
-	int				code;
-	char			*cmd;
-	char			**args;
 	char			**env;
-	char			**new_args;
-	int				in;
-	int				out;
-	int				a;
-	int				b;
-	int				exit;
-	char			*path;
-	struct s_data	*next;
-	struct s_data	*prev;
-}	t_data;
+	char			*input;
+	int				curr_token;
+	int				curr_fd_in;
+	int				curr_fd_out;
+	char			*hd_path;
+	int				error;
+	struct s_cmd	*head_cmd;
+}					t_data;
 
-/*----------------------------------BUILTINS_UTILS---------------------------*/
-
-void	shlvl(t_env *mini);
-void	relou_remp(t_env *origin, char *str, int i, char *tmp);
-int		export_remp(int i, char *str, t_env *mini_env, t_env *origin);
-int		export_remp2(int i, char *str, t_env *origin);
-int		ft_atoi(char *str, int *e);
-
-/*-------------------------------------BUILTINS------------------------------*/
-
-int		cmd_parse(t_data *data, t_env *mini, t_env *origin);
-
-/*----------------------------------------CD---------------------------------*/
-
-int		pre_cd(t_data *data, t_env *mini, t_env *origin);
-
-/*---------------------------------------ECHO--------------------------------*/
-
-char	*ft_strjoiny(char *s1, char *s2);
-char	*rev_strjoiny(char *s1, char *s2);
-char	*ft_strdupy(char *s);
-void	ft_echo(char *str);
-void	echo_remp(char *str, int opt, int i);
-
-/*---------------------------------------ENV---------------------------------*/
-
-void	ft_exit(t_data *data, t_env *mini, t_env *origin, char **args);
-// t_env	*ft_env(char **env);
-void	ft_printenv(t_env *mini_env);
-void	ft_pwd(void);
-
-/*--------------------------------------EXPORT-------------------------------*/
-
-void	lst_sort(t_env *origin);
-void	lst_export(t_env *origin);
-int		lst_exportarg(t_env *mini_env, t_env *origin, char *str);
-
-/*-------------------------------------INIT_ENV------------------------------*/
-
-void	lst_modone(t_env *mini_env, char *str, char *new);
-void	lst_freeall(t_env *mini_env);
-void	lst_delone(t_env *mini_env, char *env);
-int		lst_addback(t_env *mini_env, char *env);
-char	**ft_envp(t_env *mini);
-
-/*---------------------------------------CMD---------------------------------*/
-
-void	exec_loop(t_env *mini, t_env *origin, t_data *data);
-
-/*------------------------------------EXEC_UTILS-----------------------------*/
-
-char	**ft_parse(char **envp);
-void	exe_remp(char **o, char **envp);
-void	clean_dup(int out, int in);
-void	pipex_remp(int *fd, t_data *tmp);
-
-/*-------------------------------------FT_SPLIT------------------------------*/
-
-int		ft_strlen(char *str);
-char	**ft_split(const char *s, char c);
-
-/*-------------------------------------FT_SPLITY-----------------------------*/
-
-char	**ft_splity(const char *s, char c);
-char	**fuse(char *cmd, char **args);
-
-/*-------------------------------------GET_INPUT-----------------------------*/
-
-int		get_promptlen(char *str, t_env *env, int val);
-void	get_dollar(t_input *input, t_env *env, int *i, int *j);
-int		get_input(t_input *input, t_env *env, int i, int j);
-
-/*-------------------------------------IS_UTILS------------------------------*/
-
-int		is_inquotes(char *str, int pos);
-int		is_token(char *str, int i);
-char	*is_dollar(char *str, int i);
-char	*is_content(char *line);
-int		is_ecode(void);
-
-/*------------------------------------SPLIT_INPUT----------------------------*/
-
-char	**split_input(char *str);
-void	ft_free(char **dest, t_data **data);
-
-/*---------------------------------------DATA--------------------------------*/
-
-t_data	*data_create(char *prompt);
-void	data_delelem(t_data **data, int i, int j);
-void	data_init(t_data *data, t_env *env, t_env *origin);
-
-/*-------------------------------------INIT_DATA-----------------------------*/
-
-void	init_redi(t_data *redi, t_env *env, t_env *origin);
-void	init_args(t_data *data);
-void	init_cmdset(t_data **data, t_env *env, t_env *origin);
-
-/*------------------------------------PARSE_UTILS----------------------------*/
-
-void	utils_irdouky(t_data *redi, t_env *env, t_env *origin, char *s1);
-char	*utils_irdouk(char *str, t_env *env, int i, int j);
-void	utils_deltmp(t_data *data, t_data **tmp, t_data **head);
-void	utils_next(t_data **data, t_data **head);
-
-/*--------------------------------------PARSING------------------------------*/
-
-int		check_quotes(char *str);
-t_codes	check_code(char *str);
-char	*check_dollar(t_env *env, char *str, int i);
-t_data	*check_errors(t_input *input, t_env *env);
-
-/*--------------------------------------LIBFT--------------------------------*/
-
-char	*ft_strchr(const char *s, int c);
-int		ft_strcmp(char *s1, char *s2);
-int		ft_strncmp(char *s1, char *s2, int n);
-char	*ft_strdup(char *s);
+/*libft1*/
+size_t	ft_strlen(const char *str);
+void	ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd(char *s, int fd);
+int		ft_strchr(const char *str, int c);
 char	*ft_strjoin(char *s1, char *s2);
 
-/*--------------------------------------SIGNAL-------------------------------*/
+/*libft2*/
+char	*ft_charjoin(char *s1, char c);
+int		ft_isalnum(int c);
+int		ft_isspace(int c);
+int		ft_strcmp(char *s1, char *s2);
+int		ft_strncmp(char *s1, char *s2, int n);
 
-void	signal_int(int unused);
-void	signal_quit(int unused);
-void	signal_irdouk(char *str);
+/*libft3*/
+char	*ft_strnstr(const char *s1, const char *to_find, size_t n);
+char	*ft_cpy(char *src, int skip);
+char	*ft_strdup(char *s);
+t_cmd	*ft_get_list_last(t_cmd *list);
+void	ft_list_add_back(t_cmd **list, t_cmd *new);
+
+/*libft4*/
+void	ft_listclear(t_cmd **list);
+void	*ft_memset(void *s, int c, size_t n);
+
+/*libft5*/
+char	**ft_split(char *s);
+
+/*env*/
+int		get_var_len(char *str, int i);
+char	*get_var_val(char *var_name, int var_len, char **env);
+char	*dollar_handler(char *str, int *i, char **env);
+
+/*lexer*/
+void	update_quote(bool *quote);
+int		check_quote_error(char *str);
+int		check_quote_pos(char *str, int pos);
+int		check_token(char *str, int *i);
+int		check_built_in(char *str);
+
+/*parser*/
+int		add_cmd(t_data *data, char *str);
+char	*create_buffer(void);
+int		parse_input(t_data *data);
+
+/*redir*/
+char	*convert_hd_input(t_data *data, char *input);
+void	get_hd_input(t_data *data, char *end);
+int		heredoc(t_data *data, char *end);
+char	*get_token_arg(char *str, int *i);
+int		redir_handler(t_data *data, char *str, int *i);
 
 /*---------------------------------------NEW---------------------------------*/
+int	ft_cmd(t_cmd *cmd, t_env *mini, t_env *origin);
 void	free_tab(char **av);
 char	*ft_make_path(char *dir, char *cmd);
 char	*ft_get_path(char *cmd, char **env);
 char	*ft_strnstr(const char *s1, const char *to_find, size_t n);
 int		ft_error(int error);
 char	**ft_split2(char const *s, char c);
-void	ft_clear_data_tab(t_data *data, int bool);
-void	ft_clear_tab(char **tab);
-void	ft_exe(t_env *mini, t_env *origin, t_data *data);
+void	ft_clear_data_tab(t_cmd *cmd, int booll);
+void	ft_exe(t_env *mini, t_env *origin, t_cmd *cmd);
 int		ft_isalnun(char c);
 int		ft_isdigit(char c);
 char 	**ft_make_tab_from_env(t_env *mini);
-void	ft_exit_clean(t_env *mini, t_env *origin, t_data *data);
+void	ft_exit_clean(t_env *mini, t_env *origin, t_cmd *cmd);
 int		ft_lst_count(t_env *env);
 char	*ft_cpy(char *src, int skip);
-void	ft_builtin(t_data *data, t_env *mini, t_env *origin);
+void	ft_builtin(t_cmd *cmd, t_env *mini, t_env *origin);
 int		ft_is_valid_env(char *args);
 int		ft_export_error(int error, char *args);
 int		ft_is_in_env(t_env *mini, char *args);
 void	ft_print_env(t_env *origin, int mod);
-void	ft_export_builtin(t_data *data, t_env *mini, t_env *origin);
-void	ft_add_args_env(t_data *data, t_env *mini, t_env *origin);
+void	ft_export_builtin(t_cmd *cmd, t_env *mini, t_env *origin);
+void	ft_add_args_env(t_cmd *cmd, t_env *mini, t_env *origin);
 void	ft_add_list_env(t_env *mini, char *args);
 char	*ft_cpy_env_name(char *args);
 void	ft_sort_print_env(t_env *origin);
-void	ft_echo_builtin(t_data *data);
+void	ft_echo_builtin(t_cmd *cmd);
 void	ft_pwd_builtin(void);
-void	ft_unset_builtin(t_data *data, t_env *mini);
+void	ft_unset_builtin(t_cmd *cmd, t_env *mini);
 void	ft_remove_list(t_env *old, t_env *tmp);
-void	ft_cd_builtind(t_data *data, t_env *mini);
+void	ft_cd_builtind(t_cmd *cmd, t_env *mini);
 t_env	*ft_cpy_env(t_env *mini);
+int		lst_addback(t_env *mini_env, char *env);
+int		ft_isalnun_tmp(char c);
 
 #endif

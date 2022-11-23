@@ -4,13 +4,13 @@ FLAGS			=	-Wall -Wextra -Werror
 
 DIR_SRC			=	src
 DIR_OBJ			=	obj
-SUB_OBJ			=	obj/builtins obj/exec obj/lexer obj/parser obj/libft
+SUB_OBJ			=	obj/parser obj/libft obj/builtins obj/exec
 
-SRC				=	lexer/get_input.c lexer/is_utils.c lexer/split_input.c \
-					parser/data.c parser/init_data.c parser/parse_utils.c parser/parsing.c \
-					libft/libft.c libft/libft2.c minishell.c libft/libft3.c \
+SRC				=	parser/env.c parser/lexer.c parser/parser.c parser/redir.c \
+					libft/libft1.c libft/libft2.c libft/libft3.c libft/libft4.c libft/libft5.c minishell.c \
 					exec/exec.c exec/utils.c exec/ft_split.c \
-					builtins/export.c builtins/export_utils.c builtins/echo.c builtins/pwd.c builtins/unset.c builtins/cd.c
+					builtins/export.c builtins/export_utils.c builtins/echo.c builtins/pwd.c builtins/unset.c builtins/cd.c \
+
 
 
 OBJ				=	$(SRC:%.c=$(DIR_OBJ)/%.o)

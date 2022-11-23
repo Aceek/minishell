@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 04:29:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/20 01:47:05 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/23 01:50:24 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,21 +99,21 @@ char	*ft_handle_tild(char *str, t_env *mini)
 	return (str);
 }
 
-void	ft_cd_builtind(t_data *data, t_env *mini)
+void	ft_cd_builtind(t_cmd *cmd, t_env *mini)
 {
 	char	*old_pwd;
 
-	if (!data->new_args[1] || (data->new_args[1][0] == '~'
-		&& data->new_args[1][1] == '\0'))
+	if (!cmd->tab[1] || (cmd->tab[1][0] == '~'
+		&& cmd->tab[1][1] == '\0'))
 		ft_go_path(0, mini);
-	else if (data->new_args[1] && !ft_strncmp(data->new_args[1], "-", 1))
+	else if (cmd->tab[1] && !ft_strncmp(cmd->tab[1], "-", 1))
 		ft_go_path(1, mini);
-	else if (data->new_args[1])
+	else if (cmd->tab[1])
 	{
-		if (data->new_args[1][0] == '~')
-			data->new_args[1] = ft_handle_tild(data->new_args[1], mini);
+		if (cmd->tab[1][0] == '~')
+			cmd->tab[1] = ft_handle_tild(cmd->tab[1], mini);
 		old_pwd = ft_update_pwd(mini, "OLDPWD=", 0);
-		if (chdir(data->new_args[1]) < 0)
+		if (chdir(cmd->tab[1]) < 0)
 			printf("Path not found\n");
 		else if (!ft_is_in_env(mini, old_pwd))
 			ft_add_list_env(mini, old_pwd);

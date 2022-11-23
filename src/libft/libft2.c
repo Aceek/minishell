@@ -5,91 +5,74 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/05 03:20:05 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/19 05:09:24 by ilinhard         ###   ########.fr       */
+/*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
+/*   Updated: 2022/11/23 01:11:50 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_isdigit(char c)
+char	*ft_charjoin(char *s1, char c)
 {
-	if (c >= 48 && c <= 57)
-		return (1);
-	return (0);
-}
-
-int	ft_isalnun(char c)
-{
-	if (c >= '0' && c <= '9')
-		return (1);
-	else if (c >= 'A' && c <= 'Z')
-		return (1);
-	else if (c >= 'a' && c <= 'z')
-		return (1);
-	else if (c == '_')
-		return (1);
-	return (0);
-}
-
-char	*ft_strnstr(const char *s1, const char *to_find, size_t n)
-{
+	char	*str;
+	size_t	size;
 	size_t	i;
 	size_t	j;
 
-	i = 0;
-	if (*to_find == '\0' || to_find == NULL)
-		return ((char *)s1);
-	while (s1[i] && i < n)
-	{
-		j = 0;
-		while (s1[i + j] == to_find[j] && j + i < n)
-		{
-			j++;
-			if (to_find[j] == '\0')
-				return ((char *)&s1[i]);
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-int	ft_lst_count(t_env *env)
-{
-	t_env	*tmp;
-	int		i;
-
-	if (!env)
-		return (0);
-	tmp = env;
-	i = 0;
-	while (tmp)
-	{
-		tmp = tmp->next;
-		i++;
-	}
-	return (i);
-}
-
-char	*ft_cpy(char *src, int skip)
-{
-	int		i;
-	int		max_len;
-	char	*dst;
-
-	i = 0;
-	while (src[i])
-		i++;
-	max_len = i - skip;
-	dst = malloc(sizeof(char) * (i - skip + 1));
-	if (!dst)
+	if (!s1)
+		return (NULL);
+	size = ft_strlen(s1) + 1;
+	str = malloc(sizeof(char) * (size + 1));
+	if (!str)
 		return (NULL);
 	i = 0;
-	while (src && src[i] && i < max_len)
-	{
-		dst[i] = src[i + skip];
-		i++;
-	}
-	dst[i] = '\0';
-	return (dst);
+	j = 0;
+	while (s1 && s1[j])
+		str[i++] = s1[j++];
+	str[i++] = c;
+	str[i] = 0;
+	return (str);
 }
+
+int	ft_isalnum(int c)
+{
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')
+		|| (c >= '0' && c <= '9'))
+		return (1);
+	else
+		return (0);
+}
+
+int	ft_isspace(int c)
+{
+	if ((c >= 9 && c <= 13) || c == 32)
+		return (1);
+	else
+		return (0);
+}
+
+// int	ft_strcmp(char *s1, char *s2)
+// {
+// 	size_t	i;
+
+// 	i = 0;
+// 	while (s1[i] && s2[i] && s1[i] == s2[i])
+// 			i++;
+// 	if (i == ft_strlen(s1))
+// 		return (1);
+// 	return (0);
+// }
+
+// int	ft_strncmp(char *s1, char *s2, size_t n)
+// {
+// 	size_t	i;
+
+// 	if (!n)
+// 		return (0);
+// 	i = 0;
+// 	while (s1[i] && s2[i] && s1[i] == s2[i] && i < n)
+// 			i++;
+// 	if (i == n)
+// 		return (1);
+// 	return (0);
+// }

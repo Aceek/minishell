@@ -6,28 +6,28 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 07:16:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/20 01:46:17 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/23 01:52:04 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_builtin(t_data *data, t_env *mini, t_env *origin)
+void	ft_builtin(t_cmd *cmd, t_env *mini, t_env *origin)
 {
-	if (data->code == EXPORT)
-		ft_export_builtin(data, mini, origin);
-	else if (data->code == ECH)
-		ft_echo_builtin(data);
-	else if (data->code == PWD)
+	if (cmd->builtin == EXPORT)
+		ft_export_builtin(cmd, mini, origin);
+	else if (cmd->builtin == ECH)
+		ft_echo_builtin(cmd);
+	else if (cmd->builtin == PWD)
 		ft_pwd_builtin();
-	else if (data->code == UNSET)
-		ft_unset_builtin(data, mini);
-	else if (data->code == ENV)
+	else if (cmd->builtin == UNSET)
+		ft_unset_builtin(cmd, mini);
+	else if (cmd->builtin == ENV)
 		ft_print_env(mini, 0);
-	else if (data->code == CD)
-		ft_cd_builtind(data, mini);
-	else if (data->code == EXIT)
-		ft_exit_clean(mini, origin, data);
+	else if (cmd->builtin == CD)
+		ft_cd_builtind(cmd, mini);
+	else if (cmd->builtin == EXIT)
+		ft_exit_clean(mini, origin, cmd);
 	return ;
 }
 
@@ -40,7 +40,7 @@ int	ft_is_valid_env(char *args)
 		return (-1);
 	while (args && args[i] && args[i] != '=')
 	{
-		if (ft_isalnun(args[i]) == 0)
+		if (ft_isalnun_tmp(args[i]) == 0)
 			return (-1);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 07:12:28 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/20 01:40:51 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/23 03:16:26 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	ft_add_list_env(t_env *mini, char *args)
 	tmp->next = new;
 }
 
-void	ft_add_args_env(t_data *data, t_env *mini, t_env *origin)
+void	ft_add_args_env(t_cmd *cmd, t_env *mini, t_env *origin)
 {
 	int	env;
 	int	error;
@@ -96,31 +96,31 @@ void	ft_add_args_env(t_data *data, t_env *mini, t_env *origin)
 	(void)origin;
 	env = 0;
 	i = 1;
-	while (data->new_args && data->new_args[i])
+	while (cmd->tab && cmd->tab[i])
 	{
-		error = ft_is_valid_env(data->new_args[i]);
+		error = ft_is_valid_env(cmd->tab[i]);
 		if (error < 0)
-			printf("export : not an identifier : %s\n", data->new_args[i]);
+			printf("export : not an identifier : %s\n", cmd->tab[i]);
 		else if (error > 0)
-			env = ft_is_in_env(mini, data->new_args[i]);
+			env = ft_is_in_env(mini, cmd->tab[i]);
 		if (error > 0 && env == 0)
-			ft_add_list_env(mini, data->new_args[i]);
+			ft_add_list_env(mini, cmd->tab[i]);
 		i++;
 	}
 }
 
-void	ft_export_builtin(t_data *data, t_env *mini, t_env *origin)
+void	ft_export_builtin(t_cmd *cmd, t_env *mini, t_env *origin)
 {
 	t_env	*tmp_cpy;
 
 	tmp_cpy = NULL;
-	if (!data->new_args[1] && mini)
+	if (!cmd->tab[1] && mini)
 	{
 		tmp_cpy = ft_cpy_env(mini);
 		ft_sort_print_env(tmp_cpy);
-		lst_freeall(tmp_cpy);
+		// lst_freeall(tmp_cpy); // a remplacer
 	}
 	else
-		ft_add_args_env(data, mini, origin);
+		ft_add_args_env(cmd, mini, origin);
 	return ;
 }

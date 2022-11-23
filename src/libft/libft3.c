@@ -5,88 +5,100 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/19 04:56:29 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/20 01:21:58 by ilinhard         ###   ########.fr       */
+/*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
+/*   Updated: 2022/11/23 01:13:01 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	lst_addback(t_env *mini_env, char *env)
+char	*ft_strnstr(const char *s1, const char *to_find, size_t n)
 {
-	t_env	*temp;
-	t_env	*env_clone;
-
-	env_clone = mini_env;
-	if (!env_clone->line)
-		return (env_clone->line = ft_strdup(env), 1);
-	temp = malloc(sizeof(t_env));
-	if (!temp)
-		return (0);
-	temp->line = ft_strdup(env);
-	temp->next = NULL;
-	if (!temp->line)
-		return (free(temp), 0);
-	while (env_clone->next)
-		env_clone = env_clone->next;
-	env_clone->next = temp;
-	return (1);
-}
-
-int	ft_strlen(char *str)
-{
-	int	i;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
-	if (!str)
-		return (0);
-	while (str && str[i])
-		i++;
-	return (i);
-}
-
-int	ft_atoi(char *str, int *e)
-{
-	long	p;
-	int		m;
-	int		i;
-
-	i = 0;
-	p = 0;
-	m = 1;
-	if (!str)
-		return (0);
-	while ((str[i] <= 13 && str[i] >= 9) || str[i] == ' ')
-		i++;
-	if (str[i] == '+' || str[i] == '-')
+	if (*to_find == '\0' || to_find == NULL)
+		return ((char *)s1);
+	while (s1[i] && i < n)
 	{
-		if (str[i] == '-')
-			m = -m;
-		i++;
-	}
-	while (str[i] <= '9' && str[i] >= '0')
-	{
-		p = p * 10;
-		p = p + (str[i] - 48);
-		i++;
-	}
-	*e = i;
-	return (p * m);
-}
-
-void	lst_freeall(t_env *mini_env)
-{
-	t_env	*temp;
-
-	while (mini_env)
-	{
-		temp = mini_env;
-		mini_env = mini_env->next;
-		if (temp->line)
+		j = 0;
+		while (s1[i + j] == to_find[j] && j + i < n)
 		{
-			free(temp->line);
-			temp->line = NULL;
+			j++;
+			if (to_find[j] == '\0')
+				return ((char *)&s1[i]);
 		}
-		free(temp);
+		i++;
 	}
+	return (NULL);
+}
+
+char	*ft_cpy(char *src, int skip)
+{
+	int		i;
+	int		max_len;
+	char	*dst;
+
+	i = 0;
+	while (src[i])
+		i++;
+	max_len = i - skip;
+	dst = malloc(sizeof(char) * (i - skip + 1));
+	if (!dst)
+		return (NULL);
+	i = 0;
+	while (src && src[i] && i < max_len)
+	{
+		dst[i] = src[i + skip];
+		i++;
+	}
+	dst[i] = '\0';
+	return (dst);
+}
+
+char	*ft_strdup(char *s)
+{
+	int		i;
+	int		y;
+	char	*dest;
+
+	if (!s)
+		return (0);
+	i = 0;
+	y = 0;
+	while (s[y] != '\0')
+		y++;
+	dest = malloc(sizeof(char) * (y + 1));
+	if (!dest)
+		return (0);
+	while (s[i])
+	{
+		dest[i] = s[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+t_cmd	*ft_get_list_last(t_cmd *list)
+{
+	if (!list)
+		return (NULL);
+	while (list->next != NULL)
+		list = list->next;
+	return (list);
+}
+
+void	ft_list_add_back(t_cmd **list, t_cmd *new)
+{
+	t_cmd	*back;
+
+	if (!*list)
+	{
+		*list = new;
+		return ;
+	}
+	back = ft_get_list_last(*list);
+	back->next = new;
 }

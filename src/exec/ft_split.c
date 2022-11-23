@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 19:39:35 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/10/28 04:17:17 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/23 01:48:15 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,11 @@ void	ft_add_to_tab(char **tab, const char *s, char c)
 			while (ft_charset(s[i + j], c) == 0)
 				j++;
 			tab[words] = malloc(sizeof(char) * (j + 1));
+			if (!tab[words])
+			{
+				free_tab(tab);
+				return ;
+			}
 			ft_add_words(tab[words], &s[i], c);
 			i = j + i;
 			words++;
@@ -81,6 +86,11 @@ char	**ft_split2(char const *s, char c)
 	words = 0;
 	words = ft_count_words(s, c);
 	tab = malloc(sizeof(char *) * (words + 1));
+	if (!tab)
+	{
+		free_tab(tab);
+		return (NULL);
+	}
 	tab[words] = 0;
 	ft_add_to_tab(tab, s, c);
 	return (tab);

@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:42:35 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/19 03:08:26 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/23 04:11:18 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,31 +35,33 @@ char	**ft_make_tab_from_env(t_env *mini)
 	return (env);
 }
 
-void	ft_exit_clean(t_env *mini, t_env *origin, t_data *data)
+void	ft_exit_clean(t_env *mini, t_env *origin, t_cmd *cmd)
 {
-	ft_clear_data_tab(data, 1);
-	ft_clear_data_tab(data, 0);
-	lst_freeall(mini);
-	lst_freeall(origin);
-	ft_free(0, &data);
+	ft_clear_data_tab(cmd, 1);
+	ft_clear_data_tab(cmd, 0);
+	(void)mini;
+	(void)origin;
+	// lst_freeall(mini); // a remplacer par ta prorpre function
+	// lst_freeall(origin); // a remplacer par ta propre function
+	// ft_free(0, &cmd);
 	rl_clear_history();
 	exit(1);
 }
 
-void	free_tab(char **av)
-{
-	int	i;
+// void	free_tab(char **av)
+// {
+// 	int	i;
 
-	i = 0;
-	while (av && av[i] != NULL)
-	{
-		if (av[i])
-			free(av[i]);
-		i++;
-	}
-	if (av)
-		free(av);
-}
+// 	i = 0;
+// 	while (av && av[i] != NULL)
+// 	{
+// 		if (av[i])
+// 			free(av[i]);
+// 		i++;
+// 	}
+// 	if (av)
+// 		free(av);
+// }
 
 char	*ft_make_path(char *dir, char *cmd)
 {

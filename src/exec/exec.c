@@ -6,41 +6,41 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/20 05:33:06 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/23 04:06:27 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_cmd(t_data *data, t_env *mini, t_env *origin)
+int	ft_cmd(t_cmd *cmd, t_env *mini, t_env *origin)
 {
 	char	*path;
 	char	**env;
 
 	path = NULL;
-	if ((data->new_args[0][0] == '/' || data->new_args[0][0] == '.')
-	&& !data->code)
-		path = ft_strdup(data->new_args[0]);
-	else if (!data->code)
-		path = ft_get_path(data->new_args[0], data->env);
-	if ((data->in < 0 || data->out < 0) || (!path && !data->code))
+	if ((cmd->tab[0][0] == '/' || cmd->tab[0][0] == '.')
+	&& !cmd->builtin)
+		path = ft_strdup(cmd->tab[0]);
+	else if (!cmd->builtin)
+		path = ft_get_path(cmd->tab[0], cmd->env);
+	if ((cmd->fd_in < 0 || cmd->fd_out < 0) || (!path && !cmd->builtin))
 		return (free(path), -1);
-	if (data->in > STDIN_FILENO)
-		dup2(data->in, STDIN_FILENO);
-	if (data->out > STDOUT_FILENO)
-		dup2(data->out, STDOUT_FILENO);
-	if (data->code)
-		ft_builtin(data, mini, origin);
+	if (cmd->fd_in > STDIN_FILENO)
+		dup2(cmd->fd_in, STDIN_FILENO);
+	if (cmd->fd_out > STDOUT_FILENO)
+		dup2(cmd->fd_out, STDOUT_FILENO);
+	if (cmd->builtin)
+		ft_builtin(cmd, mini, origin);
 	else
 	{
 		env = ft_make_tab_from_env(mini);
-		execve(path, data->new_args, env);
-		ft_clear_tab(env);
+		execve(path, cmd->tab, env);
+		free_tab(env);
 	}
 	return (free(path), -1);
 }
 
-int	ft_fork(t_env *mini, t_env *origin, t_data *data)
+int	ft_fork(t_env *mini, t_env *origin, t_cmd *cmd)
 {
 	int	fd[2];
 	int	pid;
@@ -59,28 +59,28 @@ int	ft_fork(t_env *mini, t_env *origin, t_data *data)
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
-		ft_cmd(data, mini, origin);
+		ft_cmd(cmd, mini, origin);
 		close(fd[1]);
 		return (-1);
 	}
 	return (0);
 }
 
-int	ft_last_child(t_data *data, t_env *mini, t_env *origin)
+int	ft_last_child(t_cmd *cmd, t_env *mini, t_env *origin)
 {
 	int	pid;
 
-	if (!data->code)
+	if (!cmd->builtin)
 	{
 		pid = fork();
 		if (pid < 0)
 			return (0);
 		if (pid == 0)
 		{
-			if (ft_cmd(data, mini, origin) < 0)
+			if (ft_cmd(cmd, mini, origin) < 0)
 			{
-				if (data->new_args[0] && !data->code)
-					printf("%s : command not found\n", data->new_args[0]);
+				if (cmd->tab[0] && !cmd->builtin)
+					printf("%s : command not found\n", cmd->tab[0]);
 				return (-1);
 			}
 		}
@@ -88,44 +88,44 @@ int	ft_last_child(t_data *data, t_env *mini, t_env *origin)
 			waitpid(pid, 0, 0);
 	}
 	else
-		ft_cmd(data, mini, origin);
+		ft_cmd(cmd, mini, origin);
 	return (0);
 }
 
-void	ft_close_and_reset_exec(t_data *data, int out, int in)
+void	ft_close_and_reset_exec(t_cmd *cmd, int out, int in)
 {
-	ft_clear_data_tab(data, 1);
-	ft_clear_data_tab(data, 0);
+	ft_clear_data_tab(cmd, 1);
+	ft_clear_data_tab(cmd, 0);
 	dup2(out, STDOUT_FILENO);
 	dup2(in, STDIN_FILENO);
 	close(in);
 	close(out);
 }
 
-void	ft_exe(t_env *mini, t_env *origin, t_data *data)
+void	ft_exe(t_env *mini, t_env *origin, t_cmd *cmd)
 {
 	int		out;
 	int		in;
-	t_data	*tmp;
+	t_cmd	*tmp;
 
 	in = dup(0);
 	out = dup(1);
-	tmp = data;
+	tmp = cmd;
 	while (tmp && tmp->next)
 	{
 		if (ft_fork(mini, origin, tmp) < 0)
 		{
 			dup2(out, STDOUT_FILENO);
-			if (!tmp->code)
-				printf("%s : command not found\n", tmp->new_args[0]);
-			ft_exit_clean(mini, origin, data);
+			if (!tmp->builtin)
+				printf("%s : command not found\n", tmp->tab[0]);
+			ft_exit_clean(mini, origin, cmd);
 			exit(1);
 		}
 		tmp = tmp->next;
 	}
 	if (ft_last_child(tmp, mini, origin) < 0)
-		ft_exit_clean(mini, origin, data);
-	ft_close_and_reset_exec(data, out, in);
+		ft_exit_clean(mini, origin, cmd);
+	ft_close_and_reset_exec(cmd, out, in);
 	while (wait(NULL) > 0)
 		;
 }
