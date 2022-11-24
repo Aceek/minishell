@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/24 06:03:34 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/24 06:10:34 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ void	ft_signal_newline(int unused)
 	rl_redisplay();
 }
 
-void	ft_init_main(t_data *data, t_env *mini, char **env)
+void	ft_init_main(t_data *data, t_env **mini, char **env)
 {
 	ft_memset(data, 0, sizeof(t_data));
 	data->env = env;
 	data->curr_fd_out = 1;
-	mini = ft_create_env(env);
-	if (!mini)
+	*mini = ft_create_env(env);
+	if (!*mini)
 		exit (1);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, ft_signal_newline);
@@ -55,7 +55,7 @@ int	main(int ac, char **av, char **env)
 	t_env	*mini;
 
 	mini = NULL;
-	ft_init_main(&data, mini, env);
+	ft_init_main(&data, &mini, env);
 	while (ac > 0 && av[0])
 	{
 		data.input = readline("mini> ");
