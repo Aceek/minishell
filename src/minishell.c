@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/24 05:04:13 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/24 05:07:29 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,14 @@ t_env	*ft_create_env(char **env)
 	return (mini);
 }
 
+void	signal_int(int unused)
+{
+	(void)unused;
+	rl_on_new_line();
+	write(2, "\n", 1);
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
 int	main(int ac, char **av, char **env)
 {
@@ -77,15 +85,11 @@ int	main(int ac, char **av, char **env)
 	data.mini = ft_create_env(env);
 	if (!data.mini)
 		exit (1);
-	int	i = 0;
+	// signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, signal_int);
 	while (ac > 0 && av[0])
 	{
 		data.input = readline("mini> ");
-		if (i == 3)
-		{
-			free(data.input);
-			data.input = NULL;
-		}
 		if (!data.input)
 		{
 			printf("exit\n");
@@ -100,7 +104,6 @@ int	main(int ac, char **av, char **env)
 			data.head_cmd = NULL;
 			free(data.input);
 		}
-		i++;
 	}
 	return (lst_freeall(data.mini), 0);
 }
