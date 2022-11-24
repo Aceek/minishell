@@ -3,18 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-<<<<<<< HEAD
-<<<<<<< HEAD
-/*   Updated: 2022/11/24 05:07:29 by pbeheyt          ###   ########.fr       */
-=======
-/*   Updated: 2022/11/24 05:26:52 by ilinhard         ###   ########.fr       */
->>>>>>> exec
-=======
-/*   Updated: 2022/11/24 06:00:45 by ilinhard         ###   ########.fr       */
->>>>>>> exec
+/*   Updated: 2022/11/24 06:03:34 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +39,11 @@ void	ft_signal_newline(int unused)
 
 void	ft_init_main(t_data *data, t_env *mini, char **env)
 {
-<<<<<<< HEAD
-	t_data	data;
-
-	ft_memset(&data, 0, sizeof(t_data));
-	data.env = env;
-	data.curr_fd_out = 1;
-	data.mini = ft_create_env(env);
-	if (!data.mini)
-=======
 	ft_memset(data, 0, sizeof(t_data));
 	data->env = env;
 	data->curr_fd_out = 1;
 	mini = ft_create_env(env);
 	if (!mini)
->>>>>>> exec
 		exit (1);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, ft_signal_newline);
@@ -81,20 +63,16 @@ int	main(int ac, char **av, char **env)
 		{
 			printf("exit\n");
 			free(data.input);
-<<<<<<< HEAD
-			ft_exit_clean(data.mini ,data.head_cmd);
-=======
 			ft_exit_clean(mini, data.head_cmd);
->>>>>>> exec
 		}
 		else if (data.input && data.input[0])
 		{
 			add_history(data.input);
 			parse_input(&data);
-			ft_exe(data.mini, data.head_cmd);
+			ft_exe(mini, data.head_cmd);
 			data.head_cmd = NULL;
 			free(data.input);
 		}
 	}
-	return (lst_freeall(data.mini), 0);
+	return (lst_freeall(mini), 0);
 }
