@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/24 03:33:00 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/24 05:01:03 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	heredoc(t_data *data, char *end)
 			signal(SIGINT, SIG_DFL);
 			get_hd_input(data, end);
 		}
-		exit(1);
 		ft_exit_clean(NULL, data->head_cmd);
 	}
 	waitpid(pid, &status, 0);
