@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/24 05:29:49 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/24 06:53:01 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,16 @@
 
 char	*convert_hd_input(t_data *data, char *input)
 {
-	(void)data;
-	return (input);
+	char	*buf;
+	int		i;
+
+	buf = create_buffer();
+	if (!buf)
+		return (NULL);
+	i = -1;
+	while (input[++i])
+		buf = convert_input(data, input, buf, &i);
+	return (buf);
 }
 
 void	get_hd_input(t_data *data, char *end)

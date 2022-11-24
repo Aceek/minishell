@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/24 05:03:37 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/24 06:43:23 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ int		check_built_in(char *str);
 
 /*parser*/
 int		add_cmd(t_data *data, char *str);
+char	*convert_input(t_data *data, char *input, char *buf, int *i);
 char	*create_buffer(void);
 int		parse_input(t_data *data);
 
