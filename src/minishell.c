@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/24 04:55:33 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/24 05:04:31 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_env	*ft_create_env(char **env)
 	return (mini);
 }
 
-void	signal_int(int unused)
+void	ft_signal_newline(int unused)
 {
 	(void)unused;
 	rl_on_new_line();
@@ -87,7 +87,7 @@ int	main(int ac, char **av, char **env)
 	if (!mini)
 		exit (1);
 	// signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, signal_int);
+	signal(SIGINT, ft_signal_newline);
 	while (ac > 0 && av[0])
 	{
 		data.input = readline("mini> ");
