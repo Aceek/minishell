@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:42:35 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/24 01:24:24 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/24 04:42:58 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	**ft_make_tab_from_env(t_env *mini)
 void	ft_exit_clean(t_env *mini, t_cmd *cmd)
 {
 	ft_clear_cmd_list(cmd);
+	(void)cmd;
 	lst_freeall(mini);
 	rl_clear_history();
 	exit(1);
