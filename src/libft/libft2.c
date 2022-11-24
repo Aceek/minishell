@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/23 23:40:20 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/24 01:24:52 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char	*ft_charjoin(char *s1, char c)
 	j = 0;
 	while (s1 && s1[j])
 		str[i++] = s1[j++];
+	free(s1);
 	str[i++] = c;
 	str[i] = 0;
 	return (str);

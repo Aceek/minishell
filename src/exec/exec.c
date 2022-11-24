@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/23 05:10:30 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/24 01:26:33 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,7 @@ int	ft_last_child(t_cmd *cmd, t_env *mini)
 
 void	ft_close_and_reset_exec(t_cmd *cmd, int out, int in)
 {
-	ft_clear_data_tab(cmd, 1);
-	ft_clear_data_tab(cmd, 0);
+	ft_clear_cmd_list(cmd);
 	dup2(out, STDOUT_FILENO);
 	dup2(in, STDIN_FILENO);
 	close(in);

@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/23 05:28:35 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/24 01:27:59 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,6 @@ char	*ft_get_path(char *cmd, char **env);
 char	*ft_strnstr(const char *s1, const char *to_find, size_t n);
 int		ft_error(int error);
 char	**ft_split2(char const *s, char c);
-void	ft_clear_data_tab(t_cmd *cmd, int booll);
 void	ft_exe(t_env *mini, t_cmd *cmd);
 int		ft_isalnun(char c);
 int		ft_isdigit(char c);
@@ -169,5 +168,6 @@ t_env	*ft_cpy_env(t_env *mini);
 int		lst_addback(t_env *mini_env, char *env);
 int		ft_isalnun_tmp(char c);
 void	lst_freeall(t_env *mini_env);
+void	ft_clear_cmd_list(t_cmd *cmd);
 
 #endif

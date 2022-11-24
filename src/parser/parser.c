@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/23 03:46:29 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/24 01:02:34 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	add_cmd(t_data *data, char *buffer)
 		return (1);
 	ft_memset(cmd, 0, sizeof(t_cmd));
 	cmd->tab = ft_split(buffer);
-	free(buffer);
+	// free(buffer);
 	cmd->fd_in = data->curr_fd_in;
 	cmd->fd_out = data->curr_fd_out;
 	cmd->builtin = check_built_in(cmd->tab[0]);
@@ -59,6 +59,7 @@ int	parse_input(t_data *data)
 		if (data->curr_token == PIPE)
 		{
 			add_cmd(data, buf);
+			free(buf);
 			buf = create_buffer();
 			if (!buf)
 				return (1);
@@ -71,5 +72,6 @@ int	parse_input(t_data *data)
 			buf = ft_charjoin(buf, data->input[i]);
 	}
 	add_cmd(data, buf);
+	free(buf);
 	return (0);
 }
