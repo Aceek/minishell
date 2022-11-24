@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/23 23:44:47 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/24 01:23:24 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,20 +244,21 @@ void	ft_clear_fd(t_cmd *cmd)
 		close (cmd->fd_out);
 }
 
-void	ft_clear_data_tab(t_cmd *cmd, int booll)
+void	ft_clear_cmd_list(t_cmd *cmd)
 {
-	t_cmd *tmp;
+	t_cmd	*tmp;
+	t_cmd	*next;
 
-	if (cmd)
+	tmp = cmd->head_cmd;
+	while (tmp)
 	{
-		tmp = cmd;
-		while (tmp)
-		{
-			if (booll && tmp->tab)
-				ft_clear_tab(tmp->tab);
-			else if (!booll && tmp->tab)
-				ft_clear_fd(tmp);
-			tmp = tmp->next;
-		}
+		printf("oui\n");
+		if (tmp->tab)
+			ft_clear_tab(tmp->tab);
+		ft_clear_fd(tmp);
+		next = tmp->next;
+		tmp->next = NULL;
+		free(tmp);
+		tmp = next;
 	}
 }
