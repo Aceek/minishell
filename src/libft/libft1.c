@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/24 01:33:41 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/24 03:51:31 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,16 +249,16 @@ void	ft_clear_cmd_list(t_cmd *cmd)
 	t_cmd	*tmp;
 	t_cmd	*next;
 
-	tmp = cmd->head_cmd;
+	tmp = cmd;
 	while (tmp)
 	{
-		printf("oui\n");
-		if (tmp->tab)
-			ft_clear_tab(tmp->tab);
-		ft_clear_fd(tmp);
 		next = tmp->next;
-		tmp->next = NULL;
-		free(tmp);
+		ft_clear_tab(tmp->tab);
+		ft_clear_fd(tmp);
+		if (tmp)
+			free(tmp);
 		tmp = next;
 	}
+	cmd = NULL;
 }
+
