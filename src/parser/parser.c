@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/24 01:02:34 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/24 02:51:09 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	add_cmd(t_data *data, char *buffer)
 		return (1);
 	ft_memset(cmd, 0, sizeof(t_cmd));
 	cmd->tab = ft_split(buffer);
-	// free(buffer);
 	cmd->fd_in = data->curr_fd_in;
 	cmd->fd_out = data->curr_fd_out;
 	cmd->builtin = check_built_in(cmd->tab[0]);
@@ -46,6 +45,8 @@ int	parse_input(t_data *data)
 {
 	int		i;
 	char	*buf;
+	char	*tmp;
+	char	*env;
 
 	if (check_quote_error(data->input))
 		return (printf("quote error\n"), 1);
@@ -67,9 +68,19 @@ int	parse_input(t_data *data)
 		else if (data->curr_token > PIPE)
 			redir_handler(data, data->input, &i);
 		else if (data->input[i] == '$' && check_quote_pos(data->input, i) != 1)
-			buf = ft_strjoin(buf, dollar_handler(data->input, &i, data->env));
+		{	
+			env = dollar_handler(data->input, &i, data->env);
+			tmp = ft_strjoin(buf, env);
+			free(buf);
+			free(env);
+			buf = tmp;
+		}
 		else
-			buf = ft_charjoin(buf, data->input[i]);
+		{	
+			tmp = ft_charjoin(buf, data->input[i]);
+			free(buf);
+			buf = tmp;
+		}
 	}
 	add_cmd(data, buf);
 	free(buf);

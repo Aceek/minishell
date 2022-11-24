@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/22 23:51:07 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/24 02:46:18 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,19 @@
 char	*get_var_name(char *str, int *i)
 {
 	char	*var;
+	char	*tmp;
 
 	var = create_buffer();
 	if (!var)
 		return (NULL);
 	while (ft_isalnum(str[*i]) || str[*i] == '_')
 	{
-		var = ft_charjoin(var, str[*i]);
+		tmp = ft_charjoin(var, str[*i]);
+		free(var);
+		var = tmp;
 		*i += 1;
 	}
+	*i -= 1;
 	return (var);
 }
 
@@ -56,6 +60,7 @@ char	*dollar_handler(char *str, int *i, char **env)
 		if (!var_name)
 			return (NULL);
 		var_val = get_var_val(var_name, ft_strlen(var_name), env);
+		free(var_name);
 	}	
 	return (var_val);
 }
