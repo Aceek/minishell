@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/24 03:08:11 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/24 03:49:10 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,25 +78,30 @@ int	main(int ac, char **av, char **env)
 	mini = ft_create_env(env);
 	if (!mini)
 		exit (1);
+	int	i = 0;
 	while (ac > 0 && av[0])
 	{
 		data.input = readline("mini> ");
+		if (i == 3)
+		{
+			free(data.input);
+			data.input = NULL;
+		}
 		if (!data.input)
 		{
 			printf("exit\n");
 			free(data.input);
-			exit(1); // free function
+			ft_exit_clean(mini ,data.head_cmd);
 		}
 		else if (data.input && data.input[0])
 		{
 			add_history(data.input);
 			parse_input(&data);
-			// print_list_cmd(&data); // provisoire
 			ft_exe(mini, data.head_cmd);
-			// ft_listclear(&data.head_cmd);
 			data.head_cmd = NULL;
 			free(data.input);
 		}
+		i++;
 	}
 	return (lst_freeall(mini), 0);
 }
