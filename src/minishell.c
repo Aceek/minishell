@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/23 05:37:58 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/24 03:08:11 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ int	main(int ac, char **av, char **env)
 			parse_input(&data);
 			// print_list_cmd(&data); // provisoire
 			ft_exe(mini, data.head_cmd);
-			ft_listclear(&data.head_cmd);
+			// ft_listclear(&data.head_cmd);
+			data.head_cmd = NULL;
 			free(data.input);
 		}
 	}

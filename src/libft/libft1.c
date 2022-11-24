@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/24 01:23:24 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/24 03:31:47 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,21 +244,44 @@ void	ft_clear_fd(t_cmd *cmd)
 		close (cmd->fd_out);
 }
 
+// void	ft_clear_cmd_list(t_cmd *cmd)
+// {
+// 	t_cmd	*tmp;
+// 	t_cmd	*next;
+
+// 	tmp = cmd;
+// 	int i = 0;
+// 	while (tmp)
+// 	{
+// 		next = tmp;
+// 		tmp = tmp->next;
+// 		if (next->tab)
+// 		{
+// 			printf("nettoyage : %s\n", next->tab[i]);
+// 			ft_clear_tab(next->tab);
+// 		}
+// 		ft_clear_fd(next);
+// 		if (next)
+// 			free(next);
+// 		i++;
+// 	}
+// 	cmd = NULL;
+// }
+
 void	ft_clear_cmd_list(t_cmd *cmd)
 {
 	t_cmd	*tmp;
 	t_cmd	*next;
 
-	tmp = cmd->head_cmd;
+	tmp = cmd;
 	while (tmp)
 	{
-		printf("oui\n");
-		if (tmp->tab)
-			ft_clear_tab(tmp->tab);
-		ft_clear_fd(tmp);
 		next = tmp->next;
-		tmp->next = NULL;
+		ft_clear_tab(tmp->tab);
+		ft_clear_fd(tmp);
 		free(tmp);
 		tmp = next;
 	}
+	cmd = NULL;
 }
+
