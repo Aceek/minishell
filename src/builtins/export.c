@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 07:12:28 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/23 05:12:10 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/24 05:47:30 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_sort_print_env(t_env *mini)
 		else
 			cpy = cpy->next;
 	}
-	ft_print_env(mini, 1);
+	ft_print_export_env(mini);
 }
 
 char	*ft_cpy_env_name(char *args)
@@ -117,7 +117,7 @@ void	ft_export_builtin(t_cmd *cmd, t_env *mini)
 	{
 		tmp_cpy = ft_cpy_env(mini);
 		ft_sort_print_env(tmp_cpy);
-		// lst_freeall(tmp_cpy); // a remplacer
+		lst_freeall(tmp_cpy);
 	}
 	else
 		ft_add_args_env(cmd, mini);

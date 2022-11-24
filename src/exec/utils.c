@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:42:35 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/24 03:48:58 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/24 05:32:44 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ char	**ft_make_tab_from_env(t_env *mini)
 	env[i] = NULL;
 	return (env);
 }
-
 
 void	ft_exit_clean(t_env *mini, t_cmd *cmd)
 {
