@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/24 03:09:20 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/24 05:24:21 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,5 +169,6 @@ int		lst_addback(t_env *mini_env, char *env);
 int		ft_isalnun_tmp(char c);
 void	lst_freeall(t_env *mini_env);
 void	ft_clear_cmd_list(t_cmd *cmd);
+void	ft_signal_newline(int unused);
 
 #endif
