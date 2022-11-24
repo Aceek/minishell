@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 07:16:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/23 05:22:04 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/24 05:55:02 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_builtin(t_cmd *cmd, t_env *mini)
 	else if (cmd->builtin == UNSET)
 		ft_unset_builtin(cmd, mini);
 	else if (cmd->builtin == ENV)
-		ft_print_env(mini, 0);
+		ft_print_env(mini);
 	else if (cmd->builtin == CD)
 		ft_cd_builtind(cmd, mini);
 	else if (cmd->builtin == EXIT)
@@ -90,7 +90,7 @@ t_env	*ft_cpy_env(t_env *mini)
 	return (cpy);
 }
 
-void	ft_print_env(t_env *mini, int mod)
+void	ft_print_export_env(t_env *mini)
 {
 	t_env	*tmp;
 	int		i;
@@ -99,25 +99,21 @@ void	ft_print_env(t_env *mini, int mod)
 	tmp = mini;
 	while (tmp)
 	{
-		egal = 0;
+		egal = 1;
 		i = -1;
-		if (mod && tmp->line)
+		write(1, "declare -x ", 11);
+		while (tmp->line && tmp->line[++i])
 		{
-			write(1, "declare -x ", 11);
-			while (tmp->line && tmp->line[++i])
+			write(1, &tmp->line[i], 1);
+			if (egal == 1 && tmp->line[i] == '=')
 			{
-				if (tmp->line[i] == '=')
-					egal += 1;
-				write(1, &tmp->line[i], 1);
-				if (egal == 1 && tmp->line[i] == '=')
-					write(1, "\"", 1);
-				if (egal && tmp->line[i + 1] == '\0')
-					write(1, "\"", 1);
+				egal += 1;
+				write(1, "\"", 1);
 			}
-			write(1, "\n", 2);
+			if (egal > 1 && tmp->line[i + 1] == '\0')
+				write(1, "\"", 1);
 		}
-		else if (!mod && tmp->line)
-			printf("%s\n", tmp->line);
+		write(1, "\n", 2);
 		tmp = tmp->next;
 	}
 }

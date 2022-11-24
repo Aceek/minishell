@@ -7,15 +7,19 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2022/11/24 05:03:37 by pbeheyt          ###   ########.fr       */
 =======
 /*   Updated: 2022/11/24 05:24:21 by ilinhard         ###   ########.fr       */
 >>>>>>> exec
+=======
+/*   Updated: 2022/11/24 05:50:25 by ilinhard         ###   ########.fr       */
+>>>>>>> exec
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
+# ifndef MINISHELL_H
+# define MINISHELL_H
 
 # include <stdio.h>
 # include <readline/readline.h>
@@ -158,7 +162,8 @@ void	ft_builtin(t_cmd *cmd, t_env *mini);
 int		ft_is_valid_env(char *args);
 int		ft_export_error(int error, char *args);
 int		ft_is_in_env(t_env *mini, char *args);
-void	ft_print_env(t_env *mini, int mod);
+void	ft_print_export_env(t_env *mini);
+void	ft_print_env(t_env *mini);
 void	ft_export_builtin(t_cmd *cmd, t_env *mini);
 void	ft_add_args_env(t_cmd *cmd, t_env *mini);
 void	ft_add_list_env(t_env *mini, char *args);

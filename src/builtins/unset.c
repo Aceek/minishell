@@ -6,11 +6,24 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 00:21:09 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/23 01:54:46 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/24 05:54:52 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_print_env(t_env *mini)
+{
+	t_env	*tmp;
+
+	tmp = mini;
+	while (tmp)
+	{
+		if (ft_strchr(tmp->line, '='))
+			printf("%s\n", tmp->line);
+		tmp = tmp->next;
+	}
+}
 
 void	ft_remove_list(t_env *old, t_env *tmp)
 {
