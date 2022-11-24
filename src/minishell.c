@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/24 05:26:52 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/24 06:00:45 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ t_env	*ft_create_env(char **env)
 
 	i = -1;
 	mini = malloc(sizeof(t_env));
-	if (!mini)  // si le malloc plante il faut stop le programme sinon segfault
-		return (NULL);
+	if (!mini)
+		exit(1);
 	mini->next = NULL;
 	mini->line = NULL;
 	while (env && env[++i])
@@ -37,19 +37,25 @@ void	ft_signal_newline(int unused)
 	rl_redisplay();
 }
 
-int	main(int ac, char **av, char **env)
+void	ft_init_main(t_data *data, t_env *mini, char **env)
 {
-	t_data	data;
-	t_env	*mini;
-
-	ft_memset(&data, 0, sizeof(t_data));
-	data.env = env;
-	data.curr_fd_out = 1;
+	ft_memset(data, 0, sizeof(t_data));
+	data->env = env;
+	data->curr_fd_out = 1;
 	mini = ft_create_env(env);
 	if (!mini)
 		exit (1);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, ft_signal_newline);
+}
+
+int	main(int ac, char **av, char **env)
+{
+	t_data	data;
+	t_env	*mini;
+
+	mini = NULL;
+	ft_init_main(&data, mini, env);
 	while (ac > 0 && av[0])
 	{
 		data.input = readline("mini> ");
@@ -57,7 +63,7 @@ int	main(int ac, char **av, char **env)
 		{
 			printf("exit\n");
 			free(data.input);
-			ft_exit_clean(mini ,data.head_cmd);
+			ft_exit_clean(mini, data.head_cmd);
 		}
 		else if (data.input && data.input[0])
 		{

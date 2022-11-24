@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 00:21:09 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/24 05:50:05 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/24 05:54:52 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_print_env(t_env *mini)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = mini;
 	while (tmp)
