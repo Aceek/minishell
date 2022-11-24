@@ -6,11 +6,11 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/24 06:07:22 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/24 06:15:33 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef MINISHELL_H
+#ifndef MINISHELL_H
 # define MINISHELL_H
 
 # include <stdio.h>
@@ -61,12 +61,12 @@ typedef struct s_env
 
 typedef struct s_cmd
 {
-	char			**tab; // data->new_args
-	char			**env; // Il faut que tu init chaque elem de la list
+	char			**tab;
+	char			**env;
 	int				fd_in;
 	int				fd_out;
-	int				builtin; // data->code
-	struct s_cmd	*head_cmd; // transofemer en head_cmd
+	int				builtin;
+	struct s_cmd	*head_cmd;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -135,7 +135,7 @@ char	*get_token_arg(char *str, int *i);
 int		redir_handler(t_data *data, char *str, int *i);
 
 /*---------------------------------------NEW---------------------------------*/
-int	ft_cmd(t_cmd *cmd, t_env *mini);
+int		ft_cmd(t_cmd *cmd, t_env *mini);
 void	free_tab(char **av);
 char	*ft_make_path(char *dir, char *cmd);
 char	*ft_get_path(char *cmd, char **env);
@@ -145,7 +145,7 @@ char	**ft_split2(char const *s, char c);
 void	ft_exe(t_env *mini, t_cmd *cmd);
 int		ft_isalnun(char c);
 int		ft_isdigit(char c);
-char 	**ft_make_tab_from_env(t_env *mini);
+char	**ft_make_tab_from_env(t_env *mini);
 void	ft_exit_clean(t_env *mini, t_cmd *cmd);
 int		ft_lst_count(t_env *env);
 char	*ft_cpy(char *src, int skip);
