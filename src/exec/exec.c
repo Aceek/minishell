@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/24 05:26:15 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/25 23:35:03 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	ft_fork(t_env *mini, t_cmd *cmd)
 int	ft_last_child(t_cmd *cmd, t_env *mini)
 {
 	int	pid;
+	int	status;
 
 	if (!cmd->builtin)
 	{
@@ -85,7 +86,11 @@ int	ft_last_child(t_cmd *cmd, t_env *mini)
 			}
 		}
 		else
-			waitpid(pid, 0, 0);
+		{
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+				g_exit = WEXITSTATUS(status);
+		}
 	}
 	else
 		ft_cmd(cmd, mini);
