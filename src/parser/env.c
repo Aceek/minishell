@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/24 02:46:18 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/25 23:27:56 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,19 @@ char	*get_var_name(char *str, int *i)
 {
 	char	*var;
 	char	*tmp;
+	int		j;
 
 	var = create_buffer();
+	j = *i;
 	if (!var)
 		return (NULL);
-	while (ft_isalnum(str[*i]) || str[*i] == '_')
+	while (ft_isalnum(str[j]) || str[j] == '_')
 	{
-		tmp = ft_charjoin(var, str[*i]);
+		tmp = ft_charjoin(var, str[j]);
 		free(var);
 		var = tmp;
-		*i += 1;
+		j++;
 	}
-	*i -= 1;
 	return (var);
 }
 
@@ -52,8 +53,8 @@ char	*dollar_handler(char *str, int *i, char **env)
 	*i += 1;
 	if (!str[*i])
 		return (NULL);
-	// else if (!str[*i] == '?')
-		//...Stores the exit value of the last command that was executed
+	else if (str[*i] == '?')
+		var_val = ft_itoa(g_exit);
 	else
 	{	
 		var_name = get_var_name (str, i);
@@ -61,6 +62,7 @@ char	*dollar_handler(char *str, int *i, char **env)
 			return (NULL);
 		var_val = get_var_val(var_name, ft_strlen(var_name), env);
 		free(var_name);
-	}	
+	}
+	*i += ft_strlen(var_val);
 	return (var_val);
 }
