@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/25 23:36:21 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/25 23:52:44 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ void	ft_exe(t_env *mini, t_cmd *cmd);
 int		ft_isalnun(char c);
 int		ft_isdigit(char c);
 char	**ft_make_tab_from_env(t_env *mini);
-void	ft_exit_clean(t_env *mini, t_cmd *cmd);
+void	ft_exit_clean(t_env *mini, t_cmd *cmd, int error);
 int		ft_lst_count(t_env *env);
 char	*ft_cpy(char *src, int skip);
 void	ft_builtin(t_cmd *cmd, t_env *mini);

@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:42:35 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/24 06:07:35 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/25 23:52:29 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ char	**ft_make_tab_from_env(t_env *mini)
 	return (env);
 }
 
-void	ft_exit_clean(t_env *mini, t_cmd *cmd)
+void	ft_exit_clean(t_env *mini, t_cmd *cmd, int error)
 {
 	ft_clear_cmd_list(cmd);
 	lst_freeall(mini);
 	rl_clear_history();
-	exit(1);
+	exit(error);
 }
 
 char	*ft_make_path(char *dir, char *cmd)
