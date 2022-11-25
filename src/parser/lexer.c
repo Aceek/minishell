@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/23 03:30:28 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/25 04:31:35 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	check_quote_pos(char *str, int pos)
 	return (0);
 }
 
-int	check_token(char *str, int *i)
+int	get_token_code(char *str, int *i)
 {
 	if (str[*i + 1])
 	{
@@ -94,7 +94,7 @@ int	check_token(char *str, int *i)
 	return (NOT_TOKEN);
 }
 
-int	check_built_in(char *str)
+int	get_builtin_code(char *str)
 {
 	if (!str)
 		return (NOT_BUILT_IN);
