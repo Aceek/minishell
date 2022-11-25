@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/25 23:09:23 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/25 23:23:08 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void	ft_list_add_back(t_cmd **list, t_cmd *new);
 /*libft4*/
 void	ft_listclear(t_cmd **list);
 void	*ft_memset(void *s, int c, size_t n);
+char	*ft_itoa(int n);
 
 /*libft5*/
 char	**ft_split(char *s);
