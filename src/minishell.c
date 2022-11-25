@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/24 06:10:34 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/25 22:52:30 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,9 @@ void	ft_init_main(t_data *data, t_env **mini, char **env)
 int	main(int ac, char **av, char **env)
 {
 	t_data	data;
-	t_env	*mini;
 
-	mini = NULL;
-	ft_init_main(&data, &mini, env);
+	data.mini = NULL;
+	ft_init_main(&data, &data.mini, env);
 	while (ac > 0 && av[0])
 	{
 		data.input = readline("mini> ");
@@ -63,16 +62,16 @@ int	main(int ac, char **av, char **env)
 		{
 			printf("exit\n");
 			free(data.input);
-			ft_exit_clean(mini, data.head_cmd);
+			ft_exit_clean(data.mini, data.head_cmd);
 		}
 		else if (data.input && data.input[0])
 		{
 			add_history(data.input);
 			parse_input(&data);
-			ft_exe(mini, data.head_cmd);
+			ft_exe(data.mini, data.head_cmd);
 			data.head_cmd = NULL;
 			free(data.input);
 		}
 	}
-	return (lst_freeall(mini), 0);
+	return (lst_freeall(data.mini), 0);
 }

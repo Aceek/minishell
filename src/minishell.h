@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/11/24 06:15:33 by ilinhard         ###   ########.fr       */
-=======
-/*   Updated: 2022/11/25 22:36:01 by pbeheyt          ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2022/11/25 23:01:22 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +73,7 @@ typedef struct s_cmd
 typedef struct s_data
 {
 	char			**env;
+	t_env			*mini;
 	char			*input;
 	int				curr_token;
 	int				curr_fd_in;
