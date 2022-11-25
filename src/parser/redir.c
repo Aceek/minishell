@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/24 05:01:03 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/24 06:53:01 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,16 @@
 
 char	*convert_hd_input(t_data *data, char *input)
 {
-	(void)data;
-	return (input);
+	char	*buf;
+	int		i;
+
+	buf = create_buffer();
+	if (!buf)
+		return (NULL);
+	i = -1;
+	while (input[++i])
+		buf = convert_input(data, input, buf, &i);
+	return (buf);
 }
 
 void	get_hd_input(t_data *data, char *end)
@@ -28,14 +36,14 @@ void	get_hd_input(t_data *data, char *end)
 		//msg derreur
 		close(data->curr_fd_in);
 		free(input);
-		//exit clean
+		ft_exit_clean(data->mini ,data->head_cmd);
 		return ;
 	}
-	if (ft_strcmp(input, end))
+	if (!ft_strcmp(input, end))
 	{
 		close(data->curr_fd_in);
 		free(input);
-		//exit clean
+		ft_exit_clean(data->mini ,data->head_cmd);
 		return ;
 	}
 	input = convert_hd_input(data, input);
@@ -61,7 +69,7 @@ int	heredoc(t_data *data, char *end)
 			signal(SIGINT, SIG_DFL);
 			get_hd_input(data, end);
 		}
-		ft_exit_clean(NULL, data->head_cmd);
+		ft_exit_clean(data->mini, data->head_cmd);
 	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
@@ -76,6 +84,7 @@ int	heredoc(t_data *data, char *end)
 char	*get_token_arg(char *str, int *i)
 {
 	char	*arg;
+	char	*tmp;
 
 	arg = create_buffer();
 	if (!arg)
@@ -84,7 +93,9 @@ char	*get_token_arg(char *str, int *i)
 		*i += 1;
 	while (ft_isalnum(str[*i]) || str[*i] == '_')
 	{
-		arg = ft_charjoin(arg, str[*i]);
+		tmp = ft_charjoin(arg, str[*i]);
+		free(arg);
+		arg = tmp;
 		*i += 1;
 	}
 	return (arg);
