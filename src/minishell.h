@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/25 22:36:01 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/25 22:57:12 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_cmd
 typedef struct s_data
 {
 	char			**env;
+	t_env			*mini;
 	char			*input;
 	int				curr_token;
 	int				curr_fd_in;
