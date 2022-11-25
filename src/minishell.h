@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/25 23:01:22 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/25 23:15:33 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ enum e_built_in
 	ENV,
 	EXIT,
 };
+
+extern int	g_exit;
 
 typedef struct s_env
 {
