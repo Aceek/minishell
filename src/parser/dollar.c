@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/26 03:40:45 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/26 04:04:00 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,23 @@ char	*get_var_env_name(char *str, int *i)
 	return (var);
 }
 
-char	*get_var_env_val(char *var_env, int var_len, char **env)
+char	*get_var_env_val(char *var_env, int len, t_env *mini)
 {
-	int	l;
-
-	l = -1;
-	while (env[++l])
+	t_env	*tmp;
+	
+	tmp = mini;
+	while (tmp)
 	{
-		if (ft_strnstr(env[l], var_env, var_len))
-			return (ft_cpy(env[l], var_len + 1));
+		if (!ft_strncmp(tmp->line, var_env, len))
+			return (ft_cpy(tmp->line, len + 1));
+		tmp = tmp->next;
 	}
 	return (NULL);
 }
 
-char	*get_dollar(char *str, int *i, char **env)
+char	*get_dollar(char *str, int *i, t_env *mini)
 {
-	char	*var_env;
+	char	*var_env_name;
 	char	*dollar;
 	
 	*i += 1;
@@ -58,11 +59,11 @@ char	*get_dollar(char *str, int *i, char **env)
 	}
 	else
 	{	
-		var_env = get_var_env_name(str, i);
-		if (!var_env)
+		var_env_name = get_var_env_name(str, i);
+		if (!var_env_name)
 			return (NULL);
-		dollar = get_var_env_val(var_env, ft_strlen(var_env), env);
-		free(var_env);
+		dollar = get_var_env_val(var_env_name, ft_strlen(var_env_name), mini);
+		free(var_env_name);
 	}
 	return (dollar);
 }
