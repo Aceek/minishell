@@ -1,68 +1,68 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/25 23:27:56 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/26 03:40:45 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_var_name(char *str, int *i)
+char	*get_var_env_name(char *str, int *i)
 {
 	char	*var;
 	char	*tmp;
-	int		j;
 
 	var = create_buffer();
-	j = *i;
 	if (!var)
 		return (NULL);
-	while (ft_isalnum(str[j]) || str[j] == '_')
+	while (ft_isalnum(str[*i]) || str[*i] == '_')
 	{
-		tmp = ft_charjoin(var, str[j]);
+		tmp = ft_charjoin(var, str[*i]);
 		free(var);
 		var = tmp;
-		j++;
+		*i += 1;
 	}
 	return (var);
 }
 
-char	*get_var_val(char *var_name, int var_len, char **env)
+char	*get_var_env_val(char *var_env, int var_len, char **env)
 {
 	int	l;
 
 	l = -1;
 	while (env[++l])
 	{
-		if (ft_strnstr(env[l], var_name, var_len))
+		if (ft_strnstr(env[l], var_env, var_len))
 			return (ft_cpy(env[l], var_len + 1));
 	}
 	return (NULL);
 }
 
-char	*dollar_handler(char *str, int *i, char **env)
+char	*get_dollar(char *str, int *i, char **env)
 {
-	char	*var_name;
-	char	*var_val;
-
+	char	*var_env;
+	char	*dollar;
+	
 	*i += 1;
 	if (!str[*i])
 		return (NULL);
 	else if (str[*i] == '?')
-		var_val = ft_itoa(g_exit);
+	{
+		dollar = ft_itoa(g_exit);
+		*i += ft_strlen(dollar);
+	}
 	else
 	{	
-		var_name = get_var_name (str, i);
-		if (!var_name)
+		var_env = get_var_env_name(str, i);
+		if (!var_env)
 			return (NULL);
-		var_val = get_var_val(var_name, ft_strlen(var_name), env);
-		free(var_name);
+		dollar = get_var_env_val(var_env, ft_strlen(var_env), env);
+		free(var_env);
 	}
-	*i += ft_strlen(var_val);
-	return (var_val);
+	return (dollar);
 }
