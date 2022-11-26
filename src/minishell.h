@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/26 03:41:11 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/26 03:58:42 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,8 @@ char	**ft_split(char *s);
 
 /*dollar*/
 char	*get_var_env_name(char *str, int *i);
-char	*get_var_env_val(char *var_name, int var_len, char **env);
-char	*get_dollar(char *str, int *i, char **env);
+char	*get_var_env_val(char *var_env, int var_len, t_env *mini);
+char	*get_dollar(char *str, int *i, t_env *mini);
 
 /*lexer*/
 void	update_quote(bool *quote);

@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/26 03:16:15 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/26 03:55:33 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*convert_input(t_data *data, char *input, char *buf, int *i)
 
 	if (input[*i] == '$' && check_quote_pos(input, *i) != 1)
 	{	
-		var = get_dollar(input, i, data->env);
+		var = get_dollar(input, i, data->mini);
 		tmp = ft_strjoin(buf, var);
 		free(buf);
 		free(var);
