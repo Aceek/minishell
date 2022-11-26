@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/26 07:20:12 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/26 23:17:25 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	add_cmd(t_data *data, char *buf)
 	t_cmd	*cmd;
 
 	//a verif pq la nn affectaction ds la liste ne marche pas
-	// if (data->error)
-	// 	return (1);
+	if (data->error)
+		return (1);
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (1);
@@ -85,12 +85,19 @@ int	parse_input(t_data *data)
 	char	*buf;
 
 	if (check_quote_error(data->input))
-		return (printf("quote error\n"), 1);
+	{
+		data->error = 1;
+		g_exit = 1;
+        write(2, "bash: quotes not closing error", 30);
+		ft_exit_clean(data->mini, data->head_cmd, 1);
+		return (1);
+	};
 	buf = create_buffer();
 	if (!buf)
 		return (1);
 	data->curr_fd_in = 0;
 	data->curr_fd_out = 1;
+	g_exit = 0;
 	i = -1;
 	while (data->input[++i])
 	{
