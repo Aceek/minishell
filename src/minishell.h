@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/26 03:58:42 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/26 22:29:36 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,8 @@ int		check_token(t_data *data, char *buf, int *i);
 char	*convert_input(t_data *data, char *input, char *buf, int *i);
 char	*create_buffer(void);
 int		parse_input(t_data *data);
+
+void	ft_printf_list(t_cmd *cmd);
 
 /*redir*/
 char	*convert_hd_input(t_data *data, char *input);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/26 01:11:41 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/26 07:10:02 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,11 @@ int	heredoc(t_data *data, char *end)
 		{
 			printf("error here doc\n");
 			close(data->curr_fd_in);
+			free(end);
 			return (-1);
 		}
 	}
-	return (data->curr_fd_in);
+	return (free(end), data->curr_fd_in);
 }
 
 char	*get_token_arg(char *str, int *i)
@@ -118,6 +119,14 @@ int	redir_handler(t_data *data, char *str, int *i)
 	if (data->curr_token == DGREAT && arg)
 		data->curr_fd_out = open(arg, O_CREAT | O_RDWR | O_APPEND, 0664);
 	if (data->curr_fd_in == -1 || data->curr_fd_out == -1)
+	{
+		data->error = 1;
+		g_exit = 1;
+        write(2, "bash:", 5);
+		write(2, arg, ft_strlen(arg));
+        write(2, ": No such file or directory\n", 28);
 		return (1);
+	}
+	// free(arg);
 	return (0);
 }
