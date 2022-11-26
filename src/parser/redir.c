@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/26 01:11:41 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/26 05:27:29 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ int	redir_handler(t_data *data, char *str, int *i)
 	if (data->curr_token == DGREAT && arg)
 		data->curr_fd_out = open(arg, O_CREAT | O_RDWR | O_APPEND, 0664);
 	if (data->curr_fd_in == -1 || data->curr_fd_out == -1)
-		return (1);
+		return (free(arg), 1);
+	free(arg);
 	return (0);
 }

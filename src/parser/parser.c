@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/26 03:55:33 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/26 05:59:20 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,6 @@ int	parse_input(t_data *data)
 
 	if (check_quote_error(data->input))
 		return (printf("quote error\n"), 1);
-	data->curr_fd_in = 0;
-	data->curr_fd_out = 1;
 	buf = create_buffer();
 	if (!buf)
 		return (1);
@@ -96,6 +94,8 @@ int	parse_input(t_data *data)
 			buf = create_buffer();
 			if (!buf)
 				return (1);
+			data->curr_fd_in = 0;
+			data->curr_fd_out = 1;
 		}
 		buf = convert_input(data, data->input, buf, &i);
 	}

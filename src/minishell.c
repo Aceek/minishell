@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/26 03:12:23 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/26 06:01:27 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	ft_signal_newline(int unused)
 void	ft_init_main(t_data *data, t_env **mini, char **env)
 {
 	ft_memset(data, 0, sizeof(t_data));
+	data->curr_fd_out = 1;
 	data->env = env;
 	*mini = ft_create_env(env);
 	if (!*mini)

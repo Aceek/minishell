@@ -1,0 +1,118 @@
+==1446152== Memcheck, a memory error detector
+==1446152== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==1446152== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==1446152== Command: ./minishell
+==1446152== Parent PID: 1406463
+==1446152== 
+==1446158== 
+==1446158== HEAP SUMMARY:
+==1446158==     in use at exit: 208,200 bytes in 223 blocks
+==1446158==   total heap usage: 580 allocs, 357 frees, 233,854 bytes allocated
+==1446158== 
+==1446158== LEAK SUMMARY:
+==1446158==    definitely lost: 0 bytes in 0 blocks
+==1446158==    indirectly lost: 0 bytes in 0 blocks
+==1446158==      possibly lost: 0 bytes in 0 blocks
+==1446158==    still reachable: 0 bytes in 0 blocks
+==1446158==         suppressed: 208,200 bytes in 223 blocks
+==1446158== 
+==1446158== For lists of detected and suppressed errors, rerun with: -s
+==1446158== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==1446173== 
+==1446173== HEAP SUMMARY:
+==1446173==     in use at exit: 208,221 bytes in 226 blocks
+==1446173==   total heap usage: 595 allocs, 369 frees, 233,738 bytes allocated
+==1446173== 
+==1446173== 2 bytes in 1 blocks are still reachable in loss record 1 of 67
+==1446173==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1446173==    by 0x402EFB: ft_charjoin (libft2.c:25)
+==1446173==    by 0x40228B: get_token_arg (redir.c:97)
+==1446173==    by 0x4022F0: redir_handler (redir.c:109)
+==1446173==    by 0x401CC0: check_token (parser.c:48)
+==1446173==    by 0x401E8A: parse_input (parser.c:94)
+==1446173==    by 0x403D3F: main (minishell.c:88)
+==1446173== 
+==1446173== 5 bytes in 1 blocks are still reachable in loss record 2 of 67
+==1446173==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1446173==    by 0x402EFB: ft_charjoin (libft2.c:25)
+==1446173==    by 0x401DBC: convert_input (parser.c:72)
+==1446173==    by 0x401ED1: parse_input (parser.c:100)
+==1446173==    by 0x403D3F: main (minishell.c:88)
+==1446173== 
+==1446173== LEAK SUMMARY:
+==1446173==    definitely lost: 0 bytes in 0 blocks
+==1446173==    indirectly lost: 0 bytes in 0 blocks
+==1446173==      possibly lost: 0 bytes in 0 blocks
+==1446173==    still reachable: 7 bytes in 2 blocks
+==1446173==         suppressed: 208,214 bytes in 224 blocks
+==1446173== 
+==1446173== For lists of detected and suppressed errors, rerun with: -s
+==1446173== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 1 from 1)
+==1446152== Invalid read of size 1
+==1446152==    at 0x401E70: parse_input (parser.c:92)
+==1446152==    by 0x403D3F: main (minishell.c:88)
+==1446152==  Address 0x4b67758 is 0 bytes after a block of size 8 alloc'd
+==1446152==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1446152==    by 0x48AEBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1446152==    by 0x488C694: readline_internal_teardown (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1446152==    by 0x4896D2A: readline (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==1446152==    by 0x403CD2: main (minishell.c:78)
+==1446152== 
+==1446189== 
+==1446189== HEAP SUMMARY:
+==1446189==     in use at exit: 208,199 bytes in 223 blocks
+==1446189==   total heap usage: 621 allocs, 398 frees, 234,352 bytes allocated
+==1446189== 
+==1446189== LEAK SUMMARY:
+==1446189==    definitely lost: 0 bytes in 0 blocks
+==1446189==    indirectly lost: 0 bytes in 0 blocks
+==1446189==      possibly lost: 0 bytes in 0 blocks
+==1446189==    still reachable: 0 bytes in 0 blocks
+==1446189==         suppressed: 208,199 bytes in 223 blocks
+==1446189== 
+==1446189== For lists of detected and suppressed errors, rerun with: -s
+==1446189== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)
+==1446218== 
+==1446218== HEAP SUMMARY:
+==1446218==     in use at exit: 208,223 bytes in 227 blocks
+==1446218==   total heap usage: 643 allocs, 416 frees, 234,309 bytes allocated
+==1446218== 
+==1446218== 2 bytes in 1 blocks are still reachable in loss record 1 of 67
+==1446218==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1446218==    by 0x402EFB: ft_charjoin (libft2.c:25)
+==1446218==    by 0x40228B: get_token_arg (redir.c:97)
+==1446218==    by 0x4022F0: redir_handler (redir.c:109)
+==1446218==    by 0x401CC0: check_token (parser.c:48)
+==1446218==    by 0x401E8A: parse_input (parser.c:94)
+==1446218==    by 0x403D3F: main (minishell.c:88)
+==1446218== 
+==1446218== 5 bytes in 1 blocks are still reachable in loss record 2 of 67
+==1446218==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1446218==    by 0x402EFB: ft_charjoin (libft2.c:25)
+==1446218==    by 0x401DBC: convert_input (parser.c:72)
+==1446218==    by 0x401ED1: parse_input (parser.c:100)
+==1446218==    by 0x403D3F: main (minishell.c:88)
+==1446218== 
+==1446218== LEAK SUMMARY:
+==1446218==    definitely lost: 0 bytes in 0 blocks
+==1446218==    indirectly lost: 0 bytes in 0 blocks
+==1446218==      possibly lost: 0 bytes in 0 blocks
+==1446218==    still reachable: 7 bytes in 2 blocks
+==1446218==         suppressed: 208,216 bytes in 225 blocks
+==1446218== 
+==1446218== For lists of detected and suppressed errors, rerun with: -s
+==1446218== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 1 from 1)
+==1446152== 
+==1446152== HEAP SUMMARY:
+==1446152==     in use at exit: 208,200 bytes in 223 blocks
+==1446152==   total heap usage: 641 allocs, 418 frees, 234,362 bytes allocated
+==1446152== 
+==1446152== LEAK SUMMARY:
+==1446152==    definitely lost: 0 bytes in 0 blocks
+==1446152==    indirectly lost: 0 bytes in 0 blocks
+==1446152==      possibly lost: 0 bytes in 0 blocks
+==1446152==    still reachable: 0 bytes in 0 blocks
+==1446152==         suppressed: 208,200 bytes in 223 blocks
+==1446152== 
+==1446152== For lists of detected and suppressed errors, rerun with: -s
+==1446152== ERROR SUMMARY: 2 errors from 1 contexts (suppressed: 0 from 0)
