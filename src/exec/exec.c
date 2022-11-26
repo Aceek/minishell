@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/26 02:09:49 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/26 06:04:25 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	ft_fork(t_env *mini, t_cmd *cmd)
 {
 	int	fd[2];
 	int	pid;
+	int	error;
 
 	pipe(fd);
 	pid = fork();
@@ -59,9 +60,9 @@ int	ft_fork(t_env *mini, t_cmd *cmd)
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
-		ft_cmd(cmd, mini);
+		error = ft_cmd(cmd, mini);
 		close(fd[1]);
-		return (-1);
+		return (error);
 	}
 	return (0);
 }
@@ -70,30 +71,31 @@ int	ft_last_child(t_cmd *cmd, t_env *mini)
 {
 	int	pid;
 	int	status;
-	
-	if (!cmd->builtin)
+
+	if (cmd->builtin)
+		return (ft_cmd(cmd, mini), 0);
+	pid = fork();
+	if (pid == 0)
 	{
-		pid = fork();
-		if (pid < 0)
-			return (0);
-		if (pid == 0)
+		if (ft_cmd(cmd, mini) < 0)
 		{
-			if (ft_cmd(cmd, mini) < 0)
+			if (cmd->tab[0] && !cmd->builtin)
 			{
-				if (cmd->tab[0] && !cmd->builtin)
-					printf("%s : command not found\n", cmd->tab[0]);
-				return (-1);
+				ft_putstr_fd(cmd->tab[0], 2);
+				ft_putstr_fd(" : command not found\n", 2);
 			}
-		}
-		else
-		{
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
-				g_exit = WEXITSTATUS(status);
+			return (-1);
 		}
 	}
-	else
-		ft_cmd(cmd, mini);
+	else if (pid)
+	{
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+		{
+			g_exit = WEXITSTATUS(status);
+			printf("g_exit == %d\n", g_exit);
+		}
+	}
 	return (0);
 }
 
@@ -104,6 +106,8 @@ void	ft_close_and_reset_exec(t_cmd *cmd, int out, int in)
 	dup2(in, STDIN_FILENO);
 	close(in);
 	close(out);
+	while (wait(NULL) > 0)
+		;
 }
 
 void	ft_exe(t_env *mini, t_cmd *cmd)
@@ -121,7 +125,10 @@ void	ft_exe(t_env *mini, t_cmd *cmd)
 		{
 			dup2(out, STDOUT_FILENO);
 			if (!tmp->builtin)
-				printf("%s : command not found\n", tmp->tab[0]);
+			{
+				ft_putstr_fd(tmp->tab[0], 2);
+				ft_putstr_fd(" : command not found\n", 2);
+			}
 			ft_exit_clean(mini, cmd, 127);
 		}
 		tmp = tmp->next;
@@ -129,6 +136,4 @@ void	ft_exe(t_env *mini, t_cmd *cmd)
 	if (ft_last_child(tmp, mini) < 0)
 		ft_exit_clean(mini, cmd, 127);
 	ft_close_and_reset_exec(cmd, out, in);
-	while (wait(NULL) > 0)
-		;
 }
