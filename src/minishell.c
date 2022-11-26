@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/26 02:35:48 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/26 03:12:23 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	ft_init_main(t_data *data, t_env **mini, char **env)
 {
 	ft_memset(data, 0, sizeof(t_data));
 	data->env = env;
-	data->curr_fd_out = 1;
 	*mini = ft_create_env(env);
 	if (!*mini)
 		exit (1);

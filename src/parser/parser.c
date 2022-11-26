@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/25 23:20:27 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/26 03:16:15 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,15 @@ int	check_token(t_data *data, char *buf, int *i)
 }
 char	*convert_input(t_data *data, char *input, char *buf, int *i)
 {
+	char	*var;
 	char	*tmp;
-	char	*env;
 
 	if (input[*i] == '$' && check_quote_pos(input, *i) != 1)
 	{	
-		env = dollar_handler(input, i, data->env);
-		tmp = ft_strjoin(buf, env);
+		var = get_dollar(input, i, data->env);
+		tmp = ft_strjoin(buf, var);
 		free(buf);
-		free(env);
+		free(var);
 		buf = tmp;
 	}
 	else
@@ -83,6 +83,8 @@ int	parse_input(t_data *data)
 
 	if (check_quote_error(data->input))
 		return (printf("quote error\n"), 1);
+	data->curr_fd_in = 0;
+	data->curr_fd_out = 1;
 	buf = create_buffer();
 	if (!buf)
 		return (1);
