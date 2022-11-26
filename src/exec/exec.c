@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/26 02:09:49 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/26 03:12:55 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ int	ft_last_child(t_cmd *cmd, t_env *mini)
 			if (ft_cmd(cmd, mini) < 0)
 			{
 				if (cmd->tab[0] && !cmd->builtin)
-					printf("%s : command not found\n", cmd->tab[0]);
+				{
+					ft_putstr_fd(cmd->tab[0], 2);
+					ft_putstr_fd(" : command not found\n", 2);
+				}
 				return (-1);
 			}
 		}
@@ -121,7 +124,10 @@ void	ft_exe(t_env *mini, t_cmd *cmd)
 		{
 			dup2(out, STDOUT_FILENO);
 			if (!tmp->builtin)
-				printf("%s : command not found\n", tmp->tab[0]);
+			{
+				ft_putstr_fd(tmp->tab[0], 2);
+				ft_putstr_fd(" : command not found\n", 2);
+			}
 			ft_exit_clean(mini, cmd, 127);
 		}
 		tmp = tmp->next;

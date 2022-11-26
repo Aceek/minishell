@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 00:21:09 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/24 05:54:52 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/26 03:23:33 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,9 @@ void	ft_unset_builtin(t_cmd *cmd, t_env *mini)
 	int	i;
 	int	error;
 
-	if (!cmd->tab[1])
+	if (!cmd->tab[1] || !mini || !mini->line)
 	{
-		printf("unset : not enough arguments\n");
-		return ;
-	}
-	if (!mini || !mini->line)
-	{
-		printf("error env mini\n");
+		ft_putstr_fd("unset : error initialisation\n", 2);
 		return ;
 	}
 	i = 1;
@@ -96,7 +91,10 @@ void	ft_unset_builtin(t_cmd *cmd, t_env *mini)
 	{
 		error = ft_is_valid_env(cmd->tab[i]);
 		if (error < 0)
-			printf("unset : %s : invalid parameter name\n", cmd->tab[i]);
+		{
+			ft_putstr_fd(cmd->tab[i], 2);
+			ft_putstr_fd(" : unset : invalid parameter name\n", 2);
+		}
 		else
 			ft_remove_if_in_env(mini, cmd->tab[i]);
 		i++;

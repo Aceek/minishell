@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 07:12:28 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/26 02:34:57 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/26 03:07:47 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_sort_print_env(t_env *mini)
 
 	if (!mini || !mini->line)
 	{
-		printf("error export env\n");
+		ft_putstr_fd("error export env\n", 2);
 		g_exit = 1;
 		return ;
 	}
@@ -97,7 +97,10 @@ void	ft_add_args_env(t_cmd *cmd, t_env *mini)
 	{
 		error = ft_is_valid_env(cmd->tab[i]);
 		if (error < 0)
-			printf("export : not an identifier : %s\n", cmd->tab[i]);
+		{
+			ft_putstr_fd(cmd->tab[i], 2);
+			ft_putstr_fd(" : export : not an identifier\n", 2);
+		}
 		else if (error > 0)
 			env = ft_is_in_env(mini, cmd->tab[i]);
 		if (error > 0 && env == 0)
