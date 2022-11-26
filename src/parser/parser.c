@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/26 06:07:23 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/26 07:17:49 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ int	parse_input(t_data *data)
 	buf = create_buffer();
 	if (!buf)
 		return (1);
+	data->curr_fd_in = 0;
+	data->curr_fd_out = 1;
 	i = -1;
 	while (data->input[++i])
 	{
