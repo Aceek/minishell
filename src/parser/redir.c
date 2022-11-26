@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/24 06:53:01 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/26 01:11:41 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,13 @@ void	get_hd_input(t_data *data, char *end)
 		//msg derreur
 		close(data->curr_fd_in);
 		free(input);
-		ft_exit_clean(data->mini ,data->head_cmd);
-		return ;
+		ft_exit_clean(data->mini ,data->head_cmd, 1);
 	}
 	if (!ft_strcmp(input, end))
 	{
 		close(data->curr_fd_in);
 		free(input);
-		ft_exit_clean(data->mini ,data->head_cmd);
-		return ;
+		ft_exit_clean(data->mini ,data->head_cmd, 0);
 	}
 	input = convert_hd_input(data, input);
 	ft_putstr_fd(input, data->curr_fd_in);
@@ -59,26 +57,29 @@ int	heredoc(t_data *data, char *end)
 
 	data->hd_path = "/tmp/.x";
 	data->curr_fd_in = open(data->hd_path, O_CREAT | O_RDWR | O_TRUNC, 0664);
+	if (data->curr_fd_in < 0 )
+		return (-1);
 	pid = fork();
 	if (pid < 0)
 		return (close(data->curr_fd_in), -1);
 	if (pid == 0)
 	{
+		signal(SIGINT, exit);
 		while (1)
-		{
-			signal(SIGINT, SIG_DFL);
 			get_hd_input(data, end);
-		}
-		ft_exit_clean(data->mini, data->head_cmd);
 	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 	{
-		close(data->curr_fd_in);
-		return (open(data->hd_path, O_RDWR));
+		g_exit = WEXITSTATUS(status);
+		if (g_exit)
+		{
+			printf("error here doc\n");
+			close(data->curr_fd_in);
+			return (-1);
+		}
 	}
-	close(data->curr_fd_in);
-	return (-1);
+	return (data->curr_fd_in);
 }
 
 char	*get_token_arg(char *str, int *i)

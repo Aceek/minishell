@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/25 23:53:24 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/26 02:09:49 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_cmd(t_cmd *cmd, t_env *mini)
 	else if (!cmd->builtin)
 		path = ft_get_path(cmd->tab[0], cmd->env);
 	if ((cmd->fd_in < 0 || cmd->fd_out < 0) || (!path && !cmd->builtin))
-		return (free(path), -1);
+		return (free(path), -2); // add error code -2 == fd_in or out error
 	if (cmd->fd_in > STDIN_FILENO)
 		dup2(cmd->fd_in, STDIN_FILENO);
 	if (cmd->fd_out > STDOUT_FILENO)
@@ -70,7 +70,7 @@ int	ft_last_child(t_cmd *cmd, t_env *mini)
 {
 	int	pid;
 	int	status;
-
+	
 	if (!cmd->builtin)
 	{
 		pid = fork();

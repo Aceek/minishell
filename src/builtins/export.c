@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 07:12:28 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/24 05:47:30 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/26 02:34:57 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	ft_sort_print_env(t_env *mini)
 	if (!mini || !mini->line)
 	{
 		printf("error export env\n");
+		g_exit = 1;
 		return ;
 	}
 	cpy = mini;
@@ -72,10 +73,7 @@ void	ft_add_list_env(t_env *mini, char *args)
 		return ;
 	}
 	else if (!mini)
-	{
-		printf("Error env does not exist\n");
 		return ;
-	}
 	tmp = mini;
 	new = malloc(sizeof(t_env));
 	if (!new)

@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 07:16:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/24 05:55:02 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/26 02:22:28 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_builtin(t_cmd *cmd, t_env *mini)
 {
+	g_exit = 0;
 	if (cmd->builtin == EXPORT)
 		ft_export_builtin(cmd, mini);
 	else if (cmd->builtin == ECH)
@@ -27,7 +28,7 @@ void	ft_builtin(t_cmd *cmd, t_env *mini)
 	else if (cmd->builtin == CD)
 		ft_cd_builtind(cmd, mini);
 	else if (cmd->builtin == EXIT)
-		ft_exit_clean(mini, cmd);
+		ft_exit_clean(mini, cmd, 0);
 	return ;
 }
 
@@ -37,11 +38,11 @@ int	ft_is_valid_env(char *args)
 
 	i = 0;
 	if (ft_isdigit(args[0]) || args[0] == '=' || args[0] == '\0')
-		return (-1);
+		return (g_exit = 1, -1);
 	while (args && args[i] && args[i] != '=')
 	{
 		if (ft_isalnun_tmp(args[i]) == 0)
-			return (-1);
+			return (g_exit = 1, -1);
 		i++;
 	}
 	if (args[i] != '=')
@@ -58,6 +59,8 @@ int	ft_is_in_env(t_env *mini, char *args)
 	while (tmp)
 	{
 		tmp_args = ft_cpy_env_name(args);
+		if (!tmp_args)
+			return (-1);
 		if (ft_strncmp(tmp->line, tmp_args, ft_strlen(tmp_args)) == 0)
 		{
 			free(tmp->line);

@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 04:29:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/23 01:50:24 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/26 02:58:15 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ int	ft_go_path(int location, t_env *mini)
 	}
 	old_pwd = ft_update_pwd(mini, "OLDPWD=", 0);
 	if (chdir(path) < 0)
+	{
+		g_exit = 1;
 		printf("Path not found\n");
+	}
 	else if (!ft_is_in_env(mini, old_pwd))
 		ft_add_list_env(mini, old_pwd);
 	ft_update_pwd(mini, "PWD=", 1);
@@ -114,7 +117,11 @@ void	ft_cd_builtind(t_cmd *cmd, t_env *mini)
 			cmd->tab[1] = ft_handle_tild(cmd->tab[1], mini);
 		old_pwd = ft_update_pwd(mini, "OLDPWD=", 0);
 		if (chdir(cmd->tab[1]) < 0)
-			printf("Path not found\n");
+		{
+			g_exit = 1;
+			// printf("Path not found\n");
+			ft_putstr_fd("cd: no such file or directory\n", 2);
+		}
 		else if (!ft_is_in_env(mini, old_pwd))
 			ft_add_list_env(mini, old_pwd);
 		ft_update_pwd(mini, "PWD=", 1);
