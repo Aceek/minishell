@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 04:29:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/26 03:38:52 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/26 06:50:23 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ int	ft_go_path(int location, t_env *mini)
 	else if (location == 1)
 		path = ft_get_env_path("OLDPWD=", mini);
 	if (!path)
-		return (ft_putstr_fd("cd : OLDPWD or HOME not set\n", 2), -1);
+		return (write(2, "cd : OLDPWD or HOME not set\n", 28), -1);
 	old_pwd = ft_update_pwd(mini, "OLDPWD=", 0);
 	if (chdir(path) < 0)
 	{
 		g_exit = 1;
-		ft_putstr_fd("cd: no such file or directory\n", 2);
+		write(2, "cd: no such file or directory\n", 30);
 	}
 	else if (!ft_is_in_env(mini, old_pwd))
 		ft_add_list_env(mini, old_pwd);
@@ -113,7 +113,7 @@ void	ft_cd_builtind(t_cmd *cmd, t_env *mini)
 		if (chdir(cmd->tab[1]) < 0)
 		{
 			g_exit = 1;
-			ft_putstr_fd("cd: no such file or directory\n", 2);
+			write(2, "cd: no such file or directory\n", 30);
 		}
 		else if (!ft_is_in_env(mini, old_pwd))
 			ft_add_list_env(mini, old_pwd);

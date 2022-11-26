@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/26 06:04:25 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/26 06:45:11 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_cmd(t_cmd *cmd, t_env *mini)
 	else if (!cmd->builtin)
 		path = ft_get_path(cmd->tab[0], cmd->env);
 	if ((cmd->fd_in < 0 || cmd->fd_out < 0) || (!path && !cmd->builtin))
-		return (free(path), -2); // add error code -2 == fd_in or out error
+		return (free(path), -2);
 	if (cmd->fd_in > STDIN_FILENO)
 		dup2(cmd->fd_in, STDIN_FILENO);
 	if (cmd->fd_out > STDOUT_FILENO)
@@ -44,7 +44,6 @@ int	ft_fork(t_env *mini, t_cmd *cmd)
 {
 	int	fd[2];
 	int	pid;
-	int	error;
 
 	pipe(fd);
 	pid = fork();
@@ -60,9 +59,9 @@ int	ft_fork(t_env *mini, t_cmd *cmd)
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
-		error = ft_cmd(cmd, mini);
+		ft_cmd(cmd, mini);
 		close(fd[1]);
-		return (error);
+		return (-1);
 	}
 	return (0);
 }
@@ -81,8 +80,8 @@ int	ft_last_child(t_cmd *cmd, t_env *mini)
 		{
 			if (cmd->tab[0] && !cmd->builtin)
 			{
-				ft_putstr_fd(cmd->tab[0], 2);
-				ft_putstr_fd(" : command not found\n", 2);
+				write(2, cmd->tab[0], ft_strlen(cmd->tab[0]));
+				write(2, " : command not found\n", 21);
 			}
 			return (-1);
 		}
@@ -91,10 +90,7 @@ int	ft_last_child(t_cmd *cmd, t_env *mini)
 	{
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
-		{
 			g_exit = WEXITSTATUS(status);
-			printf("g_exit == %d\n", g_exit);
-		}
 	}
 	return (0);
 }
@@ -126,8 +122,8 @@ void	ft_exe(t_env *mini, t_cmd *cmd)
 			dup2(out, STDOUT_FILENO);
 			if (!tmp->builtin)
 			{
-				ft_putstr_fd(tmp->tab[0], 2);
-				ft_putstr_fd(" : command not found\n", 2);
+				write(2, cmd->tab[0], ft_strlen(cmd->tab[0]));
+				write(2, " : command not found\n", 21);
 			}
 			ft_exit_clean(mini, cmd, 127);
 		}

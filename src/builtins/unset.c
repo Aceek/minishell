@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 00:21:09 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/26 03:23:33 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/26 06:45:27 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	ft_unset_builtin(t_cmd *cmd, t_env *mini)
 
 	if (!cmd->tab[1] || !mini || !mini->line)
 	{
-		ft_putstr_fd("unset : error initialisation\n", 2);
+		write(2, "unset : error initialisation\n", 29);
 		return ;
 	}
 	i = 1;
@@ -92,8 +92,8 @@ void	ft_unset_builtin(t_cmd *cmd, t_env *mini)
 		error = ft_is_valid_env(cmd->tab[i]);
 		if (error < 0)
 		{
-			ft_putstr_fd(cmd->tab[i], 2);
-			ft_putstr_fd(" : unset : invalid parameter name\n", 2);
+			write(2, cmd->tab[i], ft_strlen(cmd->tab[i]));
+			write(2, " : unset : invalid parameter name\n", 34);
 		}
 		else
 			ft_remove_if_in_env(mini, cmd->tab[i]);
