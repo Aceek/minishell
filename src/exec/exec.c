@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/27 01:19:49 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/27 02:49:03 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ int	ft_last_child(t_cmd *cmd, t_env *mini)
 
 void	ft_close_and_reset_exec(t_cmd *cmd, int out, int in, int error)
 {
+	while (wait(NULL) > 0)
+		;
 	if (error)
 		g_exit = 1;
 	ft_clear_cmd_list(cmd);
@@ -102,8 +104,6 @@ void	ft_close_and_reset_exec(t_cmd *cmd, int out, int in, int error)
 	dup2(in, STDIN_FILENO);
 	close(in);
 	close(out);
-	while (wait(NULL) > 0)
-		;
 }
 
 int	ft_exe(t_env *mini, t_cmd *cmd, int error)
@@ -130,6 +130,7 @@ int	ft_exe(t_env *mini, t_cmd *cmd, int error)
 	}
 	if (ft_last_child(tmp, mini) < 0)
 		ft_exit_clean(mini, cmd, 127);
+
 	ft_close_and_reset_exec(cmd, out, in, error);
 	return (0);
 }
