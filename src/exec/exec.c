@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/27 01:13:10 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/27 01:19:49 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	ft_last_child(t_cmd *cmd, t_env *mini)
 		if (ft_cmd(cmd, mini) < 0)
 		{
 			if (cmd->tab[0] && !cmd->builtin)
-				ft_exec_err(" : command not found\n", cmd->tab[0]);
+				ft_exec_err(cmd->tab[0], " : command not found\n");
 			return (-1);
 		}
 	}
@@ -123,7 +123,7 @@ int	ft_exe(t_env *mini, t_cmd *cmd, int error)
 		{
 			dup2(out, STDOUT_FILENO);
 			if (!tmp->builtin)
-				ft_exec_err(" : command not found\n", cmd->tab[0]);
+				ft_exec_err(cmd->tab[0], " : command not found\n");
 			ft_exit_clean(mini, cmd, 127);
 		}
 		tmp = tmp->next;

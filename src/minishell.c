@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/27 01:12:42 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/27 01:27:41 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	main(int ac, char **av, char **env)
 	ft_init_main(&data, &data.mini, env);
 	while (ac > 0 && av[0])
 	{
-		data.input = readline("mini> ");
+		data.input = readline("\033[1;35m\033[1m minishell ▸ \033[0m");
 		if (!data.input)
 		{
 			printf("exit\n");

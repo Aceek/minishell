@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:42:35 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/27 01:13:17 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/27 01:20:02 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	ft_exec_err(const char *str, char *var)
 {
-	if (var)
-		write(2, str, ft_strlen(str));
 	if (str)
 		write(2, str, ft_strlen(str));
+	if (var)
+		write(2, var, ft_strlen(var));
 }
 
 char	**ft_make_tab_from_env(t_env *mini)
