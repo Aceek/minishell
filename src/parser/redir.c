@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/27 02:30:19 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/27 03:25:13 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	heredoc(t_data *data, char *end)
 	if (pid == 0)
 	{
 		signal(SIGINT, exit);
+		free(data->buf);
 		while (1)
 			get_hd_input(data, end);
 	}
@@ -88,23 +89,19 @@ char	*get_token_arg(char *str, int *i)
 {
 	char	*arg;
 	char	*tmp;
-	int 	j;
 
 	arg = create_buffer();
 	if (!arg)
 		return (NULL);
-	j = *i;
-	while (ft_isspace(str[j]))
-		j += 1;
-	while (ft_isalnum(str[j]) || str[j] == '_')
+	while (ft_isspace(str[*i]))
+		*i += 1;
+	while (ft_isalnum(str[*i]) || str[*i] == '_')
 	{
-		tmp = ft_charjoin(arg, str[j]);
+		tmp = ft_charjoin(arg, str[*i]);
 		free(arg);
 		arg = tmp;
-		j += 1;
+		*i += 1;
 	}
-	if (j > *i)
-		*i = j - 1;
 	return (arg);
 }
 
