@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/24 02:29:41 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/27 05:25:31 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,29 +50,3 @@ int	ft_isspace(int c)
 	else
 		return (0);
 }
-
-// int	ft_strcmp(char *s1, char *s2)
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	while (s1[i] && s2[i] && s1[i] == s2[i])
-// 			i++;
-// 	if (i == ft_strlen(s1))
-// 		return (1);
-// 	return (0);
-// }
-
-// int	ft_strncmp(char *s1, char *s2, size_t n)
-// {
-// 	size_t	i;
-
-// 	if (!n)
-// 		return (0);
-// 	i = 0;
-// 	while (s1[i] && s2[i] && s1[i] == s2[i] && i < n)
-// 			i++;
-// 	if (i == n)
-// 		return (1);
-// 	return (0);
-// }
