@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/27 06:30:01 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/27 06:47:19 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ char	*create_buffer(void)
 int	check_token(t_data *data, int *i)
 {
 	data->curr_token = get_token_code(data->input, i);
-	if (check_token_error(data, data->input, i))
-		return (write(2, "minishell : syntax error near unexpected token\n", 47), 0);
+	// if (check_token_error(data, data->input, i))
+	// 	return (write(2, "minishell : syntax error near unexpected token\n", 47), 0);
 	if (data->curr_token > PIPE)
 		redir_handler(data, data->input, i);
 	if (data->curr_token == PIPE)
