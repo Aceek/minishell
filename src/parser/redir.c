@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/26 07:10:02 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/27 02:06:11 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,19 +87,23 @@ char	*get_token_arg(char *str, int *i)
 {
 	char	*arg;
 	char	*tmp;
+	int 	j;
 
 	arg = create_buffer();
 	if (!arg)
 		return (NULL);
-	while (ft_isspace(str[*i]))
-		*i += 1;
-	while (ft_isalnum(str[*i]) || str[*i] == '_')
+	j = *i;
+	while (ft_isspace(str[j]))
+		j += 1;
+	while (ft_isalnum(str[j]) || str[j] == '_')
 	{
-		tmp = ft_charjoin(arg, str[*i]);
+		tmp = ft_charjoin(arg, str[j]);
 		free(arg);
 		arg = tmp;
-		*i += 1;
+		j += 1;
 	}
+	if (j > *i)
+		*i = j - 1;
 	return (arg);
 }
 
@@ -122,11 +126,12 @@ int	redir_handler(t_data *data, char *str, int *i)
 	{
 		data->error = 1;
 		g_exit = 1;
-        write(2, "bash:", 5);
+        write(2, "minishell : ", 12);
 		write(2, arg, ft_strlen(arg));
-        write(2, ": No such file or directory\n", 28);
+        write(2, " : No such file or directory\n", 29);
+		free(arg);
 		return (1);
 	}
-	// free(arg);
+	free(arg);
 	return (0);
 }
