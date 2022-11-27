@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/27 03:25:55 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/27 04:27:48 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	add_cmd(t_data *data)
 		return (1);
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
-		return (1);
+		return (free(data->buf), 1);
 	ft_memset(cmd, 0, sizeof(t_cmd));
 	cmd->tab = ft_split(data->buf);
 	cmd->fd_in = data->curr_fd_in;
@@ -29,7 +29,6 @@ int	add_cmd(t_data *data)
 	cmd->head_cmd = data->head_cmd;
 	cmd->env = data->env;
 	ft_list_add_back(&data->head_cmd, cmd);
-	free(data->buf);
 	return (0);
 }
 
@@ -97,6 +96,7 @@ int	parse_input(t_data *data)
 	{
 		if (check_token(data, &i))
 		{
+			free(data->buf);
 			data->buf = create_buffer();
 			if (!data->buf)
 				return (1);
@@ -106,8 +106,9 @@ int	parse_input(t_data *data)
 		}
 		data->buf = convert_input(data, data->input, data->buf, &i);
 		if (!data->input[i])
-			break;
+			break ;
 	}
 	add_cmd(data);
+	free(data->buf);
 	return (0);
 }
