@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/26 23:27:57 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/27 00:22:51 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*convert_input(t_data *data, char *input, char *buf, int *i)
 		buf = tmp;
 	}
 	else
-	{	
+	{
 		tmp = ft_charjoin(buf, data->input[*i]);
 		free(buf);
 		buf = tmp;
@@ -85,20 +85,13 @@ int	parse_input(t_data *data)
 	char	*buf;
 
 	if (check_quote_error(data->input))
-	{
-		data->error = 1;
-		g_exit = 1;
-        write(2, "bash: quotes not closing error", 30);
-		ft_exit_clean(data->mini, data->head_cmd, 1);
-		return (1);
-	};
+		return (write(2, "minishell: quotes not closing error\n", 36), 1);
 	buf = create_buffer();
 	if (!buf)
 		return (1);
 	data->curr_fd_in = 0;
 	data->curr_fd_out = 1;
 	data->error = 0;
-	g_exit = 0;
 	i = -1;
 	while (data->input[++i])
 	{
@@ -110,7 +103,6 @@ int	parse_input(t_data *data)
 			data->curr_fd_in = 0;
 			data->curr_fd_out = 1;
 			data->error = 0;
-			g_exit = 0;
 		}
 		buf = convert_input(data, data->input, buf, &i);
 	}

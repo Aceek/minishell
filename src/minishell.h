@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/26 22:29:36 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/27 01:13:24 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ char	*ft_get_path(char *cmd, char **env);
 char	*ft_strnstr(const char *s1, const char *to_find, size_t n);
 int		ft_error(int error);
 char	**ft_split2(char const *s, char c);
-void	ft_exe(t_env *mini, t_cmd *cmd);
+int		ft_exe(t_env *mini, t_cmd *cmd, int error);
 int		ft_isalnun(char c);
 int		ft_isdigit(char c);
 char	**ft_make_tab_from_env(t_env *mini);
@@ -179,5 +179,8 @@ int		ft_isalnun_tmp(char c);
 void	lst_freeall(t_env *mini_env);
 void	ft_clear_cmd_list(t_cmd *cmd);
 void	ft_signal_newline(int unused);
+void	ft_signal_newline2(int unused);
+void	ft_signal_quit(int unused);
+void	ft_exec_err(const char *str, char *var);
 
 #endif

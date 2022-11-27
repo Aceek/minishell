@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/26 23:27:00 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/27 01:12:42 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,6 @@ t_env	*ft_create_env(char **env)
 	return (mini);
 }
 
-void	ft_signal_newline(int unused)
-{
-	(void)unused;
-	rl_on_new_line();
-	write(2, "\n", 1);
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
 void	ft_init_main(t_data *data, t_env **mini, char **env)
 {
 	ft_memset(data, 0, sizeof(t_data));
@@ -47,7 +38,7 @@ void	ft_init_main(t_data *data, t_env **mini, char **env)
 	*mini = ft_create_env(env);
 	if (!*mini)
 		exit (1);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, ft_signal_quit);
 	signal(SIGINT, ft_signal_newline);
 }
 
@@ -87,8 +78,8 @@ int	main(int ac, char **av, char **env)
 		{
 			add_history(data.input);
 			parse_input(&data);
-			ft_printf_list(data.head_cmd);  
-			ft_exe(data.mini, data.head_cmd);
+			// ft_printf_list(data.head_cmd);  
+			ft_exe(data.mini, data.head_cmd, data.error);
 			data.head_cmd = NULL;
 			free(data.input);
 		}

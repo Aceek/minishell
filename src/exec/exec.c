@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/26 23:23:14 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/27 01:13:10 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,13 @@ int	ft_last_child(t_cmd *cmd, t_env *mini)
 	if (cmd->builtin)
 		return (ft_cmd(cmd, mini), 0);
 	pid = fork();
+	signal(SIGINT, ft_signal_newline2);
 	if (pid == 0)
 	{
 		if (ft_cmd(cmd, mini) < 0)
 		{
 			if (cmd->tab[0] && !cmd->builtin)
-			{
-				write(2, cmd->tab[0], ft_strlen(cmd->tab[0]));
-				write(2, " : command not found\n", 21);
-			}
+				ft_exec_err(" : command not found\n", cmd->tab[0]);
 			return (-1);
 		}
 	}
@@ -90,17 +88,15 @@ int	ft_last_child(t_cmd *cmd, t_env *mini)
 	{
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
-		{
 			g_exit = WEXITSTATUS(status);
-			if (cmd->fd_in < 0 || cmd->fd_out < 0)
-			g_exit = 1;
-		}
 	}
-	return (0);
+	return (signal(SIGINT, ft_signal_newline), 0);
 }
 
-void	ft_close_and_reset_exec(t_cmd *cmd, int out, int in)
+void	ft_close_and_reset_exec(t_cmd *cmd, int out, int in, int error)
 {
+	if (error)
+		g_exit = 1;
 	ft_clear_cmd_list(cmd);
 	dup2(out, STDOUT_FILENO);
 	dup2(in, STDIN_FILENO);
@@ -110,14 +106,14 @@ void	ft_close_and_reset_exec(t_cmd *cmd, int out, int in)
 		;
 }
 
-void	ft_exe(t_env *mini, t_cmd *cmd)
+int	ft_exe(t_env *mini, t_cmd *cmd, int error)
 {
 	int		out;
 	int		in;
 	t_cmd	*tmp;
 
 	if (!cmd)
-		return ;
+		return (g_exit = 1, 1);
 	in = dup(0);
 	out = dup(1);
 	tmp = cmd;
@@ -127,15 +123,13 @@ void	ft_exe(t_env *mini, t_cmd *cmd)
 		{
 			dup2(out, STDOUT_FILENO);
 			if (!tmp->builtin)
-			{
-				write(2, cmd->tab[0], ft_strlen(cmd->tab[0]));
-				write(2, " : command not found\n", 21);
-			}
+				ft_exec_err(" : command not found\n", cmd->tab[0]);
 			ft_exit_clean(mini, cmd, 127);
 		}
 		tmp = tmp->next;
 	}
 	if (ft_last_child(tmp, mini) < 0)
 		ft_exit_clean(mini, cmd, 127);
-	ft_close_and_reset_exec(cmd, out, in);
+	ft_close_and_reset_exec(cmd, out, in, error);
+	return (0);
 }

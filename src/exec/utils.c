@@ -6,11 +6,19 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:42:35 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/25 23:52:29 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/27 01:13:17 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_exec_err(const char *str, char *var)
+{
+	if (var)
+		write(2, str, ft_strlen(str));
+	if (str)
+		write(2, str, ft_strlen(str));
+}
 
 char	**ft_make_tab_from_env(t_env *mini)
 {
