@@ -7,7 +7,8 @@ DIR_OBJ			=	obj
 SUB_OBJ			=	obj/parser obj/libft obj/builtins obj/exec
 
 SRC				=	parser/dollar.c parser/lexer.c parser/parser.c parser/redir.c \
-					libft/libft1.c libft/libft2.c libft/libft3.c libft/libft4.c libft/libft5.c minishell.c signal.c\
+					libft/libft_charset.c libft/libft_cleaning.c libft/libft_list_1.c libft/libft_list_2.c \
+					libft/libft_str_search.c libft/libft_utils.c libft/libft_modify_str.c minishell.c signal.c \
 					exec/exec.c exec/utils.c exec/ft_split.c \
 					builtins/export.c builtins/export_utils.c builtins/echo.c builtins/pwd.c builtins/unset.c builtins/cd.c \
 

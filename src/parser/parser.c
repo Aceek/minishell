@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/27 05:14:27 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/27 06:30:01 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	add_cmd(t_data *data)
 	if (!cmd)
 		return (free(data->buf), 1);
 	ft_memset(cmd, 0, sizeof(t_cmd));
-	cmd->tab = ft_split(data->buf);
+	cmd->tab = ft_split2(data->buf, " \f\n\r\t\v");
 	cmd->fd_in = data->curr_fd_in;
 	cmd->fd_out = data->curr_fd_out;
 	cmd->builtin = get_builtin_code(cmd->tab[0]);
