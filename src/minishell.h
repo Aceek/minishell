@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/27 05:35:21 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/27 06:25:42 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,11 +122,16 @@ void	ft_close_and_reset_exec(t_cmd *cmd, int out, int in, int error);
 int		ft_exe(t_env *mini, t_cmd *cmd, int error);
 
 //FT_SPLIT.C//
-int		ft_charset(char const s, char c);
-int		ft_count_words(char const *s, char c);
-void	ft_add_words(char *dest, const char *src, char c);
-void	ft_add_to_tab(char **tab, const char *s, char c);
-char	**ft_split2(char const *s, char c);
+// int		ft_charset(char const s, char c);
+// int		ft_count_words(char const *s, char c);
+// void	ft_add_words(char *dest, const char *src, char c);
+// void	ft_add_to_tab(char **tab, const char *s, char c);
+// char	**ft_split2(char const *s, char c);
+int		ft_charset(char const s, char *charset);
+int		ft_count_words(char const *s, char *charset);
+void	ft_add_words(char *dest, const char *src, char *charset);
+void	ft_add_to_tab(char **tab, const char *s, char *charset);
+char	**ft_split2(char const *s, char *charset);
 
 //FT_UTILS.C//
 void	ft_exec_err(const char *str, char *var);
@@ -199,10 +204,8 @@ char	*ft_cpy(char *src, int skip);
 char	*ft_strdup(char *s);
 t_cmd	*ft_get_list_last(t_cmd *list);
 void	ft_list_add_back(t_cmd **list, t_cmd *new);
-void	ft_listclear(t_cmd **list);
 void	*ft_memset(void *s, int c, size_t n);
 char	*ft_itoa(int n);
-void	free_tab(char **av);
-char	**ft_split(char *str);
+int		nb_len(int n);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:42:35 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/27 01:20:02 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/27 06:22:22 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char	*ft_get_path(char *cmd, char **env)
 	if (!env[i])
 		return (NULL);
 	tmp_path = ft_cpy(env[i], 5);
-	all_dir = ft_split2(tmp_path, ':');
+	all_dir = ft_split2(tmp_path, ":");
 	i = 0;
 	while (all_dir[i] != NULL)
 	{
@@ -99,9 +99,9 @@ char	*ft_get_path(char *cmd, char **env)
 		if (!path)
 			return (free(tmp_path), free(all_dir), NULL);
 		if (access(path, F_OK) == 0)
-			return (free(tmp_path), free_tab(all_dir), path);
+			return (free(tmp_path), ft_clear_tab(all_dir), path);
 		free (path);
 		i++;
 	}
-	return (free(tmp_path), free_tab(all_dir), NULL);
+	return (free(tmp_path), ft_clear_tab(all_dir), NULL);
 }

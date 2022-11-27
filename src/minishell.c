@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/27 03:32:59 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/27 06:28:35 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,6 @@ int	main(int ac, char **av, char **env)
 		{
 			add_history(data.input);
 			parse_input(&data);
-			// if (data.buf)
-				// free(data.buf);
-			// ft_printf_list(data.head_cmd);  
 			ft_exe(data.mini, data.head_cmd, data.error);
 			data.head_cmd = NULL;
 			free(data.input);
