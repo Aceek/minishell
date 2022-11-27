@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/27 02:06:11 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/27 02:30:19 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,14 @@ void	get_hd_input(t_data *data, char *end)
 		//msg derreur
 		close(data->curr_fd_in);
 		free(input);
+		free(end);
 		ft_exit_clean(data->mini ,data->head_cmd, 1);
 	}
 	if (!ft_strcmp(input, end))
 	{
 		close(data->curr_fd_in);
 		free(input);
+		free(end);
 		ft_exit_clean(data->mini ,data->head_cmd, 0);
 	}
 	input = convert_hd_input(data, input);
@@ -76,11 +78,10 @@ int	heredoc(t_data *data, char *end)
 		{
 			printf("error here doc\n");
 			close(data->curr_fd_in);
-			free(end);
 			return (-1);
 		}
 	}
-	return (free(end), data->curr_fd_in);
+	return (data->curr_fd_in);
 }
 
 char	*get_token_arg(char *str, int *i)
