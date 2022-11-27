@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/26 22:29:36 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/27 00:59:27 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_data
 	char			**env;
 	t_env			*mini;
 	char			*input;
+	char			*buf;
 	int				curr_token;
 	int				curr_fd_in;
 	int				curr_fd_out;
@@ -127,8 +128,8 @@ int		get_token_code(char *str, int *i);
 int		get_builtin_code(char *str);
 
 /*parser*/
-int		add_cmd(t_data *data, char *str);
-int		check_token(t_data *data, char *buf, int *i);
+int		add_cmd(t_data *data);
+int		check_token(t_data *data, int *i);
 char	*convert_input(t_data *data, char *input, char *buf, int *i);
 char	*create_buffer(void);
 int		parse_input(t_data *data);
