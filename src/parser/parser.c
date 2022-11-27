@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/27 04:27:48 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/27 05:14:27 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ char	*create_buffer(void)
 int	check_token(t_data *data, int *i)
 {
 	data->curr_token = get_token_code(data->input, i);
-	// if (check_token_error)
-	// 	return (write(2, "minishell : syntax error near unexpected token\n", 47) , 1);
+	if (check_token_error(data, data->input, i))
+		return (write(2, "minishell : syntax error near unexpected token\n", 47), 0);
 	if (data->curr_token > PIPE)
 		redir_handler(data, data->input, i);
 	if (data->curr_token == PIPE)
@@ -96,6 +96,8 @@ int	parse_input(t_data *data)
 	{
 		if (check_token(data, &i))
 		{
+			if (data->error)
+				break ;
 			free(data->buf);
 			data->buf = create_buffer();
 			if (!data->buf)
