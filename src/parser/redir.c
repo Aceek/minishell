@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/27 04:29:45 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/28 05:07:27 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int	redir_handler(t_data *data, char *str, int *i)
 		g_exit = 1;
         write(2, "minishell : ", 12);
 		write(2, arg, ft_strlen(arg));
-        write(2, " : No such file or directory\n", 29);
+        write(2, ": No such file or directory\n", 29);
 		free(arg);
 		return (1);
 	}

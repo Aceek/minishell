@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/27 06:29:58 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/11/28 04:48:31 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,14 @@ char	*get_dollar(char *str, int *i, t_env *mini);
 void	update_quote(bool *quote);
 int		check_quote_error(char *str);
 int		check_quote_pos(char *str, int pos);
-int		check_token_error(t_data *data, char *str, int *i);
+int		check_token_error(char *str, int *i);
 int		get_token_code(char *str, int *i);
 int		get_builtin_code(char *str);
 
 //PARSER.C//
-int		add_cmd(t_data *data);
 char	*create_buffer(void);
+int		init_cmd(t_data *data);
+int		add_cmd(t_data *data);
 int		check_token(t_data *data, int *i);
 char	*convert_input(t_data *data, char *input, char *buf, int *i);
 int		parse_input(t_data *data);

@@ -6,11 +6,33 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/27 06:47:19 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/28 05:01:19 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	*create_buffer(void)
+{
+	char	*buf;
+
+	buf = malloc(sizeof(char));
+	if (!buf)
+		return (NULL);
+	buf[0] = 0;
+	return (buf);
+}
+
+int	init_cmd(t_data *data)
+{
+	data->buf = create_buffer();
+	if (!data->buf)
+		return (1);
+	data->curr_fd_in = 0;
+	data->curr_fd_out = 1;
+	data->error = 0;
+	return (0);
+}
 
 int	add_cmd(t_data *data)
 {
@@ -32,31 +54,22 @@ int	add_cmd(t_data *data)
 	return (0);
 }
 
-char	*create_buffer(void)
-{
-	char	*buf;
-
-	buf = malloc(sizeof(char));
-	if (!buf)
-		return (NULL);
-	buf[0] = 0;
-	return (buf);
-}
-
 int	check_token(t_data *data, int *i)
 {
 	data->curr_token = get_token_code(data->input, i);
-	// if (check_token_error(data, data->input, i))
-	// 	return (write(2, "minishell : syntax error near unexpected token\n", 47), 0);
+	if (data->curr_token && check_token_error(data->input, i))
+	{
+		write(2, "minishell : syntax error near unexpected token\n", 47);
+		data->error = 1;
+		return (0);
+	}
+	if (data->curr_token == PIPE)
+		return (1);
 	if (data->curr_token > PIPE)
 		redir_handler(data, data->input, i);
-	if (data->curr_token == PIPE)
-	{
-		add_cmd(data);
-		return (1);
-	}
 	return (0);
 }
+
 char	*convert_input(t_data *data, char *input, char *buf, int *i)
 {
 	char	*var;
@@ -79,34 +92,29 @@ char	*convert_input(t_data *data, char *input, char *buf, int *i)
 	return (buf);
 }
 
+
 int	parse_input(t_data *data)
 {
 	int		i;
 
 	if (check_quote_error(data->input))
-		return (write(2, "minishell : quotes not closing error\n", 37) , 1);
-	data->buf = create_buffer();
-	if (!data->buf)
+	{
+		write(2, "minishell : quotes not closing error\n", 37);
 		return (1);
-	data->curr_fd_in = 0;
-	data->curr_fd_out = 1;
-	data->error = 0;
+	}
+	init_cmd(data);
 	i = -1;
 	while (data->input[++i])
 	{
+		
 		if (check_token(data, &i))
 		{
-			if (data->error)
-				break ;
+			add_cmd(data);
 			free(data->buf);
-			data->buf = create_buffer();
-			if (!data->buf)
-				return (1);
-			data->curr_fd_in = 0;
-			data->curr_fd_out = 1;
-			data->error = 0;
+			init_cmd(data);
 		}
-		data->buf = convert_input(data, data->input, data->buf, &i);
+		if (!data->error)
+			data->buf = convert_input(data, data->input, data->buf, &i);
 		if (!data->input[i])
 			break ;
 	}
