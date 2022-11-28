@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/28 04:48:31 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/28 06:57:04 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int		parse_input(t_data *data);
 
 //REDIR.C//
 char	*convert_hd_input(t_data *data, char *input);
-void	get_hd_input(t_data *data, char *end);
+void	get_hd_input(t_data *data, int fd, char *end);
 int		heredoc(t_data *data, char *end);
 char	*get_token_arg(char *str, int *i);
 int		redir_handler(t_data *data, char *str, int *i);

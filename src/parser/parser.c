@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/28 05:01:19 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/28 06:00:09 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	*convert_input(t_data *data, char *input, char *buf, int *i)
 	}
 	else
 	{
-		tmp = ft_charjoin(buf, data->input[*i]);
+		tmp = ft_charjoin(buf, input[*i]);
 		free(buf);
 		buf = tmp;
 	}
