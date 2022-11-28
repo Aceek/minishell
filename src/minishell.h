@@ -151,7 +151,7 @@ char	*ft_get_env_path(char *env_path, t_env *mini);
 char	*ft_update_pwd(t_env *mini, char *join, int mod);
 int		ft_go_path(int location, t_env *mini);
 char	*ft_handle_tild(char *str, t_env *mini);
-void	ft_cd_builtind(t_cmd *cmd, t_env *mini);
+int		ft_cd_builtind(t_cmd *cmd, t_env *mini);
 
 //ECHO.C//
 void	ft_echo_builtin(t_cmd *cmd);
@@ -161,23 +161,23 @@ void	ft_sort_print_env(t_env *mini);
 char	*ft_cpy_env_name(char *args);
 void	ft_add_list_env(t_env *mini, char *args);
 void	ft_add_args_env(t_cmd *cmd, t_env *mini);
-void	ft_export_builtin(t_cmd *cmd, t_env *mini);
+int		ft_export_builtin(t_cmd *cmd, t_env *mini);
 
 //EXPORT_UTILS.C//
-void	ft_builtin(t_cmd *cmd, t_env *mini);
+int		ft_builtin(t_cmd *cmd, t_env *mini);
 int		ft_is_valid_env(char *args);
 int		ft_is_in_env(t_env *mini, char *args);
 t_env	*ft_cpy_env(t_env *mini);
 void	ft_print_export_env(t_env *mini);
 
 //PWD.C//
-void	ft_pwd_builtin(void);
+int		ft_pwd_builtin(void);
 
 //UNSET.C//
 void	ft_print_env(t_env *mini);
 void	ft_remove_list(t_env *old, t_env *tmp);
 void	ft_remove_if_in_env(t_env *mini, char *args);
-void	ft_unset_builtin(t_cmd *cmd, t_env *mini);
+int		ft_unset_builtin(t_cmd *cmd, t_env *mini);
 
 /*---------------------------------SIGNAL--------------------------------*/
 void	ft_signal_newline(int unused);

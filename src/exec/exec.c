@@ -71,16 +71,18 @@ int	ft_last_child(t_cmd *cmd, t_env *mini)
 	int	pid;
 	int	status;
 
-	if (cmd->builtin)
-		return (ft_cmd(cmd, mini), 0);
 	pid = fork();
 	signal(SIGINT, ft_signal_newline2);
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		if (ft_cmd(cmd, mini) < 0)
 		{
 			if (cmd->tab[0] && !cmd->builtin)
+			{
+				g_exit = 127;
 				ft_exec_err(cmd->tab[0], " : command not found\n");
+			}
 			return (-1);
 		}
 	}
@@ -95,8 +97,6 @@ int	ft_last_child(t_cmd *cmd, t_env *mini)
 
 void	ft_close_and_reset_exec(t_cmd *cmd, int out, int in, int error)
 {
-	while (wait(NULL) > 0)
-		;
 	if (error)
 		g_exit = 1;
 	ft_clear_cmd_list(cmd);
@@ -104,6 +104,8 @@ void	ft_close_and_reset_exec(t_cmd *cmd, int out, int in, int error)
 	dup2(in, STDIN_FILENO);
 	close(in);
 	close(out);
+	while (wait(NULL) > 0)
+		;
 }
 
 int	ft_exe(t_env *mini, t_cmd *cmd, int error)
@@ -124,12 +126,12 @@ int	ft_exe(t_env *mini, t_cmd *cmd, int error)
 			dup2(out, STDOUT_FILENO);
 			if (!tmp->builtin)
 				ft_exec_err(cmd->tab[0], " : command not found\n");
-			ft_exit_clean(mini, cmd, 127);
+			ft_exit_clean(mini, cmd, g_exit);
 		}
 		tmp = tmp->next;
 	}
 	if (ft_last_child(tmp, mini) < 0)
-		ft_exit_clean(mini, cmd, 127);
+		ft_exit_clean(mini, cmd, g_exit);
 	ft_close_and_reset_exec(cmd, out, in, error);
 	return (0);
 }

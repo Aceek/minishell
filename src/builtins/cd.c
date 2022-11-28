@@ -96,7 +96,7 @@ char	*ft_handle_tild(char *str, t_env *mini)
 	return (str);
 }
 
-void	ft_cd_builtind(t_cmd *cmd, t_env *mini)
+int	ft_cd_builtind(t_cmd *cmd, t_env *mini)
 {
 	char	*old_pwd;
 
@@ -120,4 +120,5 @@ void	ft_cd_builtind(t_cmd *cmd, t_env *mini)
 		ft_update_pwd(mini, "PWD=", 1);
 		free(old_pwd);
 	}
+	return (g_exit);
 }

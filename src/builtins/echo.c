@@ -23,11 +23,11 @@ void	ft_echo_builtin(t_cmd *cmd)
 	i = 1 + n_option;
 	while (cmd->tab && cmd->tab[i])
 	{
-		printf("%s", cmd->tab[i]);
+		write(1, cmd->tab[i], ft_strlen(cmd->tab[i]));
 		if (cmd->tab[i + 1] && cmd->tab[i][0] != '\0')
-			printf(" ");
+			write(1, " ", 1);
 		i++;
 	}
 	if (!n_option)
-		printf("\n");
+		write(1, "\n", 1);
 }

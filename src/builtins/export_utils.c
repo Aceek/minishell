@@ -12,24 +12,24 @@
 
 #include "../minishell.h"
 
-void	ft_builtin(t_cmd *cmd, t_env *mini)
+int	ft_builtin(t_cmd *cmd, t_env *mini)
 {
 	g_exit = 0;
 	if (cmd->builtin == EXPORT)
-		ft_export_builtin(cmd, mini);
+		return (ft_export_builtin(cmd, mini));
 	else if (cmd->builtin == ECH)
-		ft_echo_builtin(cmd);
+		return (ft_echo_builtin(cmd), 0);
 	else if (cmd->builtin == PWD)
-		ft_pwd_builtin();
+		return (ft_pwd_builtin());
 	else if (cmd->builtin == UNSET)
-		ft_unset_builtin(cmd, mini);
+		return (ft_unset_builtin(cmd, mini));
 	else if (cmd->builtin == ENV)
-		ft_print_env(mini);
+		return (ft_print_env(mini), 0);
 	else if (cmd->builtin == CD)
-		ft_cd_builtind(cmd, mini);
+		return (ft_cd_builtind(cmd, mini));
 	else if (cmd->builtin == EXIT)
 		ft_exit_clean(mini, cmd, 0);
-	return ;
+	return (0);
 }
 
 int	ft_is_valid_env(char *args)
