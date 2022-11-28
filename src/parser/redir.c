@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/28 06:57:24 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/28 10:12:34 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	get_hd_input(t_data *data, int fd, char *end)
 		close(fd);
 		free(input);
 		free(end);
+		free(data->curr_path);
 		ft_exit_clean(data->mini ,data->head_cmd, 1);
 	}
 	if (!ft_strcmp(input, end))
@@ -44,6 +45,7 @@ void	get_hd_input(t_data *data, int fd, char *end)
 		close(fd);
 		free(input);
 		free(end);
+		free(data->curr_path);
 		ft_exit_clean(data->mini ,data->head_cmd, 0);
 	}
 	input = convert_hd_input(data, input);
@@ -52,14 +54,29 @@ void	get_hd_input(t_data *data, int fd, char *end)
 	free(input);
 }
 
+char	*get_hd_path(t_data *data)
+{
+	char	*nb_hd;
+	char	*path;
+
+	nb_hd = ft_itoa(++data->nb_hd);
+	if (!nb_hd)
+		return (free_all_exit(data), NULL);
+	path = ft_strjoin("/tmp/.hd", nb_hd);
+	free(nb_hd);
+	if (!path)
+		return (free_all_exit(data), NULL);
+	return (path);
+}
+
 int	heredoc(t_data *data, char *end)
 {
 	pid_t	pid;
 	int		status;
 	int		fd;
-
-	data->hd_path = "/tmp/.x";
-	fd = open(data->hd_path, O_CREAT | O_RDWR | O_TRUNC, 0664);
+	
+	data->curr_path = get_hd_path(data);
+	fd = open(data->curr_path, O_CREAT | O_RDWR | O_TRUNC, 0664);
 	if (data->curr_fd_in < 0 )
 		return (-1);
 	pid = fork();
@@ -76,7 +93,7 @@ int	heredoc(t_data *data, char *end)
 	if (WIFEXITED(status))
 	{
 		close(fd);
-		return (open(data->hd_path, O_RDWR));
+		return (open(data->curr_path, O_RDWR));
 	}
 	return (close(fd), -1);
 	// if (WIFEXITED(status))
@@ -114,29 +131,28 @@ char	*get_token_arg(char *str, int *i)
 
 int	redir_handler(t_data *data, char *str, int *i)
 {
-	char	*arg;
-
-	arg = get_token_arg(str, i);
-	if (!arg)
+	data->token_arg = get_token_arg(str, i);
+	if (!data->token_arg)
 		return (1);
-	if (data->curr_token == LESS && arg)
-		data->curr_fd_in = open(arg, O_RDWR);
-	if (data->curr_token == GREAT && arg)
-		data->curr_fd_out = open(arg, O_CREAT | O_RDWR | O_TRUNC, 0664);
-	if (data->curr_token == DLESS && arg)
-		data->curr_fd_in = heredoc(data, arg);
-	if (data->curr_token == DGREAT && arg)
-		data->curr_fd_out = open(arg, O_CREAT | O_RDWR | O_APPEND, 0664);
+	if (data->curr_token == LESS && data->token_arg)
+		data->curr_fd_in = open(data->token_arg, O_RDWR);
+	if (data->curr_token == GREAT && data->token_arg)
+		data->curr_fd_out = open(data->token_arg, O_CREAT | O_RDWR | O_TRUNC, 0664);
+	if (data->curr_token == DLESS && data->token_arg)
+		data->curr_fd_in = heredoc(data, data->token_arg);
+	if (data->curr_token == DGREAT && data->token_arg)
+		data->curr_fd_out = open(data->token_arg, O_CREAT | O_RDWR | O_APPEND, 0664);
 	if (data->curr_fd_in == -1 || data->curr_fd_out == -1)
 	{
 		data->error = 1;
 		g_exit = 1;
         write(2, "minishell : ", 12);
-		write(2, arg, ft_strlen(arg));
+		write(2, data->token_arg, ft_strlen(data->token_arg));
         write(2, ": No such file or directory\n", 28);
-		free(arg);
+		free(data->token_arg);
 		return (1);
 	}
-	free(arg);
+	free(data->curr_path);
+	free(data->token_arg);
 	return (0);
 }

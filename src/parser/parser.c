@@ -6,11 +6,22 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/28 06:00:09 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/11/28 10:08:29 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	free_all_exit(t_data *data)
+{
+	if (data->buf)
+		free(data->buf);
+	if (data->token_arg)
+		free(data->token_arg);
+	if (data->curr_path)
+		free(data->curr_path);
+	ft_exit_clean(data->mini, data->head_cmd, 1);
+}
 
 char	*create_buffer(void)
 {
@@ -27,7 +38,7 @@ int	init_cmd(t_data *data)
 {
 	data->buf = create_buffer();
 	if (!data->buf)
-		return (1);
+		return (free_all_exit(data), 1);
 	data->curr_fd_in = 0;
 	data->curr_fd_out = 1;
 	data->error = 0;
@@ -42,7 +53,7 @@ int	add_cmd(t_data *data)
 		return (1);
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
-		return (free(data->buf), 1);
+		return (free_all_exit(data), 1);
 	ft_memset(cmd, 0, sizeof(t_cmd));
 	cmd->tab = ft_split2(data->buf, " \f\n\r\t\v");
 	cmd->fd_in = data->curr_fd_in;
@@ -79,6 +90,8 @@ char	*convert_input(t_data *data, char *input, char *buf, int *i)
 	{	
 		var = get_dollar(input, i, data->mini);
 		tmp = ft_strjoin(buf, var);
+		if(!tmp)
+			return (free_all_exit(data), NULL);
 		free(buf);
 		free(var);
 		buf = tmp;
@@ -86,6 +99,8 @@ char	*convert_input(t_data *data, char *input, char *buf, int *i)
 	else
 	{
 		tmp = ft_charjoin(buf, input[*i]);
+		if(!tmp)
+			return (free_all_exit(data), NULL);
 		free(buf);
 		buf = tmp;
 	}
@@ -103,6 +118,7 @@ int	parse_input(t_data *data)
 		return (1);
 	}
 	init_cmd(data);
+	data->nb_hd = 0;
 	i = -1;
 	while (data->input[++i])
 	{
