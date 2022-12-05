@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/28 10:08:29 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/06 00:56:21 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ char	*convert_input(t_data *data, char *input, char *buf, int *i)
 		free(var);
 		buf = tmp;
 	}
-	else
+	else if (!((input[*i] == '\'' || input[*i] == '\"') 
+				&& check_quote_pos(input, *i) == 0))
 	{
 		tmp = ft_charjoin(buf, input[*i]);
 		if(!tmp)
