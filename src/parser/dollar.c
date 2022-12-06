@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/06 06:25:55 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/06 22:23:55 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,9 @@ char	*get_dollar(char *str, int *i, t_env *mini)
 	else
 	{	
 		var_env_name = get_var_env_name(str, i);
-		printf("var env name : %d\n", var_env_name[0]);
-		if (!var_env_name)
-			return (NULL);
 		*i += ft_strlen(var_env_name) - 1;
+		if (!var_env_name[0])
+			return (NULL);
 		dollar = get_var_env_val(var_env_name, ft_strlen(var_env_name), mini);
 		if (!dollar)
 			return (NULL);

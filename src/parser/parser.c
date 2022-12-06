@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/06 06:23:33 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/06 22:26:29 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,8 @@ char	*convert_input(t_data *data, char *buf, char *str, int *i)
 
 	if (str[*i] == '$' && check_quote_pos(str, *i) != 1)
 	{
-		if (!(str[*i + 1] || ft_isalnum(str[*i + 1])))
+		if (!ft_isalnum(str[*i + 1]) && str[*i + 1] != '_' && str[*i + 1] != '?')
 			return (fill_buf_char(data, buf, str[*i]));
-		// if (!str[*i + 1])
-		// 	return (buf);
 		var = get_dollar(str, i, data->mini);
 		if (!var)
 			return (free(var), buf);
