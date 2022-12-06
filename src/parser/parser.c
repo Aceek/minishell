@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/06 00:56:21 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/06 06:23:33 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,21 +74,46 @@ int	check_token(t_data *data, int *i)
 		data->error = 1;
 		return (0);
 	}
-	if (data->curr_token == PIPE)
+	if (data->curr_token == PIPE && check_quote_pos(data->input, *i) == 0)
 		return (1);
-	if (data->curr_token > PIPE)
+	if (data->curr_token > PIPE && check_quote_pos(data->input, *i) == 0)
 		redir_handler(data, data->input, i);
 	return (0);
 }
 
-char	*convert_input(t_data *data, char *input, char *buf, int *i)
+// char	*fill_buf_str(t_data *data, char *buf, char *s1, char s2)
+// {
+// 	char	*tmp;
+	
+// 	return (buf);
+// }
+
+char	*fill_buf_char(t_data *data, char *buf, char c)
+{
+	char	*tmp;
+	
+	tmp = ft_charjoin(buf, c);
+	if(!tmp)
+		return (free_all_exit(data), NULL);
+	free(buf);
+	buf = tmp;
+	return (buf);
+}
+
+char	*convert_input(t_data *data, char *buf, char *str, int *i)
 {
 	char	*var;
 	char	*tmp;
 
-	if (input[*i] == '$' && check_quote_pos(input, *i) != 1)
-	{	
-		var = get_dollar(input, i, data->mini);
+	if (str[*i] == '$' && check_quote_pos(str, *i) != 1)
+	{
+		if (!(str[*i + 1] || ft_isalnum(str[*i + 1])))
+			return (fill_buf_char(data, buf, str[*i]));
+		// if (!str[*i + 1])
+		// 	return (buf);
+		var = get_dollar(str, i, data->mini);
+		if (!var)
+			return (free(var), buf);
 		tmp = ft_strjoin(buf, var);
 		if(!tmp)
 			return (free_all_exit(data), NULL);
@@ -96,15 +121,9 @@ char	*convert_input(t_data *data, char *input, char *buf, int *i)
 		free(var);
 		buf = tmp;
 	}
-	else if (!((input[*i] == '\'' || input[*i] == '\"') 
-				&& check_quote_pos(input, *i) == 0))
-	{
-		tmp = ft_charjoin(buf, input[*i]);
-		if(!tmp)
-			return (free_all_exit(data), NULL);
-		free(buf);
-		buf = tmp;
-	}
+	else if (!((str[*i] == '\'' || str[*i] == '\"') 
+				&& check_quote_pos(str, *i) == 0))
+	buf = fill_buf_char(data, buf, str[*i]);
 	return (buf);
 }
 
@@ -131,7 +150,7 @@ int	parse_input(t_data *data)
 			init_cmd(data);
 		}
 		if (!data->error)
-			data->buf = convert_input(data, data->input, data->buf, &i);
+			data->buf = convert_input(data, data->buf, data->input, &i);
 		if (!data->input[i])
 			break ;
 	}

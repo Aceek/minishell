@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/28 10:12:34 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/06 02:43:34 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*convert_hd_input(t_data *data, char *input)
 		return (NULL);
 	i = -1;
 	while (input[++i])
-		buf = convert_input(data, input, buf, &i);
+		buf = convert_input(data, buf, input, &i);
 	return (buf);
 }
 
@@ -109,11 +109,12 @@ int	heredoc(t_data *data, char *end)
 	// return (fd);
 }
 
-char	*get_token_arg(char *str, int *i)
+char	*get_token_arg(t_data *data, char *str, int *i)
 {
 	char	*arg;
-	char	*tmp;
+	// char	*tmp;
 
+	// (void)data;
 	arg = create_buffer();
 	if (!arg)
 		return (NULL);
@@ -121,17 +122,18 @@ char	*get_token_arg(char *str, int *i)
 		*i += 1;
 	while (ft_isalnum(str[*i]) || str[*i] == '_')
 	{
-		tmp = ft_charjoin(arg, str[*i]);
-		free(arg);
-		arg = tmp;
-		*i += 1;
+		// tmp = ft_charjoin(arg, str[*i]);
+		// free(arg);
+		// arg = tmp;
+		// *i += 1;
+		arg = convert_input(data, arg, str, i);
 	}
 	return (arg);
 }
 
 int	redir_handler(t_data *data, char *str, int *i)
 {
-	data->token_arg = get_token_arg(str, i);
+	data->token_arg = get_token_arg(data, str, i);
 	if (!data->token_arg)
 		return (1);
 	if (data->curr_token == LESS && data->token_arg)

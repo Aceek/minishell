@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/26 04:04:00 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/06 06:25:55 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,18 @@ char	*get_var_env_name(char *str, int *i)
 {
 	char	*var;
 	char	*tmp;
+	int		j;
 
 	var = create_buffer();
 	if (!var)
 		return (NULL);
-	while (ft_isalnum(str[*i]) || str[*i] == '_')
+	j = *i;
+	while (ft_isalnum(str[j]) || str[j] == '_')
 	{
-		tmp = ft_charjoin(var, str[*i]);
+		tmp = ft_charjoin(var, str[j]);
 		free(var);
 		var = tmp;
-		*i += 1;
+		j += 1;
 	}
 	return (var);
 }
@@ -50,19 +52,21 @@ char	*get_dollar(char *str, int *i, t_env *mini)
 	char	*dollar;
 	
 	*i += 1;
-	if (!str[*i])
-		return (NULL);
-	else if (str[*i] == '?')
+	if (str[*i] == '?')
 	{
 		dollar = ft_itoa(g_exit);
-		*i += ft_strlen(dollar);
+		*i += ft_strlen(dollar) - 1;
 	}
 	else
 	{	
 		var_env_name = get_var_env_name(str, i);
+		printf("var env name : %d\n", var_env_name[0]);
 		if (!var_env_name)
 			return (NULL);
+		*i += ft_strlen(var_env_name) - 1;
 		dollar = get_var_env_val(var_env_name, ft_strlen(var_env_name), mini);
+		if (!dollar)
+			return (NULL);
 		free(var_env_name);
 	}
 	return (dollar);
