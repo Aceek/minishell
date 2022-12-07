@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/07 22:32:48 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/07 22:48:30 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	*create_buffer(void);
 //PARSER.C//
 int		init_cmd(t_data *data);
 int		add_cmd(t_data *data);
-int		check_token(t_data *data, int *i);
+char	*add_char(t_data *data, char *buf, char c);
 char	*convert_input(t_data *data, char *buf, char *str, int *i);
 int		parse_input(t_data *data);
 
@@ -121,9 +121,10 @@ char	*get_redir_arg(t_data *data, char *str, int *i);
 int		redir_handler(t_data *data, char *str, int *i);
 
 //TOKEN.C//
+int		get_builtin_code(char *str);
 int		check_token_error(char *str, int *i);
 int		get_token_code(char *str, int *i);
-int		get_builtin_code(char *str);
+int		check_token(t_data *data, int *i);
 
 /*---------------------------------EXEC----------------------------------*/
 //EXEC.C//

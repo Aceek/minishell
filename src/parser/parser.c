@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/07 22:28:05 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/07 22:49:23 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	add_cmd(t_data *data)
 	return (0);
 }
 
-char	*fill_buf_char(t_data *data, char *buf, char c)
+char	*add_char(t_data *data, char *buf, char c)
 {
 	char	*tmp;
 
@@ -64,7 +64,7 @@ char	*convert_input(t_data *data, char *buf, char *str, int *i)
 	{
 		if (!ft_isalnum(str[*i + 1]) && str[*i + 1] != '_'
 			&& str[*i + 1] != '?')
-			return (fill_buf_char(data, buf, str[*i]));
+			return (add_char(data, buf, str[*i]));
 		var = get_dollar(str, i, data->mini);
 		if (!var)
 			return (free(var), buf);
@@ -76,7 +76,7 @@ char	*convert_input(t_data *data, char *buf, char *str, int *i)
 		buf = tmp;
 	}
 	else
-		buf = fill_buf_char(data, buf, str[*i]);
+		buf = add_char(data, buf, str[*i]);
 	return (buf);
 }
 
