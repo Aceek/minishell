@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/06 02:43:34 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/07 17:09:53 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,37 +96,21 @@ int	heredoc(t_data *data, char *end)
 		return (open(data->curr_path, O_RDWR));
 	}
 	return (close(fd), -1);
-	// if (WIFEXITED(status))
-	// {
-	// 	g_exit = WEXITSTATUS(status);
-	// 	if (g_exit)
-	// 	{
-	// 		printf("error here doc\n");
-	// 		close(fd);
-	// 		return (-1);
-	// 	}
-	// }
-	// return (fd);
 }
 
 char	*get_token_arg(t_data *data, char *str, int *i)
 {
 	char	*arg;
-	// char	*tmp;
 
-	// (void)data;
 	arg = create_buffer();
 	if (!arg)
 		return (NULL);
 	while (ft_isspace(str[*i]))
 		*i += 1;
-	while (ft_isalnum(str[*i]) || str[*i] == '_')
+	while (ft_isalnum(str[*i]) || str[*i] == '_' || str[*i] == '.')
 	{
-		// tmp = ft_charjoin(arg, str[*i]);
-		// free(arg);
-		// arg = tmp;
-		// *i += 1;
 		arg = convert_input(data, arg, str, i);
+		*i += 1;
 	}
 	return (arg);
 }
