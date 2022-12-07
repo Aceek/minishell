@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/07 18:53:22 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/07 22:32:48 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ typedef struct s_data
 	t_env			*mini;
 	char			*input;
 	char			*buf;
-	char			*token_arg;
+	char			*redir_arg;
 	char			*curr_path;
 	int				curr_token;
 	int				curr_fd_in;
@@ -117,7 +117,7 @@ int		check_quote_error(char *str);
 int		check_quote_pos(char *str, int pos);
 
 //REDIR.C//
-char	*get_token_arg(t_data *data, char *str, int *i);
+char	*get_redir_arg(t_data *data, char *str, int *i);
 int		redir_handler(t_data *data, char *str, int *i);
 
 //TOKEN.C//

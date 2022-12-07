@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/06 22:36:42 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/07 21:28:23 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*get_var_env_name(char *str, int *i)
 char	*get_var_env_val(char *var_env, int len, t_env *mini)
 {
 	t_env	*tmp;
-	
+
 	tmp = mini;
 	while (tmp)
 	{
@@ -50,7 +50,7 @@ char	*get_dollar(char *str, int *i, t_env *mini)
 {
 	char	*var_env_name;
 	char	*dollar;
-	
+
 	*i += 1;
 	if (str[*i] == '?')
 	{

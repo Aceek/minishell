@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/07 18:32:23 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/07 22:37:56 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ void	get_hd_input(t_data *data, int fd, char *end)
 	input = readline("heredoc> ");
 	if (!input)
 	{
-		//msg derreur
+		write(2, "minishell : warning : heredoc delimited by end-of-file\n", 55);
 		close(fd);
 		free(input);
 		free(end);
 		free(data->curr_path);
-		ft_exit_clean(data->mini ,data->head_cmd, 1);
+		ft_exit_clean(data->mini, data->head_cmd, 1);
 	}
 	if (!ft_strcmp(input, end))
 	{
@@ -46,7 +46,7 @@ void	get_hd_input(t_data *data, int fd, char *end)
 		free(input);
 		free(end);
 		free(data->curr_path);
-		ft_exit_clean(data->mini ,data->head_cmd, 0);
+		ft_exit_clean(data->mini, data->head_cmd, 0);
 	}
 	input = convert_hd_input(data, input);
 	ft_putstr_fd(input, fd);
@@ -74,10 +74,10 @@ int	heredoc(t_data *data, char *end)
 	pid_t	pid;
 	int		status;
 	int		fd;
-	
+
 	data->curr_path = get_hd_path(data);
 	fd = open(data->curr_path, O_CREAT | O_RDWR | O_TRUNC, 0664);
-	if (data->curr_fd_in < 0 )
+	if (data->curr_fd_in < 0)
 		return (-1);
 	pid = fork();
 	if (pid < 0)
