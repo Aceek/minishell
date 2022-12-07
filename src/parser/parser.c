@@ -6,33 +6,11 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/07 02:31:40 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/07 18:30:45 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	free_all_exit(t_data *data)
-{
-	if (data->buf)
-		free(data->buf);
-	if (data->token_arg)
-		free(data->token_arg);
-	if (data->curr_path)
-		free(data->curr_path);
-	ft_exit_clean(data->mini, data->head_cmd, 1);
-}
-
-char	*create_buffer(void)
-{
-	char	*buf;
-
-	buf = malloc(sizeof(char));
-	if (!buf)
-		return (NULL);
-	buf[0] = 0;
-	return (buf);
-}
 
 int	init_cmd(t_data *data)
 {
@@ -62,22 +40,6 @@ int	add_cmd(t_data *data)
 	cmd->head_cmd = data->head_cmd;
 	cmd->env = data->env;
 	ft_list_add_back(&data->head_cmd, cmd);
-	return (0);
-}
-
-int	check_token(t_data *data, int *i)
-{
-	data->curr_token = get_token_code(data->input, i);
-	if (data->curr_token && check_token_error(data->input, i))
-	{
-		write(2, "minishell : syntax error near unexpected token\n", 47);
-		data->error = 1;
-		return (0);
-	}
-	if (data->curr_token == PIPE && check_quote_pos(data->input, *i) == 0)
-		return (1);
-	if (data->curr_token > PIPE && check_quote_pos(data->input, *i) == 0)
-		redir_handler(data, data->input, i);
 	return (0);
 }
 
@@ -116,7 +78,6 @@ char	*convert_input(t_data *data, char *buf, char *str, int *i)
 		buf = fill_buf_char(data, buf, str[*i]);
 	return (buf);
 }
-
 
 int	parse_input(t_data *data)
 {

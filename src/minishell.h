@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/07 17:07:58 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/07 18:53:22 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,29 +94,36 @@ char	*get_var_env_name(char *str, int *i);
 char	*get_var_env_val(char *var_env, int len, t_env *mini);
 char	*get_dollar(char *str, int *i, t_env *mini);
 
-//LEXER.C//
-void	update_quote(bool *quote);
-int		check_quote_error(char *str);
-int		check_quote_pos(char *str, int pos);
-int		check_token_error(char *str, int *i);
-int		get_token_code(char *str, int *i);
-int		get_builtin_code(char *str);
+//HEREDOC.C//
+char	*convert_hd_input(t_data *data, char *input);
+void	get_hd_input(t_data *data, int fd, char *end);
+char	*get_hd_path(t_data *data);
+int		heredoc(t_data *data, char *end);
 
-//PARSER.C//
+//PARSER_UTILIS.C//
 void	free_all_exit(t_data *data);
 char	*create_buffer(void);
+
+//PARSER.C//
 int		init_cmd(t_data *data);
 int		add_cmd(t_data *data);
 int		check_token(t_data *data, int *i);
 char	*convert_input(t_data *data, char *buf, char *str, int *i);
 int		parse_input(t_data *data);
 
+//QUOTE.C//
+void	update_quote(bool *quote);
+int		check_quote_error(char *str);
+int		check_quote_pos(char *str, int pos);
+
 //REDIR.C//
-char	*convert_hd_input(t_data *data, char *input);
-void	get_hd_input(t_data *data, int fd, char *end);
-int		heredoc(t_data *data, char *end);
 char	*get_token_arg(t_data *data, char *str, int *i);
 int		redir_handler(t_data *data, char *str, int *i);
+
+//TOKEN.C//
+int		check_token_error(char *str, int *i);
+int		get_token_code(char *str, int *i);
+int		get_builtin_code(char *str);
 
 /*---------------------------------EXEC----------------------------------*/
 //EXEC.C//
