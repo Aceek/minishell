@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/06 22:57:20 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/07 02:31:40 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	add_cmd(t_data *data)
 	cmd->tab = ft_split_parser(data->buf);
 	cmd->fd_in = data->curr_fd_in;
 	cmd->fd_out = data->curr_fd_out;
-	cmd->builtin = get_builtin_code(cmd->tab[0]);
+	cmd->builtin = get_builtin_code(cmd->tab[0]); 
 	cmd->head_cmd = data->head_cmd;
 	cmd->env = data->env;
 	ft_list_add_back(&data->head_cmd, cmd);
@@ -80,13 +80,6 @@ int	check_token(t_data *data, int *i)
 		redir_handler(data, data->input, i);
 	return (0);
 }
-
-// char	*fill_buf_str(t_data *data, char *buf, char *s1, char s2)
-// {
-// 	char	*tmp;
-	
-// 	return (buf);
-// }
 
 char	*fill_buf_char(t_data *data, char *buf, char c)
 {
@@ -119,9 +112,8 @@ char	*convert_input(t_data *data, char *buf, char *str, int *i)
 		free(var);
 		buf = tmp;
 	}
-	else if (!((str[*i] == '\'' || str[*i] == '\"') 
-				&& check_quote_pos(str, *i) == 0))
-	buf = fill_buf_char(data, buf, str[*i]);
+	else
+		buf = fill_buf_char(data, buf, str[*i]);
 	return (buf);
 }
 
