@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:15:36 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/09 00:13:14 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/12/09 00:22:50 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,8 @@ void	ft_exit_minishell(t_env *mini, t_cmd *cmd)
 	if (i >= 3 && (cmd->tab[1][0] >= '0' && cmd->tab[1][0] <= '9'))
 	{
 		write(2, "mini : exit: too many arguments\n", 32);
-		ft_exit_clean(mini, cmd, 1);
-	}
-	else if (i >= 3 && !(cmd->tab[1][0] >= '0' && cmd->tab[1][0] <= '9'))
-	{
-		ft_exec_err(cmd->tab[1], ": mini: exit: numeric argument required\n");
-		ft_exit_clean(mini, cmd, 2);
+		g_exit = 1;
+		return ;
 	}
 	exit = ft_atoi(cmd->tab[1], &error);
 	if (!error)
