@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/27 06:27:29 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/12/09 00:02:55 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int	ft_last_child(t_cmd *cmd, t_env *mini)
 	int	pid;
 	int	status;
 
+	if (cmd->builtin == EXIT)
+		ft_exit_minishell(mini, cmd);
 	pid = fork();
 	signal(SIGINT, ft_signal_newline2);
 	if (pid == 0)

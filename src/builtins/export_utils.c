@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 07:16:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/26 02:22:28 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/12/09 00:03:01 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_builtin(t_cmd *cmd, t_env *mini)
 	else if (cmd->builtin == CD)
 		return (ft_cd_builtind(cmd, mini));
 	else if (cmd->builtin == EXIT)
-		ft_exit_clean(mini, cmd, 0);
+		ft_exit_minishell(mini, cmd);
 	return (0);
 }
 

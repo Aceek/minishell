@@ -11,7 +11,7 @@ SRC				=	parser/dollar.c parser/heredoc.c parser/parser_utilis.c parser/parser.c
 					libft/libft_str_search.c libft/libft_utils.c libft/libft_modify_str.c libft/libft_split_parser.c \
 					minishell.c signal.c \
 					exec/exec.c exec/utils.c exec/ft_split.c \
-					builtins/export.c builtins/export_utils.c builtins/echo.c builtins/pwd.c builtins/unset.c builtins/cd.c \
+					builtins/export.c builtins/export_utils.c builtins/echo.c builtins/pwd.c builtins/unset.c builtins/cd.c builtins/exit.c\
 
 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/08 11:54:47 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/09 00:05:10 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,9 @@ void	ft_remove_list(t_env *old, t_env *tmp);
 void	ft_remove_if_in_env(t_env *mini, char *args);
 int		ft_unset_builtin(t_cmd *cmd, t_env *mini);
 
+//EXIT.C//
+void	ft_exit_minishell(t_env *mini, t_cmd *cmd);
+
 /*---------------------------------SIGNAL--------------------------------*/
 void	ft_signal_newline(int unused);
 void	ft_signal_quit(int unused);
@@ -204,7 +207,7 @@ int		ft_strchr(const char *str, int c);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(char *s1, char *s2, int n);
 int		lst_addback(t_env *mini_env, char *env);
-int		ft_atoi(char *str, int *e);
+int		ft_atoi(const char *str, int *error);
 void	lst_freeall(t_env *mini_env);
 int		ft_isdigit(char c);
 int		ft_isalnun_tmp(char c);
