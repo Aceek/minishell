@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/07 18:25:24 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/08 11:11:18 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,13 @@ int	check_quote_pos(char *str, int pos)
 	if (str[i] != '\"' && double_quote == true)
 		return (2);
 	if (str[i] != '\'' && simple_quote == true)
+		return (1);
+	return (0);
+}
+
+int	is_quote(char *str, int i)
+{
+	if ((str[i] == '\'' || str[i] == '\"') && check_quote_pos(str, i) == 0)
 		return (1);
 	return (0);
 }

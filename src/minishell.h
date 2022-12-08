@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/08 02:21:02 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/08 11:10:06 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int		heredoc(t_data *data, char *end);
 //PARSER_UTILIS.C//
 t_env	*ft_create_env(char **env);
 char	*create_buffer(void);
+void	free_tab(char **tab);
 void	free_all_exit(t_data *data);
 
 //PARSER.C//
@@ -116,6 +117,7 @@ int		parse_input(t_data *data);
 void	update_quote(bool *quote);
 int		check_quote_error(char *str);
 int		check_quote_pos(char *str, int pos);
+int		is_quote(char *str, int i);
 
 //REDIR.C//
 char	*get_redir_arg(t_data *data, char *str, int *i);

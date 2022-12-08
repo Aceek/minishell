@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/08 02:21:10 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/08 10:52:02 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,16 @@ char	*create_buffer(void)
 		return (NULL);
 	buf[0] = 0;
 	return (buf);
+}
+
+void	free_tab(char **tab)
+{	
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		free(tab[i++]);
+	free (tab);
 }
 
 void	free_all_exit(t_data *data)

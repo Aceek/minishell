@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 06:11:57 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/07 18:16:14 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/08 11:11:08 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 static int	is_del(char *str, int i)
 {
 	if ((ft_isspace(str[i]) || str[i] == '\0') && check_quote_pos(str, i) == 0)
-		return (1);
-	if ((str[i] == '\'' || str[i] == '\"') && check_quote_pos(str, i) == 0)
 		return (1);
 	return (0);
 }
@@ -36,40 +34,47 @@ static int	count_args(char *str)
 	return (nb_args);
 }
 
-static void	free_tab(char **tab)
-{	
-	int	i;
+static char	*fill_line(char *str, char *line, int len, int *i)
+{
+	int	j;
 
-	i = 0;
-	while (tab[i])
-		free(tab[i++]);
-	free (tab);
+	j = -1;
+	while (j < len)
+	{
+		if (is_quote(str, *i))
+		{	
+			*i += 1;
+			len--;
+		}
+		else
+		{
+			line[++j] = str[*i];
+			*i += 1;
+		}
+	}
+	line[j] = '\0';
+	return (line);
 }
 
 static int	fill_tab(char **tab, char *str, int args)
 {
 	int		i;
-	int		j;
-	int		k;
+	int		len;
 	int		l;
 
 	i = 0;
-	k = 0;
 	l = -1;
 	while (++l < args)
 	{
 		while (is_del(str, i))
 			i++;
-		j = 0;
-		while (!is_del(str, j + i))
-			j++;
-		tab[l] = malloc(sizeof(char) * (j + 1));
+		len = 0;
+		while (!is_del(str, i + len))
+			len++;
+		tab[l] = malloc(sizeof(char) * (len + 1));
 		if (!tab[l])
 			return (1);
-		k = 0;
-		while (k < j)
-				tab[l][k++] = str[i++];
-		tab[l][k] = 0;
+		tab[l] = fill_line(str, tab[l], len, &i);
 	}
 	return (0);
 }
