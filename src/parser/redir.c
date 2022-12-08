@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/08 02:16:22 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/08 23:18:42 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ char	*get_redir_arg(t_data *data, char *str, int *i)
 		return (free_all_exit(data), NULL);
 	while (ft_isspace(str[*i]))
 		*i += 1;
-	while (ft_isalnum(str[*i]) || str[*i] == '_' || str[*i] == '.')
+	while (ft_isalnum(str[*i]) || str[*i] == '_' || str[*i] == '.'
+			|| str[*i] == '$')
 	{
-		buf = convert_input(data, buf, str, i);
+		buf = convert_input(data, buf, str, i, data->token);
 		*i += 1;
 	}
 	return (buf);

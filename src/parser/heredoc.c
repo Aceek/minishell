@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/08 02:18:10 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/08 23:28:58 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*convert_hd_input(t_data *data, char *input)
 		return (free_all_exit(data), NULL);
 	i = -1;
 	while (input[++i])
-		buf = convert_input(data, buf, input, &i);
+		buf = convert_input(data, buf, input, &i, data->token);
 	return (buf);
 }
 

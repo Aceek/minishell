@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/08 11:58:48 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/08 23:30:22 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ char	*add_char(t_data *data, char *buf, char c)
 	return (buf);
 }
 
-char	*convert_input(t_data *data, char *buf, char *str, int *i)
+char	*convert_input(t_data *data, char *buf, char *str, int *i, int token)
 {
 	char	*var;
 	char	*tmp;
 
-	if (str[*i] == '$' && check_quote_pos(str, *i) != 1)
+	if (str[*i] == '$' && check_quote_pos(str, *i) != 1 && token != DLESS)
 	{
 		if (!ft_isalnum(str[*i + 1]) && str[*i + 1] != '_'
 			&& str[*i + 1] != '?')
@@ -101,7 +101,7 @@ int	parse_input(t_data *data)
 			init_cmd(data);
 		}
 		if (!data->error)
-			data->buf = convert_input(data, data->buf, data->input, &i);
+			data->buf = convert_input(data, data->buf, data->input, &i, data->token);
 	}
 	add_cmd(data);
 	free(data->buf);

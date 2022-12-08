@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/08 22:24:59 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/08 23:19:12 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	free_all_exit(t_data *data);
 int		init_cmd(t_data *data);
 int		add_cmd(t_data *data);
 char	*add_char(t_data *data, char *buf, char c);
-char	*convert_input(t_data *data, char *buf, char *str, int *i);
+char	*convert_input(t_data *data, char *buf, char *str, int *i, int token);
 int		parse_input(t_data *data);
 
 //QUOTE.C//
