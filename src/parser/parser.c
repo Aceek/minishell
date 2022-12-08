@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/08 23:42:24 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/09 00:36:53 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	init_cmd(t_data *data)
 {
 	data->buf = create_buffer();
 	if (!data->buf)
-		return (free_all_exit(data), 1);
+		return (free_all_exit(data, 1), 1);
 	data->fd_in = 0;
 	data->fd_out = 1;
 	data->error = 0;
@@ -31,7 +31,7 @@ int	add_cmd(t_data *data)
 		return (1);
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
-		return (free_all_exit(data), 1);
+		return (free_all_exit(data, 1), 1);
 	ft_memset(cmd, 0, sizeof(t_cmd));
 	cmd->tab = ft_split_parser(data->buf);
 	cmd->fd_in = data->fd_in;
@@ -49,7 +49,7 @@ char	*add_char(t_data *data, char *buf, char c)
 
 	tmp = ft_charjoin(buf, c);
 	if (!tmp)
-		return (free_all_exit(data), NULL);
+		return (free_all_exit(data, 1), NULL);
 	free(buf);
 	buf = tmp;
 	return (buf);
@@ -70,7 +70,7 @@ char	*convert_input(t_data *data, char *buf, char *str, int *i)
 			return (free(var), buf);
 		tmp = ft_strjoin(buf, var);
 		if (!tmp)
-			return (free_all_exit(data), NULL);
+			return (free_all_exit(data, 1), NULL);
 		free(buf);
 		free(var);
 		buf = tmp;
@@ -85,10 +85,11 @@ int	parse_input(t_data *data)
 	int		i;
 
 	if (check_quote_error(data->input))
-		return (write(2, "minishell : quotes not closing error\n", 37), 1);
+		return (g_exit = 2,
+				write(2, "minishell : quotes not closing error\n", 37), 1);
 	if (check_token_error(data->input))
-		return (write(2, "minishell : syntax error near unexpected token\n",
-				47), 1);
+		return (g_exit = 2,
+		write(2, "minishell : syntax error near unexpected token\n",47), 1);
 	init_cmd(data);
 	data->nb_hd = 0;
 	i = -1;

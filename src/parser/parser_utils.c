@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utilis.c                                    :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/08 10:52:02 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/09 00:25:15 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	free_tab(char **tab)
 	free (tab);
 }
 
-void	free_all_exit(t_data *data)
+void	free_all_exit(t_data *data, int exit)
 {
 	if (data->buf)
 		free(data->buf);
@@ -57,5 +57,5 @@ void	free_all_exit(t_data *data)
 		free(data->redir_arg);
 	if (data->path)
 		free(data->path);
-	ft_exit_clean(data->mini, data->head_cmd, 1);
+	ft_exit_clean(data->mini, data->head_cmd, exit);
 }

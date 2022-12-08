@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/08 23:42:29 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/09 00:34:49 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int		heredoc(t_data *data, char *end);
 t_env	*ft_create_env(char **env);
 char	*create_buffer(void);
 void	free_tab(char **tab);
-void	free_all_exit(t_data *data);
+void	free_all_exit(t_data *data, int exit);
 
 //PARSER.C//
 int		init_cmd(t_data *data);

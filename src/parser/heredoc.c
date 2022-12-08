@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/08 23:57:39 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/09 00:35:21 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*convert_hd_input(t_data *data, char *input)
 
 	buf = create_buffer();
 	if (!buf)
-		return (free_all_exit(data), NULL);
+		return (free_all_exit(data, 1), NULL);
 	i = -1;
 	while (input[++i])
 			buf = convert_input(data, buf, input, &i);
@@ -61,11 +61,11 @@ char	*get_hd_path(t_data *data)
 
 	nb_hd = ft_itoa(++data->nb_hd);
 	if (!nb_hd)
-		return (free_all_exit(data), NULL);
+		return (free_all_exit(data, 1), NULL);
 	path = ft_strjoin("/tmp/.hd", nb_hd);
 	free(nb_hd);
 	if (!path)
-		return (free_all_exit(data), NULL);
+		return (free_all_exit(data, 1), NULL);
 	return (path);
 }
 
