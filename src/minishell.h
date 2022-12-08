@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/08 11:10:06 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/08 11:54:47 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,8 @@ int		parse_input(t_data *data);
 
 //QUOTE.C//
 void	update_quote(bool *quote);
-int		check_quote_error(char *str);
 int		check_quote_pos(char *str, int pos);
+int		check_quote_error(char *str);
 int		is_quote(char *str, int i);
 
 //REDIR.C//
@@ -125,8 +125,8 @@ int		redir_handler(t_data *data, char *str, int *i);
 
 //TOKEN.C//
 int		get_builtin_code(char *str);
-int		check_token_error(char *str, int *i);
 int		get_token_code(char *str, int *i);
+int		check_token_error(char *str);
 int		check_token(t_data *data, int *i);
 
 /*---------------------------------EXEC----------------------------------*/

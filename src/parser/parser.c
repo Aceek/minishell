@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/08 02:16:55 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/08 11:58:48 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,9 @@ int	parse_input(t_data *data)
 
 	if (check_quote_error(data->input))
 		return (write(2, "minishell : quotes not closing error\n", 37), 1);
+	if (check_token_error(data->input))
+		return (write(2, "minishell : syntax error near unexpected token\n",
+				47), 1);
 	init_cmd(data);
 	data->nb_hd = 0;
 	i = -1;
@@ -99,8 +102,6 @@ int	parse_input(t_data *data)
 		}
 		if (!data->error)
 			data->buf = convert_input(data, data->buf, data->input, &i);
-		if (!data->input[i])
-			break ;
 	}
 	add_cmd(data);
 	free(data->buf);
