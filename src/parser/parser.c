@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/07 22:49:23 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/08 02:16:55 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	init_cmd(t_data *data)
 	data->buf = create_buffer();
 	if (!data->buf)
 		return (free_all_exit(data), 1);
-	data->curr_fd_in = 0;
-	data->curr_fd_out = 1;
+	data->fd_in = 0;
+	data->fd_out = 1;
 	data->error = 0;
 	return (0);
 }
@@ -34,8 +34,8 @@ int	add_cmd(t_data *data)
 		return (free_all_exit(data), 1);
 	ft_memset(cmd, 0, sizeof(t_cmd));
 	cmd->tab = ft_split_parser(data->buf);
-	cmd->fd_in = data->curr_fd_in;
-	cmd->fd_out = data->curr_fd_out;
+	cmd->fd_in = data->fd_in;
+	cmd->fd_out = data->fd_out;
 	cmd->builtin = get_builtin_code(cmd->tab[0]);
 	cmd->head_cmd = data->head_cmd;
 	cmd->env = data->env;
@@ -99,6 +99,8 @@ int	parse_input(t_data *data)
 		}
 		if (!data->error)
 			data->buf = convert_input(data, data->buf, data->input, &i);
+		if (!data->input[i])
+			break ;
 	}
 	add_cmd(data);
 	free(data->buf);

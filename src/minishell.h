@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/07 22:48:30 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/08 02:21:02 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,10 @@ typedef struct s_data
 	char			*input;
 	char			*buf;
 	char			*redir_arg;
-	char			*curr_path;
-	int				curr_token;
-	int				curr_fd_in;
-	int				curr_fd_out;
+	char			*path;
+	int				token;
+	int				fd_in;
+	int				fd_out;
 	int				nb_hd;
 	int				error;
 	struct s_cmd	*head_cmd;
@@ -101,8 +101,9 @@ char	*get_hd_path(t_data *data);
 int		heredoc(t_data *data, char *end);
 
 //PARSER_UTILIS.C//
-void	free_all_exit(t_data *data);
+t_env	*ft_create_env(char **env);
 char	*create_buffer(void);
+void	free_all_exit(t_data *data);
 
 //PARSER.C//
 int		init_cmd(t_data *data);

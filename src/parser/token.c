@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/07 18:29:18 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/08 02:17:27 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,16 @@ int	get_token_code(char *str, int *i)
 
 int	check_token(t_data *data, int *i)
 {
-	data->curr_token = get_token_code(data->input, i);
-	if (data->curr_token && check_token_error(data->input, i))
+	data->token = get_token_code(data->input, i);
+	if (data->token && check_token_error(data->input, i))
 	{
 		write(2, "minishell : syntax error near unexpected token\n", 47);
 		data->error = 1;
 		return (0);
 	}
-	if (data->curr_token == PIPE && check_quote_pos(data->input, *i) == 0)
+	if (data->token == PIPE && check_quote_pos(data->input, *i) == 0)
 		return (1);
-	if (data->curr_token > PIPE && check_quote_pos(data->input, *i) == 0)
+	if (data->token > PIPE && check_quote_pos(data->input, *i) == 0)
 		redir_handler(data, data->input, i);
 	return (0);
 }
