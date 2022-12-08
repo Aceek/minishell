@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/09 00:16:05 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/12/09 00:41:17 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ int	ft_last_child(t_cmd *cmd, t_env *mini)
 	int	pid;
 	int	status;
 
-	if (cmd->builtin == EXIT)
-		return (ft_exit_minishell(mini, cmd), 0);
 	pid = fork();
 	signal(SIGINT, ft_signal_newline2);
 	if (pid == 0)
@@ -132,8 +130,9 @@ int	ft_exe(t_env *mini, t_cmd *cmd, int error)
 		}
 		tmp = tmp->next;
 	}
-	if (ft_last_child(tmp, mini) < 0)
+	if (tmp->builtin == EXIT)
+		ft_exit_minishell(mini, tmp);
+	else if (ft_last_child(tmp, mini) < 0)
 		ft_exit_clean(mini, cmd, g_exit);
-	ft_close_and_reset_exec(cmd, out, in, error);
-	return (0);
+	return (ft_close_and_reset_exec(cmd, out, in, error), 0);
 }

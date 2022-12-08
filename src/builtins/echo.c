@@ -6,11 +6,27 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 22:49:44 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/23 01:51:17 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/12/09 00:54:44 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static int	ft_strcmp_n(char *s1)
+{
+	int	i;
+
+	i = 1;
+	if (s1[0] != '-')
+		return (1);
+	while (s1 && s1[i])
+	{
+		if (s1[i] != 'n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 void	ft_echo_builtin(t_cmd *cmd)
 {
@@ -18,8 +34,8 @@ void	ft_echo_builtin(t_cmd *cmd)
 	int	i;
 
 	n_option = 0;
-	if (cmd->tab[1] && !ft_strcmp(cmd->tab[1], "-n"))
-		n_option = 1;
+	while (cmd->tab[n_option + 1] && !ft_strcmp_n(cmd->tab[n_option + 1]))
+		n_option++;
 	i = 1 + n_option;
 	while (cmd->tab && cmd->tab[i])
 	{
