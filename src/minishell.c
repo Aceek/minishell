@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/11/27 06:28:35 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/12/08 10:51:09 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,10 @@
 
 int	g_exit = 0;
 
-t_env	*ft_create_env(char **env)
-{
-	int		i;
-	t_env	*mini;
-
-	i = -1;
-	mini = malloc(sizeof(t_env));
-	if (!mini)
-		exit(1);
-	mini->next = NULL;
-	mini->line = NULL;
-	while (env && env[++i])
-		lst_addback(mini, env[i]);
-	return (mini);
-}
-
 void	ft_init_main(t_data *data, t_env **mini, char **env)
 {
 	ft_memset(data, 0, sizeof(t_data));
-	data->curr_fd_out = 1;
+	data->fd_out = 1;
 	data->env = env;
 	*mini = ft_create_env(env);
 	if (!*mini)
@@ -52,9 +36,7 @@ void	ft_printf_list(t_cmd *cmd)
 	{
 		i = -1;
 		while (tmp->tab[++i])
-			printf("args %d : %s ", i, tmp->tab[i]);
-		printf("\n");
-		printf("fd_in : %d  fd_out : %d\n", tmp->fd_in, tmp->fd_out);
+			printf("args %d : %s \n", i, tmp->tab[i]);
 		tmp = tmp->next;
 	}
 }

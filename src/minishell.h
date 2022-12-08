@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/28 09:27:50 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/08 11:54:47 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,11 @@ typedef struct s_data
 	t_env			*mini;
 	char			*input;
 	char			*buf;
-	char			*token_arg;
-	char			*curr_path;
-	int				curr_token;
-	int				curr_fd_in;
-	int				curr_fd_out;
+	char			*redir_arg;
+	char			*path;
+	int				token;
+	int				fd_in;
+	int				fd_out;
 	int				nb_hd;
 	int				error;
 	struct s_cmd	*head_cmd;
@@ -94,29 +94,40 @@ char	*get_var_env_name(char *str, int *i);
 char	*get_var_env_val(char *var_env, int len, t_env *mini);
 char	*get_dollar(char *str, int *i, t_env *mini);
 
-//LEXER.C//
-void	update_quote(bool *quote);
-int		check_quote_error(char *str);
-int		check_quote_pos(char *str, int pos);
-int		check_token_error(char *str, int *i);
-int		get_token_code(char *str, int *i);
-int		get_builtin_code(char *str);
-
-//PARSER.C//
-void	free_all_exit(t_data *data);
-char	*create_buffer(void);
-int		init_cmd(t_data *data);
-int		add_cmd(t_data *data);
-int		check_token(t_data *data, int *i);
-char	*convert_input(t_data *data, char *input, char *buf, int *i);
-int		parse_input(t_data *data);
-
-//REDIR.C//
+//HEREDOC.C//
 char	*convert_hd_input(t_data *data, char *input);
 void	get_hd_input(t_data *data, int fd, char *end);
+char	*get_hd_path(t_data *data);
 int		heredoc(t_data *data, char *end);
-char	*get_token_arg(char *str, int *i);
+
+//PARSER_UTILIS.C//
+t_env	*ft_create_env(char **env);
+char	*create_buffer(void);
+void	free_tab(char **tab);
+void	free_all_exit(t_data *data);
+
+//PARSER.C//
+int		init_cmd(t_data *data);
+int		add_cmd(t_data *data);
+char	*add_char(t_data *data, char *buf, char c);
+char	*convert_input(t_data *data, char *buf, char *str, int *i);
+int		parse_input(t_data *data);
+
+//QUOTE.C//
+void	update_quote(bool *quote);
+int		check_quote_pos(char *str, int pos);
+int		check_quote_error(char *str);
+int		is_quote(char *str, int i);
+
+//REDIR.C//
+char	*get_redir_arg(t_data *data, char *str, int *i);
 int		redir_handler(t_data *data, char *str, int *i);
+
+//TOKEN.C//
+int		get_builtin_code(char *str);
+int		get_token_code(char *str, int *i);
+int		check_token_error(char *str);
+int		check_token(t_data *data, int *i);
 
 /*---------------------------------EXEC----------------------------------*/
 //EXEC.C//
@@ -212,5 +223,6 @@ void	ft_list_add_back(t_cmd **list, t_cmd *new);
 void	*ft_memset(void *s, int c, size_t n);
 char	*ft_itoa(int n);
 int		nb_len(int n);
+char	**ft_split_parser(char *str);
 
 #endif

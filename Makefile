@@ -6,9 +6,10 @@ DIR_SRC			=	src
 DIR_OBJ			=	obj
 SUB_OBJ			=	obj/parser obj/libft obj/builtins obj/exec
 
-SRC				=	parser/dollar.c parser/lexer.c parser/parser.c parser/redir.c \
+SRC				=	parser/dollar.c parser/heredoc.c parser/parser_utilis.c parser/parser.c parser/quote.c parser/redir.c parser/token.c \
 					libft/libft_charset.c libft/libft_cleaning.c libft/libft_list_1.c libft/libft_list_2.c \
-					libft/libft_str_search.c libft/libft_utils.c libft/libft_modify_str.c minishell.c signal.c \
+					libft/libft_str_search.c libft/libft_utils.c libft/libft_modify_str.c libft/libft_split_parser.c \
+					minishell.c signal.c \
 					exec/exec.c exec/utils.c exec/ft_split.c \
 					builtins/export.c builtins/export_utils.c builtins/echo.c builtins/pwd.c builtins/unset.c builtins/cd.c \
 
