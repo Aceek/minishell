@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/09 22:58:59 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/09 23:01:01 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	init_cmd(t_data *data)
 int	add_cmd(t_data *data)
 {
 	t_cmd	*cmd;
-	int		i;
 
 	if (data->error)
 		return (ft_clear_cmd_list(data->head_cmd), 1);
