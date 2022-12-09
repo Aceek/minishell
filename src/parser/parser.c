@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/09 05:10:12 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/09 22:58:59 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,17 @@ int	init_cmd(t_data *data)
 int	add_cmd(t_data *data)
 {
 	t_cmd	*cmd;
+	int		i;
 
 	if (data->error)
-		return (1);
+		return (ft_clear_cmd_list(data->head_cmd), 1);
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (free_all_exit(data, 1), 1);
 	ft_memset(cmd, 0, sizeof(t_cmd));
 	cmd->tab = ft_split_parser(data->buf);
 	if (!cmd->tab || !cmd->tab[0])
-		return (free_tab(cmd->tab), free(cmd), free_all_exit(data, 1), 1);
+		return (free_tab(cmd->tab), free(cmd), ft_clear_cmd_list(data->head_cmd), 1);
 	cmd->fd_in = data->fd_in;
 	cmd->fd_out = data->fd_out;
 	cmd->builtin = get_builtin_code(cmd->tab[0]);
@@ -58,7 +59,8 @@ int	parse_input(t_data *data)
 	{
 		if (check_token(data, &i))
 		{
-			add_cmd(data);
+			if (add_cmd(data))
+				return (1);
 			free(data->buf);
 			init_cmd(data);
 		}

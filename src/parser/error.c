@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/09 05:19:14 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/09 22:04:14 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	check_error(char *input)
 		if (error == 1)
 			write(2, "simple ", 7);
 		else if (error == 2)
-			write(2, "double ", 8);
+			write(2, "double ", 7);
 		write(2, "quotes not closing\n", 19);
 		return (1);
 	}
