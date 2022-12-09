@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/09 03:01:47 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/09 03:10:05 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	add_cmd(t_data *data)
 	ft_memset(cmd, 0, sizeof(t_cmd));
 	cmd->tab = ft_split_parser(data->buf);
 	if (!cmd->tab || !cmd->tab[0])
-		return (free_all_exit(data, 1), 1);
+		return (free_tab(cmd->tab), free(cmd), free_all_exit(data, 1), 1);
 	cmd->fd_in = data->fd_in;
 	cmd->fd_out = data->fd_out;
 	cmd->builtin = get_builtin_code(cmd->tab[0]);
