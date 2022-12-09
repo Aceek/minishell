@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/09 03:10:05 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/09 05:10:12 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,6 @@ int	add_cmd(t_data *data)
 	cmd->head_cmd = data->head_cmd;
 	cmd->env = data->env;
 	ft_list_add_back(&data->head_cmd, cmd);
-	return (0);
-}
-
-int	check_error(char *input)
-{
-	if (check_quote_error(input))
-		return (g_exit = 2,
-			write(2, "minishell : quotes not closing error\n", 37), 1);
-	if (check_token_error(input))
-		return (g_exit = 2,
-			write(2, "minishell : syntax error near unexpected token\n", 47), 1);
 	return (0);
 }
 

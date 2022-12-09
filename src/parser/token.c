@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/09 02:20:53 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/09 04:57:47 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,32 +57,12 @@ int	get_token_code(char *str, int *i)
 	return (NOT_TOKEN);
 }
 
-int	check_token_error(char *str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-	{
-		if (get_token_code(str, &i))
-		{
-			if (str[i] && get_token_code(str, &i))
-				return (1);
-			while (ft_isspace(str[i]))
-				i++;
-			if (!str[i])
-				return (1);
-		}
-	}
-	return (0);
-}
-
 int	check_token(t_data *data, int *i)
 {
 	data->token = get_token_code(data->input, i);
 	if (data->token == PIPE && check_quote_pos(data->input, *i) == 0)
 		return (1);
-	if (data->token > PIPE && check_quote_pos(data->input, *i) == 0)
+	else if (data->token && check_quote_pos(data->input, *i) == 0)
 		redir_handler(data, data->input, i);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/09 02:56:10 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/09 05:11:40 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@
 enum e_token
 {
 	NOT_TOKEN,
-	PIPE,
 	LESS,
 	GREAT,
 	DLESS,
 	DGREAT,
+	PIPE,
 };
 
 enum e_built_in
@@ -98,6 +98,12 @@ char	*get_var_env_name(char *str, int *i);
 char	*get_var_env_val(char *var_env, int len, t_env *mini);
 char	*get_dollar(char *str, int *i, t_env *mini);
 
+//ERROR.C//
+int		check_quote_error(char *str);
+int		check_token_error(char *str);
+void	print_token(int error);
+int		check_error(char *input);
+
 //HEREDOC.C//
 char	*convert_hd_input(t_data *data, char *input);
 void	get_hd_input(t_data *data, int fd, char *end);
@@ -118,7 +124,6 @@ int		parse_input(t_data *data);
 //QUOTE.C//
 void	update_quote(bool *quote);
 int		check_quote_pos(char *str, int pos);
-int		check_quote_error(char *str);
 int		is_quote(char *str, int i);
 
 //REDIR.C//
@@ -128,7 +133,6 @@ int		redir_handler(t_data *data, char *str, int *i);
 //TOKEN.C//
 int		get_builtin_code(char *str);
 int		get_token_code(char *str, int *i);
-int		check_token_error(char *str);
 int		check_token(t_data *data, int *i);
 
 /*---------------------------------EXEC----------------------------------*/

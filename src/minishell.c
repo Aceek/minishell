@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/09 02:47:00 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/09 03:14:43 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int	main(int ac, char **av, char **env)
 		{
 			add_history(data.input);
 			parse_input(&data);
-			ft_printf_list(data.head_cmd);
 			ft_exe(data.mini, data.head_cmd, data.error);
 			data.head_cmd = NULL;
 			free(data.input);
