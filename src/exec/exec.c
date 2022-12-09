@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/09 23:18:36 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/12/09 23:46:35 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ int	ft_exe(t_env *mini, t_cmd *cmd, int error)
 	}
 	if (tmp->builtin == EXIT)
 		ft_exit_minishell(mini, tmp);
+	else if (tmp->builtin == EXPORT)
+		ft_cmd(tmp, mini);
 	else if (ft_last_child(tmp, mini) < 0)
 		ft_exit_clean(mini, cmd, g_exit);
 	return (ft_close_and_reset_exec(cmd, out, in, error), 0);

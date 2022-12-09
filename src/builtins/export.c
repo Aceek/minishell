@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 07:12:28 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/26 06:48:25 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/12/09 23:49:21 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,14 +113,15 @@ void	ft_add_args_env(t_cmd *cmd, t_env *mini)
 
 int	ft_export_builtin(t_cmd *cmd, t_env *mini)
 {
-	t_env	*tmp_cpy;
+	// t_env	*tmp_cpy;
 
-	tmp_cpy = NULL;
+	// tmp_cpy = NULL;
 	if (!cmd->tab[1] && mini)
 	{
-		tmp_cpy = ft_cpy_env(mini);
-		ft_sort_print_env(tmp_cpy);
-		lst_freeall(tmp_cpy);
+		return (0);
+		// tmp_cpy = ft_cpy_env(mini);
+		// ft_sort_print_env(tmp_cpy);
+		// lst_freeall(tmp_cpy);
 	}
 	else
 		ft_add_args_env(cmd, mini);
