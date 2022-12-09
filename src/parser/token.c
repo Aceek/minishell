@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/08 22:38:26 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/09 02:20:53 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	get_token_code(char *str, int *i)
 {
 	if (str[*i + 1])
 	{
-		if (!check_quote_pos(str, *i) && !check_quote_pos(str, *i + 1))
+		if (check_quote_pos(str, *i) == 0 && check_quote_pos(str, *i + 1) == 0)
 		{
 			if (!ft_strncmp(str + *i, ">>", 2))
 				return (*i += 2, DGREAT);
@@ -45,7 +45,7 @@ int	get_token_code(char *str, int *i)
 				return (*i += 2, DLESS);
 		}
 	}
-	if (!check_quote_pos(str, *i))
+	if (check_quote_pos(str, *i) == 0)
 	{
 		if (!ft_strncmp(str + *i, "<", 1))
 			return (*i += 1, LESS);
@@ -66,7 +66,7 @@ int	check_token_error(char *str)
 	{
 		if (get_token_code(str, &i))
 		{
-			if (get_token_code(str, &i))
+			if (str[i] && get_token_code(str, &i))
 				return (1);
 			while (ft_isspace(str[i]))
 				i++;

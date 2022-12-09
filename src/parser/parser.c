@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/09 00:36:53 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/09 02:21:35 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	add_cmd(t_data *data)
 		return (free_all_exit(data, 1), 1);
 	ft_memset(cmd, 0, sizeof(t_cmd));
 	cmd->tab = ft_split_parser(data->buf);
+	if (!cmd->tab || !cmd->tab[0])
+		return (free_all_exit(data, 1), 1);
 	cmd->fd_in = data->fd_in;
 	cmd->fd_out = data->fd_out;
 	cmd->builtin = get_builtin_code(cmd->tab[0]);
@@ -100,6 +102,7 @@ int	parse_input(t_data *data)
 			add_cmd(data);
 			free(data->buf);
 			init_cmd(data);
+			break ;
 		}
 		if (!data->error)
 			data->buf = convert_input(data, data->buf, data->input, &i);
