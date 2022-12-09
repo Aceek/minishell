@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	ft_pwd_builtin(void)
+int	ft_pwd_builtin(void)
 {
 	char	buff[2048];
 
@@ -20,5 +20,5 @@ void	ft_pwd_builtin(void)
 		printf("%s\n", buff);
 	else
 		g_exit = 1;
-	return ;
+	return (g_exit);
 }

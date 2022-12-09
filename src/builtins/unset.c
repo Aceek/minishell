@@ -76,7 +76,7 @@ void	ft_remove_if_in_env(t_env *mini, char *args)
 	}
 }
 
-void	ft_unset_builtin(t_cmd *cmd, t_env *mini)
+int	ft_unset_builtin(t_cmd *cmd, t_env *mini)
 {
 	int	i;
 	int	error;
@@ -84,14 +84,16 @@ void	ft_unset_builtin(t_cmd *cmd, t_env *mini)
 	if (!cmd->tab[1] || !mini || !mini->line)
 	{
 		write(2, "unset : error initialisation\n", 29);
-		return ;
+		return (g_exit = 1, 1);
 	}
 	i = 1;
 	while (cmd->tab && cmd->tab[i])
 	{
+		g_exit = 0;
 		error = ft_is_valid_env(cmd->tab[i]);
 		if (error < 0)
 		{
+			g_exit = 1;
 			write(2, cmd->tab[i], ft_strlen(cmd->tab[i]));
 			write(2, " : unset : invalid parameter name\n", 34);
 		}
@@ -99,4 +101,5 @@ void	ft_unset_builtin(t_cmd *cmd, t_env *mini)
 			ft_remove_if_in_env(mini, cmd->tab[i]);
 		i++;
 	}
+	return (g_exit);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_modify_str.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 06:04:36 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/28 09:13:57 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/08 23:57:28 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,31 +110,31 @@ char	*ft_itoa(int n)
 	return (str);
 }
 
-int	ft_atoi(char *str, int *e)
+int    ft_atoi(const char *str, int *error)
 {
-	long	p;
-	int		m;
-	int		i;
+    int            i;
+    int            sign;
+    long long    result;
+    int            tmp;
 
-	i = 0;
-	p = 0;
-	m = 1;
-	if (!str)
-		return (0);
-	while ((str[i] <= 13 && str[i] >= 9) || str[i] == ' ')
-		i++;
-	if (str[i] == '+' || str[i] == '-')
-	{
-		if (str[i] == '-')
-			m = -m;
-		i++;
-	}
-	while (str[i] <= '9' && str[i] >= '0')
-	{
-		p = p * 10;
-		p = p + (str[i] - 48);
-		i++;
-	}
-	*e = i;
-	return (p * m);
+    i = 0;
+    sign = 1;
+    result = 0;
+    while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+        i++;
+    if (str[i] == '-')
+    {    
+        sign = -sign;
+        i++;
+    }
+    else if (str[i] == '+')
+        i++;
+    while (str[i] >= '0' && str[i] <= '9')
+        result = result * 10 + str[i++] - '0';
+    result *= sign;
+    tmp = (int)result;
+    if (str[i] || result != tmp || (sign > 0 && ft_strlen(str) > 10)
+        || (sign < 0 && ft_strlen(str) > 11) || sign < 0)
+        *error = 11;
+    return (result);
 }

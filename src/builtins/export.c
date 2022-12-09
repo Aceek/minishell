@@ -95,9 +95,11 @@ void	ft_add_args_env(t_cmd *cmd, t_env *mini)
 	i = 1;
 	while (cmd->tab && cmd->tab[i])
 	{
+		g_exit = 0;
 		error = ft_is_valid_env(cmd->tab[i]);
 		if (error < 0)
 		{
+			g_exit = 1;
 			write(2, cmd->tab[i], ft_strlen(cmd->tab[i]));
 			write(2, " : export : not an identifier\n", 30);
 		}
@@ -109,7 +111,7 @@ void	ft_add_args_env(t_cmd *cmd, t_env *mini)
 	}
 }
 
-void	ft_export_builtin(t_cmd *cmd, t_env *mini)
+int	ft_export_builtin(t_cmd *cmd, t_env *mini)
 {
 	t_env	*tmp_cpy;
 
@@ -122,5 +124,5 @@ void	ft_export_builtin(t_cmd *cmd, t_env *mini)
 	}
 	else
 		ft_add_args_env(cmd, mini);
-	return ;
+	return (g_exit);
 }
