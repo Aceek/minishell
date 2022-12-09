@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/09 23:07:30 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/09 23:52:11 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*get_redir_arg(t_data *data, char *str, int *i)
 	while (ft_isspace(str[*i]))
 		*i += 1;
 	while (ft_isalnum(str[*i]) || str[*i] == '_' || str[*i] == '.'
-		|| str[*i] == '$')
+		|| str[*i] == '$' || str[*i] == '/')
 	{
 		if (data->token == DLESS)
 			buf = add_char(data, buf, str[*i]);
@@ -49,7 +49,7 @@ int	redir_handler(t_data *data, char *str, int *i)
 	}
 	if (data->token == DGREAT)
 		data->fd_out = open(data->redir_arg, O_CREAT | O_RDWR | O_APPEND, 0664);
-	if (data->fd_in == -1 || data->fd_out == -1)
+	if (data->fd_in == -1)
 	{
 		data->error = 1;
 		g_exit = 1;
