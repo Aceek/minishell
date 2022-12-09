@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/09 23:10:26 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/12/09 23:18:36 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	ft_fork(t_env *mini, t_cmd *cmd)
 	}
 	else if (pid == 0)
 	{
+		signal(SIGQUIT, ft_signal_quit);
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		ft_cmd(cmd, mini);
