@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/09 00:25:15 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/09 02:59:51 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,39 @@ char	*create_buffer(void)
 	return (buf);
 }
 
-void	free_tab(char **tab)
-{	
-	int	i;
+char	*add_char(t_data *data, char *buf, char c)
+{
+	char	*tmp;
 
-	i = 0;
-	while (tab[i])
-		free(tab[i++]);
-	free (tab);
+	tmp = ft_charjoin(buf, c);
+	if (!tmp)
+		return (free_all_exit(data, 1), NULL);
+	free(buf);
+	buf = tmp;
+	return (buf);
 }
 
-void	free_all_exit(t_data *data, int exit)
+char	*convert_input(t_data *data, char *buf, char *str, int *i)
 {
-	if (data->buf)
-		free(data->buf);
-	if (data->redir_arg)
-		free(data->redir_arg);
-	if (data->path)
-		free(data->path);
-	ft_exit_clean(data->mini, data->head_cmd, exit);
+	char	*var;
+	char	*tmp;
+
+	if (str[*i] == '$' && check_quote_pos(str, *i) != 1)
+	{
+		if (!ft_isalnum(str[*i + 1]) && str[*i + 1] != '_'
+			&& str[*i + 1] != '?')
+			return (add_char(data, buf, str[*i]));
+		var = get_dollar(str, i, data->mini);
+		if (!var)
+			return (free(var), buf);
+		tmp = ft_strjoin(buf, var);
+		if (!tmp)
+			return (free_all_exit(data, 1), NULL);
+		free(buf);
+		free(var);
+		buf = tmp;
+	}
+	else
+		buf = add_char(data, buf, str[*i]);
+	return (buf);
 }

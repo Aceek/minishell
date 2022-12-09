@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/09 02:34:30 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/09 02:56:10 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,10 @@ typedef struct s_data
 }					t_data;
 
 /*--------------------------------PARSING--------------------------------*/
+//CLEAR.C//
+void	free_tab(char **tab);
+void	free_all_exit(t_data *data, int exit);
+
 //DOLLAR.C//
 char	*get_var_env_name(char *str, int *i);
 char	*get_var_env_val(char *var_env, int len, t_env *mini);
@@ -103,14 +107,12 @@ int		heredoc(t_data *data, char *end);
 //PARSER_UTILS.C//
 t_env	*ft_create_env(char **env);
 char	*create_buffer(void);
-void	free_tab(char **tab);
-void	free_all_exit(t_data *data, int exit);
+char	*add_char(t_data *data, char *buf, char c);
+char	*convert_input(t_data *data, char *buf, char *str, int *i);
 
 //PARSER.C//
 int		init_cmd(t_data *data);
 int		add_cmd(t_data *data);
-char	*add_char(t_data *data, char *buf, char c);
-char	*convert_input(t_data *data, char *buf, char *str, int *i);
 int		parse_input(t_data *data);
 
 //QUOTE.C//

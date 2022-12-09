@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/09 02:21:35 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/09 03:01:47 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,53 +45,23 @@ int	add_cmd(t_data *data)
 	return (0);
 }
 
-char	*add_char(t_data *data, char *buf, char c)
+int	check_error(char *input)
 {
-	char	*tmp;
-
-	tmp = ft_charjoin(buf, c);
-	if (!tmp)
-		return (free_all_exit(data, 1), NULL);
-	free(buf);
-	buf = tmp;
-	return (buf);
-}
-
-char	*convert_input(t_data *data, char *buf, char *str, int *i)
-{
-	char	*var;
-	char	*tmp;
-
-	if (str[*i] == '$' && check_quote_pos(str, *i) != 1)
-	{
-		if (!ft_isalnum(str[*i + 1]) && str[*i + 1] != '_'
-			&& str[*i + 1] != '?')
-			return (add_char(data, buf, str[*i]));
-		var = get_dollar(str, i, data->mini);
-		if (!var)
-			return (free(var), buf);
-		tmp = ft_strjoin(buf, var);
-		if (!tmp)
-			return (free_all_exit(data, 1), NULL);
-		free(buf);
-		free(var);
-		buf = tmp;
-	}
-	else
-		buf = add_char(data, buf, str[*i]);
-	return (buf);
+	if (check_quote_error(input))
+		return (g_exit = 2,
+			write(2, "minishell : quotes not closing error\n", 37), 1);
+	if (check_token_error(input))
+		return (g_exit = 2,
+			write(2, "minishell : syntax error near unexpected token\n", 47), 1);
+	return (0);
 }
 
 int	parse_input(t_data *data)
 {
 	int		i;
 
-	if (check_quote_error(data->input))
-		return (g_exit = 2,
-				write(2, "minishell : quotes not closing error\n", 37), 1);
-	if (check_token_error(data->input))
-		return (g_exit = 2,
-		write(2, "minishell : syntax error near unexpected token\n",47), 1);
+	if (check_error(data->input))
+		return (1);
 	init_cmd(data);
 	data->nb_hd = 0;
 	i = -1;
@@ -102,10 +72,11 @@ int	parse_input(t_data *data)
 			add_cmd(data);
 			free(data->buf);
 			init_cmd(data);
-			break ;
 		}
 		if (!data->error)
 			data->buf = convert_input(data, data->buf, data->input, &i);
+		if (data->input[i] == '\0')
+			break ;
 	}
 	add_cmd(data);
 	free(data->buf);
