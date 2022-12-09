@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/09 00:41:17 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/12/09 23:10:26 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	ft_last_child(t_cmd *cmd, t_env *mini)
 
 	pid = fork();
 	signal(SIGINT, ft_signal_newline2);
+	signal(SIGQUIT, ft_signal_quit);
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
@@ -92,6 +93,7 @@ int	ft_last_child(t_cmd *cmd, t_env *mini)
 		if (WIFEXITED(status))
 			g_exit = WEXITSTATUS(status);
 	}
+	signal(SIGQUIT, SIG_IGN);
 	return (signal(SIGINT, ft_signal_newline), 0);
 }
 
