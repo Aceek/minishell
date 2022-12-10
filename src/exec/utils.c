@@ -6,11 +6,24 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:42:35 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/27 06:22:22 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/12/10 04:24:15 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_close_and_reset_exec(t_cmd *cmd, int error)
+{
+	if (error)
+		g_exit = 1;
+	dup2(cmd->cpy_out, STDOUT_FILENO);
+	dup2(cmd->cpy_in, STDIN_FILENO);
+	close(cmd->cpy_in);
+	close(cmd->cpy_out);
+	while (wait(NULL) > 0)
+		;
+	ft_clear_cmd_list(cmd);
+}
 
 void	ft_exec_err(const char *str, char *var)
 {
@@ -43,14 +56,6 @@ char	**ft_make_tab_from_env(t_env *mini)
 	return (env);
 }
 
-void	ft_exit_clean(t_env *mini, t_cmd *cmd, int error)
-{
-	ft_clear_cmd_list(cmd);
-	lst_freeall(mini);
-	rl_clear_history();
-	exit(error);
-}
-
 char	*ft_make_path(char *dir, char *cmd)
 {
 	int		i;
@@ -78,19 +83,21 @@ char	*ft_make_path(char *dir, char *cmd)
 	return (path);
 }
 
-char	*ft_get_path(char *cmd, char **env)
+char	*ft_get_path(char *cmd, t_env *mini)
 {
 	char	*path;
 	char	**all_dir;
 	char	*tmp_path;
 	int		i;
+	t_env	*tmp;
 
 	i = 0;
-	while (env[i] && ft_strnstr(env[i], "PATH=", 5) == NULL)
-		i++;
-	if (!env[i])
+	tmp = mini;
+	while (tmp->line && ft_strnstr(&tmp->line[i], "PATH=", 5) == NULL)
+		tmp = tmp->next;
+	if (!tmp->line)
 		return (NULL);
-	tmp_path = ft_cpy(env[i], 5);
+	tmp_path = ft_cpy(tmp->line, 5);
 	all_dir = ft_split2(tmp_path, ":");
 	i = 0;
 	while (all_dir[i] != NULL)

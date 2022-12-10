@@ -6,11 +6,19 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:15:36 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/09 00:35:22 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/12/10 02:29:28 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_exit_clean(t_env *mini, t_cmd *cmd, int error)
+{
+	ft_clear_cmd_list(cmd);
+	lst_freeall(mini);
+	rl_clear_history();
+	exit(error);
+}
 
 void	ft_exit_minishell(t_env *mini, t_cmd *cmd)
 {

@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/10 04:14:56 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/10 04:51:41 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	ft_init_main(t_data *data, t_env **mini, char **env)
 	if (!*mini)
 		exit (1);
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
 	signal(SIGINT, ft_signal_newline);
 }
 
@@ -50,6 +51,7 @@ int	main(int ac, char **av, char **env)
 	while (ac > 0 && av[0])
 	{
 		data.input = readline("\033[1;35m\033[1m minishell ▸ \033[0m");
+		// data.input = readline("minishell ▸ ");
 		if (!data.input)
 		{
 			printf("exit\n");

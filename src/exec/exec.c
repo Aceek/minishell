@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/09 00:41:17 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/12/10 04:22:09 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_cmd(t_cmd *cmd, t_env *mini)
 	&& !cmd->builtin)
 		path = ft_strdup(cmd->tab[0]);
 	else if (!cmd->builtin)
-		path = ft_get_path(cmd->tab[0], cmd->env);
+		path = ft_get_path(cmd->tab[0], mini);
 	if ((cmd->fd_in < 0 || cmd->fd_out < 0) || (!path && !cmd->builtin))
 		return (free(path), -2);
 	if (cmd->fd_in > STDIN_FILENO)
@@ -53,10 +53,13 @@ int	ft_fork(t_env *mini, t_cmd *cmd)
 	{
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
+		if (cmd->builtin)
+			wait(NULL);
 		close(fd[0]);
 	}
 	else if (pid == 0)
 	{
+		signal(SIGQUIT, ft_signal_quit);
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		ft_cmd(cmd, mini);
@@ -73,16 +76,15 @@ int	ft_last_child(t_cmd *cmd, t_env *mini)
 
 	pid = fork();
 	signal(SIGINT, ft_signal_newline2);
+	signal(SIGQUIT, ft_signal_quit);
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
 		if (ft_cmd(cmd, mini) < 0)
 		{
 			if (cmd->tab[0] && !cmd->builtin)
-			{
-				g_exit = 127;
-				ft_exec_err(cmd->tab[0], " : command not found\n");
-			}
+				return (g_exit = 127,
+					ft_exec_err(cmd->tab[0], " : command not found\n"), -1);
 			return (-1);
 		}
 	}
@@ -92,47 +94,50 @@ int	ft_last_child(t_cmd *cmd, t_env *mini)
 		if (WIFEXITED(status))
 			g_exit = WEXITSTATUS(status);
 	}
-	return (signal(SIGINT, ft_signal_newline), 0);
+	return (signal(SIGINT, ft_signal_newline), signal(SIGQUIT, SIG_IGN), 0);
 }
 
-void	ft_close_and_reset_exec(t_cmd *cmd, int out, int in, int error)
+int	ft_exe_last_child(t_cmd *cmd, t_cmd *tmp, t_env *mini)
 {
-	if (error)
-		g_exit = 1;
-	ft_clear_cmd_list(cmd);
-	dup2(out, STDOUT_FILENO);
-	dup2(in, STDIN_FILENO);
-	close(in);
-	close(out);
-	while (wait(NULL) > 0)
-		;
+	if (tmp->builtin == EXIT)
+	{
+		close(cmd->cpy_in);
+		close(cmd->cpy_out);
+		return (ft_exit_minishell(mini, cmd), 0);
+	}
+	if (tmp->builtin == EXPORT || tmp->builtin == UNSET)
+		ft_cmd(tmp, mini);
+	else if (ft_last_child(tmp, mini) < 0)
+	{
+		close(cmd->cpy_in);
+		close(cmd->cpy_out);
+		return (ft_exit_clean (mini, cmd, g_exit), 0);
+	}
+	return (0);
 }
 
 int	ft_exe(t_env *mini, t_cmd *cmd, int error)
 {
-	int		out;
-	int		in;
 	t_cmd	*tmp;
 
 	if (!cmd)
 		return (g_exit = 1, 1);
-	in = dup(0);
-	out = dup(1);
+	cmd->cpy_in = dup(0);
+	cmd->cpy_out = dup(1);
 	tmp = cmd;
 	while (tmp && tmp->next)
 	{
 		if (ft_fork(mini, tmp) < 0)
 		{
-			dup2(out, STDOUT_FILENO);
+			dup2(cmd->cpy_out, STDOUT_FILENO);
 			if (!tmp->builtin)
 				ft_exec_err(cmd->tab[0], " : command not found\n");
-			ft_exit_clean(mini, cmd, g_exit);
+			close(cmd->cpy_in);
+			close(cmd->cpy_out);
+			return (ft_exit_clean(mini, cmd, g_exit), 0);
 		}
 		tmp = tmp->next;
 	}
-	if (tmp->builtin == EXIT)
-		ft_exit_minishell(mini, tmp);
-	else if (ft_last_child(tmp, mini) < 0)
-		ft_exit_clean(mini, cmd, g_exit);
-	return (ft_close_and_reset_exec(cmd, out, in, error), 0);
+	ft_exe_last_child(cmd, tmp, mini);
+	return (ft_close_and_reset_exec(cmd, error), 0);
 }
