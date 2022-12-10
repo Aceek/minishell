@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/09 05:11:40 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/10 03:56:11 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,6 +232,10 @@ void	ft_list_add_back(t_cmd **list, t_cmd *new);
 void	*ft_memset(void *s, int c, size_t n);
 char	*ft_itoa(int n);
 int		nb_len(int n);
+int		is_del(char *str, int i);
+int		count_args(char *str);
+char	*cpy_no_quotes(char *cpy, char *str, int pos, int len);
+int		fill_tab(char **tab, char *str, int args);
 char	**ft_split_parser(char *str);
 
 #endif

@@ -6,20 +6,20 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 06:11:57 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/08 11:11:08 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/10 04:21:48 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	is_del(char *str, int i)
+int	is_del(char *str, int i)
 {
 	if ((ft_isspace(str[i]) || str[i] == '\0') && check_quote_pos(str, i) == 0)
 		return (1);
 	return (0);
 }
 
-static int	count_args(char *str)
+int	count_args(char *str)
 {
 	int	nb_args;
 	int	i;
@@ -32,6 +32,25 @@ static int	count_args(char *str)
 			nb_args += 1;
 	}
 	return (nb_args);
+}
+
+char	*cpy_no_quotes(char *cpy, char *str, int pos, int len)
+{
+	int	i;
+
+	i = -1;
+	while (i < len)
+	{
+		if (is_quote(str, pos))
+		{	
+			pos++;
+			len--;
+		}
+		else
+			cpy[++i] = str[pos++];
+	}
+	cpy[i] = '\0';
+	return (cpy);
 }
 
 static char	*fill_line(char *str, char *line, int len, int *i)
@@ -56,7 +75,7 @@ static char	*fill_line(char *str, char *line, int len, int *i)
 	return (line);
 }
 
-static int	fill_tab(char **tab, char *str, int args)
+int	fill_tab(char **tab, char *str, int args)
 {
 	int		i;
 	int		len;
@@ -74,7 +93,10 @@ static int	fill_tab(char **tab, char *str, int args)
 		tab[l] = malloc(sizeof(char) * (len + 1));
 		if (!tab[l])
 			return (1);
+		// tab[l] = cpy_no_quotes(tab[l], str, i, len);
+		// i += len;
 		tab[l] = fill_line(str, tab[l], len, &i);
+		
 	}
 	return (0);
 }

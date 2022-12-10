@@ -6,11 +6,36 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/09 23:52:11 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/10 04:48:20 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// char	*get_redir_arg(t_data *data, char *str, int *i)
+// {
+// 	char	*buf;
+// 	char	*dup;
+
+// 	buf = create_buffer();
+// 	if (!buf)
+// 		return (free_all_exit(data, 1), NULL);
+// 	while (is_del(str, *i))
+// 		*i += 1; 
+// 	while (!is_del(str, *i))
+// 	{
+// 		if (data->token == DLESS)
+// 			buf = add_char(data, buf, str[*i]);
+// 		else
+// 			buf = convert_input(data, buf, str, i);
+// 	*i += 1;
+// 	}
+// 	dup = ft_strdup(buf);
+// 	dup = cpy_no_quotes(dup, buf, 0, ft_strlen(dup));
+// 	free(buf);
+// 	printf("arg : %s\n", dup);
+// 	return(dup);
+// }
 
 char	*get_redir_arg(t_data *data, char *str, int *i)
 {
