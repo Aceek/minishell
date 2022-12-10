@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/10 03:25:03 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/12/10 04:22:09 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_cmd(t_cmd *cmd, t_env *mini)
 	&& !cmd->builtin)
 		path = ft_strdup(cmd->tab[0]);
 	else if (!cmd->builtin)
-		path = ft_get_path(cmd->tab[0], cmd->env);
+		path = ft_get_path(cmd->tab[0], mini);
 	if ((cmd->fd_in < 0 || cmd->fd_out < 0) || (!path && !cmd->builtin))
 		return (free(path), -2);
 	if (cmd->fd_in > STDIN_FILENO)
@@ -105,7 +105,7 @@ int	ft_exe_last_child(t_cmd *cmd, t_cmd *tmp, t_env *mini)
 		close(cmd->cpy_out);
 		return (ft_exit_minishell(mini, cmd), 0);
 	}
-	if (tmp->builtin == EXPORT)
+	if (tmp->builtin == EXPORT || tmp->builtin == UNSET)
 		ft_cmd(tmp, mini);
 	else if (ft_last_child(tmp, mini) < 0)
 	{

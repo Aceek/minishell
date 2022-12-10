@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/10 03:23:12 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/12/10 04:21:34 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,8 @@ void	ft_close_and_reset_exec(t_cmd *cmd, int error);
 void	ft_exec_err(const char *str, char *var);
 char	**ft_make_tab_from_env(t_env *mini);
 char	*ft_make_path(char *dir, char *cmd);
-char	*ft_get_path(char *cmd, char **env);
+// char	*ft_get_path(char *cmd, char **env);
+char	*ft_get_path(char *cmd, t_env *mini);
 
 /*---------------------------------BUILTINS------------------------------*/
 //CD.C//
