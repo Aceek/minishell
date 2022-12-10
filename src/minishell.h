@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/09 23:08:51 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/12/10 03:23:12 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ typedef struct s_cmd
 {
 	char			**tab;
 	char			**env;
+	int				cpy_in;
+	int				cpy_out;
 	int				fd_in;
 	int				fd_out;
 	int				builtin;
@@ -140,7 +142,7 @@ int		check_token(t_data *data, int *i);
 int		ft_cmd(t_cmd *cmd, t_env *mini);
 int		ft_fork(t_env *mini, t_cmd *cmd);
 int		ft_last_child(t_cmd *cmd, t_env *mini);
-void	ft_close_and_reset_exec(t_cmd *cmd, int out, int in, int error);
+int		ft_exe_last_child(t_cmd *cmd, t_cmd *tmp, t_env *mini);
 int		ft_exe(t_env *mini, t_cmd *cmd, int error);
 
 //FT_SPLIT.C//
@@ -156,9 +158,9 @@ void	ft_add_to_tab(char **tab, const char *s, char *charset);
 char	**ft_split2(char const *s, char *charset);
 
 //FT_UTILS.C//
+void	ft_close_and_reset_exec(t_cmd *cmd, int error);
 void	ft_exec_err(const char *str, char *var);
 char	**ft_make_tab_from_env(t_env *mini);
-void	ft_exit_clean(t_env *mini, t_cmd *cmd, int error);
 char	*ft_make_path(char *dir, char *cmd);
 char	*ft_get_path(char *cmd, char **env);
 
@@ -197,6 +199,7 @@ void	ft_remove_if_in_env(t_env *mini, char *args);
 int		ft_unset_builtin(t_cmd *cmd, t_env *mini);
 
 //EXIT.C//
+void	ft_exit_clean(t_env *mini, t_cmd *cmd, int error);
 void	ft_exit_minishell(t_env *mini, t_cmd *cmd);
 
 /*---------------------------------SIGNAL--------------------------------*/

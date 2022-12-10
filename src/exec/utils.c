@@ -6,11 +6,24 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:42:35 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/27 06:22:22 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/12/10 03:23:43 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_close_and_reset_exec(t_cmd *cmd, int error)
+{
+	if (error)
+		g_exit = 1;
+	dup2(cmd->cpy_out, STDOUT_FILENO);
+	dup2(cmd->cpy_in, STDIN_FILENO);
+	close(cmd->cpy_in);
+	close(cmd->cpy_out);
+	while (wait(NULL) > 0)
+		;
+	ft_clear_cmd_list(cmd);
+}
 
 void	ft_exec_err(const char *str, char *var)
 {
@@ -41,14 +54,6 @@ char	**ft_make_tab_from_env(t_env *mini)
 	}
 	env[i] = NULL;
 	return (env);
-}
-
-void	ft_exit_clean(t_env *mini, t_cmd *cmd, int error)
-{
-	ft_clear_cmd_list(cmd);
-	lst_freeall(mini);
-	rl_clear_history();
-	exit(error);
 }
 
 char	*ft_make_path(char *dir, char *cmd)
