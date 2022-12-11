@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/10 02:11:07 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/11 02:28:13 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	check_token_error(char *str)
 			token = get_token_code(str, &i);
 			if (!str[i] || token == PIPE)
 				return (token);
+		if (str[i] == '\0')
+			break ;
 		}
 	}
 	return (0);

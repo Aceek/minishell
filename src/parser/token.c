@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/09 04:57:47 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/11 02:33:27 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	get_builtin_code(char *str)
 
 int	get_token_code(char *str, int *i)
 {
-	if (str[*i + 1])
+	if (str[*i] && str[*i + 1])
 	{
 		if (check_quote_pos(str, *i) == 0 && check_quote_pos(str, *i + 1) == 0)
 		{
