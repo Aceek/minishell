@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 06:11:57 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/10 05:12:34 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/11 03:01:24 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ int	fill_tab(char **tab, char *str, int args)
 		tab[l] = cpy_no_quotes(tab[l], str, i, len);
 		i += len;
 		// tab[l] = fill_line(str, tab[l], len, &i);
-		
 	}
 	return (0);
 }
