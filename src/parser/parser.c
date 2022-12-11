@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/11 02:27:44 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/11 05:07:04 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ int	init_cmd(t_data *data)
 int	add_cmd(t_data *data)
 {
 	t_cmd	*cmd;
-
-	if (data->error)
-		return (ft_clear_cmd_list(data->head_cmd), 1);
+	
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (free_all_exit(data, 1), 1);
@@ -58,13 +56,15 @@ int	parse_input(t_data *data)
 	{
 		if (check_token(data, &i))
 		{
-			if (add_cmd(data))
-				return (1);
+			if (!data->error)
+			{
+				if (add_cmd(data))
+					return (free(data->buf), 1);
+			}
 			free(data->buf);
 			init_cmd(data);
 		}
-		if (!data->error)
-			data->buf = convert_input(data, data->buf, data->input, &i);
+		data->buf = convert_input(data, data->buf, data->input, &i);
 		if (data->input[i] == '\0')
 			break ;
 	}
