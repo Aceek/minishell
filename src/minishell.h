@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/10 05:08:42 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/11 10:49:57 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int		redir_handler(t_data *data, char *str, int *i);
 //TOKEN.C//
 int		get_builtin_code(char *str);
 int		get_token_code(char *str, int *i);
-int		check_token(t_data *data, int *i);
+int		is_token(char *str, int i);
 
 /*---------------------------------EXEC----------------------------------*/
 //EXEC.C//
