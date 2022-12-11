@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/09 04:57:47 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/11 10:49:52 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,34 +35,31 @@ int	get_builtin_code(char *str)
 
 int	get_token_code(char *str, int *i)
 {
-	if (str[*i + 1])
+	if (str[*i] && str[*i + 1])
 	{
 		if (check_quote_pos(str, *i) == 0 && check_quote_pos(str, *i + 1) == 0)
 		{
 			if (!ft_strncmp(str + *i, ">>", 2))
-				return (*i += 2, DGREAT);
+				return (*i += 1, DGREAT);
 			if (!ft_strncmp(str + *i, "<<", 2))
-				return (*i += 2, DLESS);
+				return (*i += 1, DLESS);
 		}
 	}
 	if (check_quote_pos(str, *i) == 0)
 	{
 		if (!ft_strncmp(str + *i, "<", 1))
-			return (*i += 1, LESS);
+			return (*i += 0, LESS);
 		if (!ft_strncmp(str + *i, ">", 1))
-			return (*i += 1, GREAT);
+			return (*i += 0, GREAT);
 		if (!ft_strncmp(str + *i, "|", 1))
-			return (*i += 1, PIPE);
+			return (*i += 0, PIPE);
 	}
 	return (NOT_TOKEN);
 }
 
-int	check_token(t_data *data, int *i)
+int	is_token(char *str, int i)
 {
-	data->token = get_token_code(data->input, i);
-	if (data->token == PIPE && check_quote_pos(data->input, *i) == 0)
+	if ((str[i] == '|' || str[i] == '<' || str[i] == '>') && check_quote_pos(str, i) == 0)
 		return (1);
-	else if (data->token && check_quote_pos(data->input, *i) == 0)
-		redir_handler(data, data->input, i);
 	return (0);
 }

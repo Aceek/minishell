@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/10 04:21:34 by ilinhard         ###   ########.fr       */
+/*   Updated: 2022/12/11 10:49:57 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int		redir_handler(t_data *data, char *str, int *i);
 //TOKEN.C//
 int		get_builtin_code(char *str);
 int		get_token_code(char *str, int *i);
-int		check_token(t_data *data, int *i);
+int		is_token(char *str, int i);
 
 /*---------------------------------EXEC----------------------------------*/
 //EXEC.C//
@@ -236,6 +236,10 @@ void	ft_list_add_back(t_cmd **list, t_cmd *new);
 void	*ft_memset(void *s, int c, size_t n);
 char	*ft_itoa(int n);
 int		nb_len(int n);
+int		is_del(char *str, int i);
+int		count_args(char *str);
+char	*cpy_no_quotes(char *cpy, char *str, int pos, int len);
+int		fill_tab(char **tab, char *str, int args);
 char	**ft_split_parser(char *str);
 
 #endif

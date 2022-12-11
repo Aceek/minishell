@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/09 23:01:01 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/11 10:49:13 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ int	init_cmd(t_data *data)
 int	add_cmd(t_data *data)
 {
 	t_cmd	*cmd;
-
-	if (data->error)
-		return (ft_clear_cmd_list(data->head_cmd), 1);
+	
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (free_all_exit(data, 1), 1);
@@ -56,17 +54,21 @@ int	parse_input(t_data *data)
 	i = -1;
 	while (data->input[++i])
 	{
-		if (check_token(data, &i))
+		data->token = get_token_code(data->input, &i);
+		if (data->token == PIPE)
 		{
-			if (add_cmd(data))
-				return (1);
+			if (!data->error)
+			{
+				if (add_cmd(data))
+					return (free(data->buf), 1);
+			}
 			free(data->buf);
 			init_cmd(data);
 		}
-		if (!data->error)
+		else if (data->token)
+			redir_handler(data, data->input, &i);
+		else if (data->token == NOT_TOKEN)
 			data->buf = convert_input(data, data->buf, data->input, &i);
-		if (data->input[i] == '\0')
-			break ;
 	}
 	add_cmd(data);
 	free(data->buf);

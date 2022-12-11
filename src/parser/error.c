@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/09 22:04:14 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/11 10:00:13 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,20 @@ int	check_token_error(char *str)
 		token = get_token_code(str, &i);
 		if (token)
 		{
-			j = i - 1;
-			while (ft_isspace(str[j]))
-				j--;
-			if (j == 0)
-				return (token);
-			if (str[i] && get_token_code(str, &i))
+			if (token == PIPE)
+			{
+				j = i;
+				while (ft_isspace(str[j]))
+					j--;
+				if (j == 0)
+					return (token);
+			}
+			if (!str[++i] || (token != PIPE && is_token(str, i)))
 				return (token);
 			while (ft_isspace(str[i]))
 				i++;
-			if (!str[i] || get_token_code(str, &i))
+			token = get_token_code(str, &i);
+			if (!str[++i] || token == PIPE)
 				return (token);
 		}
 	}

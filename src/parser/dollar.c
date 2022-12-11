@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/07 21:28:23 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/11 10:40:07 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*get_var_env_val(char *var_env, int len, t_env *mini)
 	tmp = mini;
 	while (tmp)
 	{
-		if (!ft_strncmp(tmp->line, var_env, len))
+		if (!ft_strncmp(tmp->line, var_env, len) && tmp->line[len] == '=')
 			return (ft_cpy(tmp->line, len + 1));
 		tmp = tmp->next;
 	}
@@ -60,6 +60,8 @@ char	*get_dollar(char *str, int *i, t_env *mini)
 	else
 	{	
 		var_env_name = get_var_env_name(str, i);
+		if (!var_env_name)
+			return (NULL);
 		*i += ft_strlen(var_env_name) - 1;
 		if (!var_env_name[0])
 			return (free(var_env_name), NULL);

@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/09 01:56:24 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/11 10:16:24 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 char	*get_redir_arg(t_data *data, char *str, int *i)
 {
 	char	*buf;
+	char	*dup;
 
+	*i += 1;
 	buf = create_buffer();
 	if (!buf)
 		return (free_all_exit(data, 1), NULL);
-	while (ft_isspace(str[*i]))
-		*i += 1;
-	while (ft_isalnum(str[*i]) || str[*i] == '_' || str[*i] == '.'
-		|| str[*i] == '$')
+	while (str[*i] && is_del(str, *i))
+		*i += 1; 
+	while (str[*i] && !is_del(str, *i) && !is_token(str, *i))
 	{
 		if (data->token == DLESS)
 			buf = add_char(data, buf, str[*i]);
@@ -30,8 +31,30 @@ char	*get_redir_arg(t_data *data, char *str, int *i)
 			buf = convert_input(data, buf, str, i);
 	*i += 1;
 	}
-	return (buf);
+	if (is_token(str, *i))
+		*i -= 1; ;
+	dup = ft_strdup(buf);
+	dup = cpy_no_quotes(dup, buf, 0, ft_strlen(dup));
+	free(buf);
+	return(dup);
 }
+
+// char	*get_redir_arg(t_data *data, char *str, int *i)
+// {
+// 	char	*buf;
+
+// 	buf = create_buffer();
+// 	if (!buf)
+// 		return (free_all_exit(data, 1), NULL);
+// 	while (ft_isspace(str[*i]))
+// 		*i += 1;
+// 	while (ft_isalnum(str[*i]) || str[*i] == '_' || str[*i] == '.')
+// 	{
+// 		buf = convert_input(data, buf, str, i);
+// 		*i += 1;
+// 	}
+// 	return (buf);
+// }
 
 int	redir_handler(t_data *data, char *str, int *i)
 {
@@ -49,7 +72,7 @@ int	redir_handler(t_data *data, char *str, int *i)
 	}
 	if (data->token == DGREAT)
 		data->fd_out = open(data->redir_arg, O_CREAT | O_RDWR | O_APPEND, 0664);
-	if (data->fd_in == -1 || data->fd_out == -1)
+	if (data->fd_in == -1)
 	{
 		data->error = 1;
 		g_exit = 1;
