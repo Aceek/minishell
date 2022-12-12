@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/11 10:00:13 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/12 01:16:49 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,37 @@ int	check_quote_error(char *str)
 	return (0);
 }
 
+int	check_around_token(char *str, int pos, int token)
+{
+	int	i;
+	int	next_token;
+
+	if (token == PIPE)
+	{
+		i = pos - 1;
+		while (ft_isspace(str[i]))
+			i--;
+		if (!i)
+			return (PIPE);
+	}
+	i = pos;
+	while (ft_isspace(str[i]))
+			i++;
+	if (token == PIPE && str[i] == '|')
+		return (PIPE);
+	next_token = get_token_code(str, &i);
+	if (token != PIPE && next_token)
+		return (next_token);
+	if (!str[i])
+		return ('\n');
+	return (0);
+}
+
 int	check_token_error(char *str)
 {
 	int	i;
-	int	j;
 	int	token;
+	int	error;
 
 	i = -1;
 	while (str[++i])
@@ -49,21 +75,10 @@ int	check_token_error(char *str)
 		token = get_token_code(str, &i);
 		if (token)
 		{
-			if (token == PIPE)
-			{
-				j = i;
-				while (ft_isspace(str[j]))
-					j--;
-				if (j == 0)
-					return (token);
-			}
-			if (!str[++i] || (token != PIPE && is_token(str, i)))
-				return (token);
-			while (ft_isspace(str[i]))
-				i++;
-			token = get_token_code(str, &i);
-			if (!str[++i] || token == PIPE)
-				return (token);
+			i++;
+			error = check_around_token(str, i, token);
+			if (error)
+				return (error);
 		}
 	}
 	return (0);
@@ -93,23 +108,24 @@ int	check_error(char *input)
 	error = check_quote_error(input);
 	if (error)
 	{
-		g_exit = 2;
 		write(2, "minishell : syntax error ", 25);
 		if (error == 1)
 			write(2, "simple ", 7);
 		else if (error == 2)
 			write(2, "double ", 7);
 		write(2, "quotes not closing\n", 19);
-		return (1);
+		return (g_exit = 2, 2);
 	}
 	error = check_token_error(input);
 	if (error)
 	{
-		g_exit = 2;
 		write(2, "minishell : syntax error near unexpected token `", 48);
-		print_token(error);
+		if (error == '\n')
+			write(2, "newline", 7);
+		else
+			print_token(error);
 		write(2, "'\n", 2);
-		return (1);
+		return (g_exit = 2, 2);
 	}
 	return (0);
 }

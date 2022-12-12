@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 06:11:57 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/11 03:01:24 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/12 02:25:38 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,28 +53,6 @@ char	*cpy_no_quotes(char *cpy, char *str, int pos, int len)
 	return (cpy);
 }
 
-// static char	*fill_line(char *str, char *line, int len, int *i)
-// {
-// 	int	j;
-
-// 	j = -1;
-// 	while (j < len)
-// 	{
-// 		if (is_quote(str, *i))
-// 		{	
-// 			*i += 1;
-// 			len--;
-// 		}
-// 		else
-// 		{
-// 			line[++j] = str[*i];
-// 			*i += 1;
-// 		}
-// 	}
-// 	line[j] = '\0';
-// 	return (line);
-// }
-
 int	fill_tab(char **tab, char *str, int args)
 {
 	int		i;
@@ -95,7 +73,6 @@ int	fill_tab(char **tab, char *str, int args)
 			return (1);
 		tab[l] = cpy_no_quotes(tab[l], str, i, len);
 		i += len;
-		// tab[l] = fill_line(str, tab[l], len, &i);
 	}
 	return (0);
 }

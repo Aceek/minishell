@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/11 10:49:52 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/12 01:13:17 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ int	get_token_code(char *str, int *i)
 
 int	is_token(char *str, int i)
 {
-	if ((str[i] == '|' || str[i] == '<' || str[i] == '>') && check_quote_pos(str, i) == 0)
+	if ((str[i] == '|' || str[i] == '<' || str[i] == '>')
+		&& check_quote_pos(str, i) == 0)
 		return (1);
 	return (0);
 }
