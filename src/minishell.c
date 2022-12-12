@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/12 02:28:46 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/12 17:18:41 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	main(int ac, char **av, char **env)
 		data.input = readline("\033[1;35m\033[1m minishell ▸ \033[0m");
 		if (!data.input)
 		{
-			write(1 ,"exit\n", 5);
+			write(1, "exit\n", 5);
 			free(data.input);
 			ft_exit_clean(data.mini, data.head_cmd, 1);
 		}
@@ -64,8 +64,8 @@ int	main(int ac, char **av, char **env)
 			add_history(data.input);
 			if (!check_error(data.input))
 				parse_input(&data);
-			ft_printf_list(data.head_cmd);
-			ft_exe(data.mini, data.head_cmd, data.error);
+			// ft_printf_list(data.head_cmd);
+			ft_exe(data.mini, data.head_cmd, data.file_error);
 			data.head_cmd = NULL;
 			free(data.input);
 		}

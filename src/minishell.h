@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/12 02:33:33 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/12 17:19:39 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ typedef struct s_data
 	int				fd_in;
 	int				fd_out;
 	int				nb_hd;
-	int				error;
+	int				file_error;
 	struct s_cmd	*head_cmd;
 }					t_data;
 
@@ -131,6 +131,7 @@ int		is_quote(char *str, int i);
 
 //REDIR.C//
 char	*get_redir_arg(t_data *data, char *str, int *i);
+void	fd_in_error(t_data *data);
 int		redir_handler(t_data *data, char *str, int *i);
 
 //TOKEN.C//

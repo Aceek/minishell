@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/12 01:54:41 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/12 16:48:18 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	init_cmd(t_data *data)
 		return (free_all_exit(data, 1), 1);
 	data->fd_in = 0;
 	data->fd_out = 1;
-	data->error = 0;
+	data->file_error = 0;
 	return (0);
 }
 
@@ -57,17 +57,17 @@ int	parse_input(t_data *data)
 		data->token = get_token_code(data->input, &i);
 		if (data->token == PIPE)
 		{
-			if (!data->error)
+			if (!data->file_error)
 				add_cmd(data);
 			free(data->buf);
 			init_cmd(data);
 		}
-		else if (data->token)
+		else if (data->token && !data->file_error)
 			redir_handler(data, data->input, &i);
 		else if (data->token == NOT_TOKEN)
 			data->buf = convert_input(data, data->buf, data->input, &i);
 	}
-	if (!data->error)
+	if (!data->file_error)
 		add_cmd(data);
 	free(data->buf);
 	return (0);
