@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/11 23:01:03 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/12 02:33:33 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char	*get_dollar(char *str, int *i, t_env *mini);
 
 //ERROR.C//
 int		check_quote_error(char *str);
-int		check_before_pipe(char *str, int i, int token);
+int		check_around_token(char *str, int pos, int token);
 int		check_token_error(char *str);
 void	print_token(int error);
 int		check_error(char *input);
