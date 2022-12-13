@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/12 18:19:08 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/13 02:39:46 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	main(int ac, char **av, char **env)
 {
 	t_data	data;
 
-	data.mini = NULL;
 	ft_init_main(&data, &data.mini, env);
 	while (ac > 0 && av[0])
 	{
@@ -65,7 +64,6 @@ int	main(int ac, char **av, char **env)
 			if (!check_error(data.input))
 			{
 				parse_input(&data);
-				// ft_printf_list(data.head_cmd);
 				ft_exe(data.mini, data.head_cmd, data.file_error);
 			}
 			data.head_cmd = NULL;

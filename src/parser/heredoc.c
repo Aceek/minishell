@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/09 00:35:21 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/13 02:36:59 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	heredoc(t_data *data, char *end)
 		return (close(fd), -1);
 	if (pid == 0)
 	{
-		signal(SIGINT, exit);
+		signal(SIGINT, SIG_DFL);
 		free(data->buf);
 		while (1)
 			get_hd_input(data, fd, end);

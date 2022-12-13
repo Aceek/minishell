@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/12 17:16:34 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/13 02:45:15 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,21 +59,25 @@ int	redir_handler(t_data *data, char *str, int *i)
 	if (!data->redir_arg)
 		return (1);
 	if (data->token == LESS)
+	{
 		data->fd_in = open(data->redir_arg, O_RDWR);
+		if (data->fd_in == -1)
+			return (fd_in_error(data), 1);
+	}
 	if (data->token == GREAT)
 		data->fd_out = open(data->redir_arg, O_CREAT | O_RDWR | O_TRUNC, 0664);
 	if (data->token == DLESS)
 	{
 		data->fd_in = heredoc(data, data->redir_arg);
 		free(data->path);
+		if (data->fd_in == -1)
+		{
+			data->file_error = 1;
+			return (g_exit = 1, 1);
+		}	
 	}
 	if (data->token == DGREAT)
 		data->fd_out = open(data->redir_arg, O_CREAT | O_RDWR | O_APPEND, 0664);
-	if (data->fd_in == -1)
-	{
-		fd_in_error(data);
-		return (1);
-	}
 	free(data->redir_arg);
 	return (0);
 }
