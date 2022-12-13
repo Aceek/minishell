@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/12 17:19:39 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/13 05:45:47 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ void	free_tab(char **tab);
 void	free_all_exit(t_data *data, int exit);
 
 //DOLLAR.C//
-char	*get_var_env_name(char *str, int *i);
+char	*get_var_env_name(t_data *data, char *str, int *i);
 char	*get_var_env_val(char *var_env, int len, t_env *mini);
-char	*get_dollar(char *str, int *i, t_env *mini);
+char	*get_dollar(t_data *data, char *str, int *i, t_env *mini);
 
 //ERROR.C//
 int		check_quote_error(char *str);
