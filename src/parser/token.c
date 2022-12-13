@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/12 01:13:17 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/13 05:44:46 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ int	get_token_code(char *str, int *i)
 	if (check_quote_pos(str, *i) == 0)
 	{
 		if (!ft_strncmp(str + *i, "<", 1))
-			return (*i += 0, LESS);
+			return (LESS);
 		if (!ft_strncmp(str + *i, ">", 1))
-			return (*i += 0, GREAT);
+			return (GREAT);
 		if (!ft_strncmp(str + *i, "|", 1))
-			return (*i += 0, PIPE);
+			return (PIPE);
 	}
 	return (NOT_TOKEN);
 }

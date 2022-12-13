@@ -6,13 +6,13 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/11 10:40:07 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2022/12/13 05:41:31 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_var_env_name(char *str, int *i)
+char	*get_var_env_name(t_data *data, char *str, int *i)
 {
 	char	*var;
 	char	*tmp;
@@ -20,7 +20,7 @@ char	*get_var_env_name(char *str, int *i)
 
 	var = create_buffer();
 	if (!var)
-		return (NULL);
+		return (free_all_exit(data, 1), NULL);
 	j = *i;
 	while (ft_isalnum(str[j]) || str[j] == '_')
 	{
@@ -46,7 +46,7 @@ char	*get_var_env_val(char *var_env, int len, t_env *mini)
 	return (NULL);
 }
 
-char	*get_dollar(char *str, int *i, t_env *mini)
+char	*get_dollar(t_data *data, char *str, int *i, t_env *mini)
 {
 	char	*var_env_name;
 	char	*dollar;
@@ -59,7 +59,7 @@ char	*get_dollar(char *str, int *i, t_env *mini)
 	}
 	else
 	{	
-		var_env_name = get_var_env_name(str, i);
+		var_env_name = get_var_env_name(data, str, i);
 		if (!var_env_name)
 			return (NULL);
 		*i += ft_strlen(var_env_name) - 1;
