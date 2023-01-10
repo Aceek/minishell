@@ -69,7 +69,7 @@ git:
 					git push
 
 leaks:
-					valgrind --track-fds=yes --trace-children=yes --leak-check=full -s ./minishell
+					valgrind --track-fds=yes --trace-children=yes --leak-check=full --show-leak-kinds=all --log-file="test1" --suppressions="rl_leaks.txt" -s ./minishell
 
 -include $(DEP)
 
