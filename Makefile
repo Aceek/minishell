@@ -25,7 +25,7 @@ BOLD			=	$'\e[1m
 UNDER			=	$'\e[4m
 END				=	$'\e[0m
 
-$(DIR_OBJ)/%.o:		$(DIR_SRC)/%.c
+$(DIR_OBJ)/%.o:		$(DIR_SRC)/%.c Makefile
 					mkdir -p $(DIR_OBJ) $(SUB_OBJ)
 					echo "Compiling - ${YELLOW}${BOLD}${UNDER}$<${END}..."
 					$(CC) $(FLAGS) -MMD -c $< -o $@
@@ -68,7 +68,10 @@ git:
 					git commit -m "$(NAME)"
 					git push
 
+leaks:
+					valgrind --track-fds=yes --trace-children=yes --leak-check=full -s ./minishell
+
 -include $(DEP)
 
-.PHONY:				all clean fclean re git
+.PHONY:				all clean fclean re git leaks
 .SILENT:
