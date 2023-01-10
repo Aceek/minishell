@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/13 05:41:31 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2023/01/10 23:57:34 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,22 @@ char	*get_var_env_name(t_data *data, char *str, int *i)
 	var = create_buffer();
 	if (!var)
 		return (free_all_exit(data, 1), NULL);
-	j = *i;
-	while (ft_isalnum(str[j]) || str[j] == '_')
+	j = *i - 1;
+	if (ft_isdigit(str[*i]))
+	{
+		while (ft_isdigit(str[++j]))
+		{
+			tmp = ft_charjoin(var, str[j]);
+			free(var);
+			var = tmp;
+		}
+		return (var);
+	}
+	while (ft_isalnum(str[++j]) || str[j] == '_')
 	{
 		tmp = ft_charjoin(var, str[j]);
 		free(var);
 		var = tmp;
-		j += 1;
 	}
 	return (var);
 }
