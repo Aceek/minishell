@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2023/01/10 22:16:09 by ilinhard         ###   ########.fr       */
+/*   Updated: 2023/01/13 23:56:27 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int	ft_exe(t_env *mini, t_cmd *cmd, int error)
 		{
 			dup2(cmd->cpy_out, STDOUT_FILENO);
 			if (!tmp->builtin)
-				ft_exec_err(cmd->tab[0], " : command not found\n");
+				ft_exec_err(tmp->tab[0], " : command not found\n");
 			close(cmd->cpy_in);
 			close(cmd->cpy_out);
 			return (ft_exit_clean(mini, cmd, g_exit), 0);
