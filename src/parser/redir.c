@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2023/01/13 23:57:40 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2023/01/14 00:10:17 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,17 @@ char	*get_redir_arg(t_data *data, char *str, int *i)
 	return (dup);
 }
 
+void	print_fd_error(t_data *data)
+{
+	write(2, "minishell : ", 12);
+	write(2, data->redir_arg, ft_strlen(data->redir_arg));
+	write(2, ": No such file or directory\n", 28);
+}
+
 void	fd_error(t_data *data)
 {
 	data->file_error = 1;
 	g_exit = 1;
-	write(2, "minishell : ", 12);
-	write(2, data->redir_arg, ft_strlen(data->redir_arg));
-	write(2, ": No such file or directory\n", 28);
 	free(data->redir_arg);
 	free(data->buf);
 	data->buf = create_buffer();
@@ -72,11 +76,11 @@ int	redir_handler(t_data *data, char *str, int *i)
 		data->fd_in = heredoc(data, data->redir_arg);
 		free(data->path);
 		if (data->fd_in == -1)
-			return (data->file_error = 1, g_exit = 1, 1);
+			return (fd_error(data), 1);
 	}
 	else if (data->token == DGREAT)
 		data->fd_out = open(data->redir_arg, O_CREAT | O_RDWR | O_APPEND, 0664);
 	if (data->fd_in == -1 || data->fd_out == -1)
-		return (fd_error(data), 1);
+		return (print_fd_error(data), fd_error(data), 1);
 	return (free(data->redir_arg), 0);
 }
