@@ -3,16 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2022/12/13 02:39:46 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2023/01/14 00:51:43 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	g_exit = 0;
+
+void	ft_shlvl(t_env *mini)
+{
+	t_env	*tmp;
+	int		i;
+
+	tmp = mini;
+	while (tmp)
+	{
+		if (!ft_strncmp(tmp->line, "SHLVL=", 6))
+		{
+			i = ft_strlen(tmp->line);
+			tmp->line[i - 1]++;
+			break;
+		}
+		tmp = tmp->next;
+	}
+}
 
 void	ft_init_main(t_data *data, t_env **mini, char **env)
 {
@@ -22,6 +40,7 @@ void	ft_init_main(t_data *data, t_env **mini, char **env)
 	*mini = ft_create_env(env);
 	if (!*mini)
 		exit (1);
+	ft_shlvl(*mini);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
 	signal(SIGINT, ft_signal_newline);
