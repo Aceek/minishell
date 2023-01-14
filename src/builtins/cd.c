@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 04:29:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2023/01/14 02:19:47 by ilinhard         ###   ########.fr       */
+/*   Updated: 2023/01/14 03:54:30 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ft_go_path(int location, t_env *mini)
 	else if (location == 1)
 		path = ft_get_env_path("OLDPWD=", mini);
 	if (!path)
-		return (write(2, "cd : OLDPWD or HOME not set\n", 28), -1);
+		return (g_exit = 1, write(2, "cd : OLDPWD or HOME not set\n", 28), -1);
 	old_pwd = ft_update_pwd(mini, "OLDPWD=", 0);
 	if (chdir(path) < 0)
 	{

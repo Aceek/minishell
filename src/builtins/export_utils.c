@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 07:16:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2023/01/14 02:14:46 by ilinhard         ###   ########.fr       */
+/*   Updated: 2023/01/14 03:56:17 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_is_in_env(t_env *mini, char *args)
 	char	*tmp_args;
 
 	tmp = mini;
-	while (tmp)
+	while (tmp && args)
 	{
 		tmp_args = ft_cpy_env_name(args);
 		if (!tmp_args)
