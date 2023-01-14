@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2023/01/14 00:32:20 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2023/01/14 02:03:25 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # include <string.h>
 # include <termios.h>
 # include <stdbool.h>
+# include <errno.h>
+# include <string.h>
 
 enum e_token
 {
@@ -212,6 +214,7 @@ void	ft_signal_quit(int unused);
 void	ft_signal_newline2(int unused);
 
 /*---------------------------------LIBFT---------------------------------*/
+void	ft_verify_errno(t_cmd *cmd);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 char	*ft_strjoin(char *s1, char *s2);

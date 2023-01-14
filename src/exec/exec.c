@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 00:19:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2023/01/13 23:56:27 by ilinhard         ###   ########.fr       */
+/*   Updated: 2023/01/14 01:55:09 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	ft_cmd(t_cmd *cmd, t_env *mini)
 	{
 		env = ft_make_tab_from_env(mini);
 		execve(path, cmd->tab, env);
+		ft_verify_errno(cmd);
 		ft_clear_tab(env);
 	}
 	return (free(path), -1);
@@ -82,7 +83,7 @@ int	ft_last_child(t_cmd *cmd, t_env *mini)
 		signal(SIGINT, SIG_DFL);
 		if (ft_cmd(cmd, mini) < 0)
 		{
-			if (cmd->tab[0] && !cmd->builtin)
+			if (cmd->tab[0] && !cmd->builtin && cmd->tab[0][0] != '.')
 				return (g_exit = 127,
 					ft_exec_err(cmd->tab[0], " : command not found\n"), -1);
 			return (-1);
@@ -130,7 +131,7 @@ int	ft_exe(t_env *mini, t_cmd *cmd, int error)
 		if (ft_fork(mini, tmp) < 0)
 		{
 			dup2(cmd->cpy_out, STDOUT_FILENO);
-			if (!tmp->builtin)
+			if (!tmp->builtin && tmp->tab[0][0] != '.')
 				ft_exec_err(tmp->tab[0], " : command not found\n");
 			close(cmd->cpy_in);
 			close(cmd->cpy_out);

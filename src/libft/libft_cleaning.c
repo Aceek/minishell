@@ -6,11 +6,20 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 06:07:26 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/11/27 06:21:52 by ilinhard         ###   ########.fr       */
+/*   Updated: 2023/01/14 01:54:12 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_verify_errno(t_cmd *cmd)
+{
+	if (cmd->tab[0][0] != '.')
+		return ;
+	ft_exec_err(cmd->tab[0], " : ");
+	ft_exec_err(strerror(errno), "\n");
+	g_exit = 126;
+}
 
 void	ft_clear_tab(char **tab)
 {

@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2023/01/14 00:51:43 by ilinhard         ###   ########.fr       */
+/*   Updated: 2023/01/14 02:00:03 by pbeheyt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_shlvl(t_env *mini)
 		{
 			i = ft_strlen(tmp->line);
 			tmp->line[i - 1]++;
-			break;
+			break ;
 		}
 		tmp = tmp->next;
 	}
