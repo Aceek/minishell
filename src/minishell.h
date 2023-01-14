@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2023/01/14 02:03:25 by ilinhard         ###   ########.fr       */
+/*   Updated: 2023/01/14 02:15:03 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ t_env	*ft_cpy_env(t_env *mini);
 void	ft_print_export_env(t_env *mini);
 
 //PWD.C//
-int		ft_pwd_builtin(void);
+int		ft_pwd_builtin(t_cmd *cmd);
 
 //UNSET.C//
 void	ft_print_env(t_env *mini);

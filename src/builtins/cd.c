@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 04:29:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2023/01/10 22:15:10 by ilinhard         ###   ########.fr       */
+/*   Updated: 2023/01/14 02:19:47 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int	ft_go_path(int location, t_env *mini)
 	}
 	else if (!ft_is_in_env(mini, old_pwd))
 		ft_add_list_env(mini, old_pwd);
-	printf("%s\n", path);
 	ft_update_pwd(mini, "PWD=", 1);
 	return (free(path), free(old_pwd), 0);
 }

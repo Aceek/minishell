@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 07:16:10 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/09 00:03:01 by ilinhard         ###   ########.fr       */
+/*   Updated: 2023/01/14 02:14:46 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_builtin(t_cmd *cmd, t_env *mini)
 	else if (cmd->builtin == ECH)
 		return (ft_echo_builtin(cmd), 0);
 	else if (cmd->builtin == PWD)
-		return (ft_pwd_builtin());
+		return (ft_pwd_builtin(cmd));
 	else if (cmd->builtin == UNSET)
 		return (ft_unset_builtin(cmd, mini));
 	else if (cmd->builtin == ENV)
