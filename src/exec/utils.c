@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 13:42:35 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/10 04:52:44 by ilinhard         ###   ########.fr       */
+/*   Updated: 2023/01/14 01:59:36 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,17 +91,15 @@ char	*ft_get_path(char *cmd, t_env *mini)
 	int		i;
 	t_env	*tmp;
 
-	if (!mini || !mini->line)
-		return (NULL);
 	tmp = mini;
-	while (tmp && ft_strnstr(tmp->line, "PATH=", 5) == NULL)
+	while (tmp && tmp->line && ft_strnstr(tmp->line, "PATH=", 5) == NULL)
 		tmp = tmp->next;
 	if (!tmp || !tmp->line)
 		return (NULL);
 	tmp_path = ft_cpy(tmp->line, 5);
 	all_dir = ft_split2(tmp_path, ":");
-	i = 0;
-	while (all_dir[i] != NULL)
+	i = -1;
+	while (all_dir[++i] != NULL)
 	{
 		path = ft_make_path(all_dir[i], cmd);
 		if (!path)
@@ -109,7 +107,6 @@ char	*ft_get_path(char *cmd, t_env *mini)
 		if (access(path, F_OK) == 0)
 			return (free(tmp_path), ft_clear_tab(all_dir), path);
 		free (path);
-		i++;
 	}
 	return (free(tmp_path), ft_clear_tab(all_dir), NULL);
 }
