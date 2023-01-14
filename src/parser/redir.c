@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 03:00:22 by pbeheyt           #+#    #+#             */
-/*   Updated: 2023/01/10 22:57:49 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2023/01/14 01:03:10 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,17 @@ char	*get_redir_arg(t_data *data, char *str, int *i)
 	return (dup);
 }
 
-void	fd_in_error(t_data *data)
+void	print_fd_error(t_data *data)
 {
-	data->file_error = 1;
-	g_exit = 1;
 	write(2, "minishell : ", 12);
 	write(2, data->redir_arg, ft_strlen(data->redir_arg));
 	write(2, ": No such file or directory\n", 28);
+}
+
+void	fd_error(t_data *data)
+{
+	data->file_error = 1;
+	g_exit = 1;
 	free(data->redir_arg);
 	free(data->buf);
 	data->buf = create_buffer();
@@ -59,22 +63,24 @@ int	redir_handler(t_data *data, char *str, int *i)
 	data->redir_arg = get_redir_arg(data, str, i);
 	if (!data->redir_arg)
 		return (1);
+	if (data->fd_in > 0)
+		close(data->fd_in);
+	if (data->fd_out > 1)
+		close(data->fd_out);
 	if (data->token == LESS)
-	{
 		data->fd_in = open(data->redir_arg, O_RDWR);
-		if (data->fd_in == -1)
-			return (fd_in_error(data), 1);
-	}
-	if (data->token == GREAT)
+	else if (data->token == GREAT)
 		data->fd_out = open(data->redir_arg, O_CREAT | O_RDWR | O_TRUNC, 0664);
-	if (data->token == DLESS)
+	else if (data->token == DLESS)
 	{
 		data->fd_in = heredoc(data, data->redir_arg);
 		free(data->path);
 		if (data->fd_in == -1)
-			return (data->file_error = 1, g_exit = 1, 1);
+			return (fd_error(data), 1);
 	}
-	if (data->token == DGREAT)
+	else if (data->token == DGREAT)
 		data->fd_out = open(data->redir_arg, O_CREAT | O_RDWR | O_APPEND, 0664);
+	if (data->fd_in == -1 || data->fd_out == -1)
+		return (print_fd_error(data), fd_error(data), 1);
 	return (free(data->redir_arg), 0);
 }

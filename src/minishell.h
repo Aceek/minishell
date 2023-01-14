@@ -6,7 +6,7 @@
 /*   By: pbeheyt <pbeheyt@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2022/12/13 05:45:47 by pbeheyt          ###   ########.fr       */
+/*   Updated: 2023/01/14 00:32:20 by pbeheyt          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,8 @@ int		is_quote(char *str, int i);
 
 //REDIR.C//
 char	*get_redir_arg(t_data *data, char *str, int *i);
-void	fd_in_error(t_data *data);
+void	print_fd_error(t_data *data);
+void	fd_error(t_data *data);
 int		redir_handler(t_data *data, char *str, int *i);
 
 //TOKEN.C//
