@@ -34,6 +34,11 @@ void	ft_shlvl(t_env *mini)
 
 void	ft_init_main(t_data *data, t_env **mini, char **env)
 {
+	if (!isatty(0))
+	{
+		write(2, "minishell : standard input need to be term\n", 43);
+		exit (1);
+	}
 	ft_memset(data, 0, sizeof(t_data));
 	data->fd_out = 1;
 	data->env = env;
@@ -67,8 +72,6 @@ int	main(int ac, char **av, char **env)
 {
 	t_data	data;
 
-	if (!isatty(1))
-		return (0);
 	ft_init_main(&data, &data.mini, env);
 	while (ac > 0 && av[0])
 	{

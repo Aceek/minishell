@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 05:31:37 by ilinhard          #+#    #+#             */
-/*   Updated: 2023/01/14 02:15:03 by ilinhard         ###   ########.fr       */
+/*   Updated: 2023/01/15 22:32:43 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct s_data
 	struct s_cmd	*head_cmd;
 }					t_data;
 
-/*--------------------------------PARSING--------------------------------*/
+/*--------------------------------PARSER-----------------------------------*/
 //CLEAR.C//
 void	free_tab(char **tab);
 void	free_all_exit(t_data *data, int exit);
@@ -150,12 +150,6 @@ int		ft_last_child(t_cmd *cmd, t_env *mini);
 int		ft_exe_last_child(t_cmd *cmd, t_cmd *tmp, t_env *mini);
 int		ft_exe(t_env *mini, t_cmd *cmd, int error);
 
-//FT_SPLIT.C//
-// int		ft_charset(char const s, char c);
-// int		ft_count_words(char const *s, char c);
-// void	ft_add_words(char *dest, const char *src, char c);
-// void	ft_add_to_tab(char **tab, const char *s, char c);
-// char	**ft_split2(char const *s, char c);
 int		ft_charset(char const s, char *charset);
 int		ft_count_words(char const *s, char *charset);
 void	ft_add_words(char *dest, const char *src, char *charset);
@@ -167,7 +161,6 @@ void	ft_close_and_reset_exec(t_cmd *cmd, int error);
 void	ft_exec_err(const char *str, char *var);
 char	**ft_make_tab_from_env(t_env *mini);
 char	*ft_make_path(char *dir, char *cmd);
-// char	*ft_get_path(char *cmd, char **env);
 char	*ft_get_path(char *cmd, t_env *mini);
 
 /*---------------------------------BUILTINS------------------------------*/

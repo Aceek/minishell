@@ -6,7 +6,7 @@
 /*   By: ilinhard <ilinhard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 06:07:26 by ilinhard          #+#    #+#             */
-/*   Updated: 2023/01/14 01:54:12 by ilinhard         ###   ########.fr       */
+/*   Updated: 2023/01/15 22:36:26 by ilinhard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_verify_errno(t_cmd *cmd)
 {
-	if (cmd->tab[0][0] != '.')
+	if (cmd->tab[0][0] != '.' && cmd->tab[0][0] != '/')
 		return ;
 	ft_exec_err(cmd->tab[0], " : ");
 	ft_exec_err(strerror(errno), "\n");
