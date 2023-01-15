@@ -67,6 +67,8 @@ int	main(int ac, char **av, char **env)
 {
 	t_data	data;
 
+	if (!isatty(1))
+		return (0);
 	ft_init_main(&data, &data.mini, env);
 	while (ac > 0 && av[0])
 	{
